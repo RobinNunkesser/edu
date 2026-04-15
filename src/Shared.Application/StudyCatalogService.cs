@@ -1,0 +1,82 @@
+using Content.Schema;
+using Shared.Domain;
+
+namespace Shared.Application;
+
+public sealed class StudyCatalogService
+{
+    public CatalogLandingSnapshot GetLandingSnapshot()
+    {
+        var document = CreateSeedDocument();
+
+        return new CatalogLandingSnapshot(
+            Title: "Study Companion im Web",
+            Intro: "Das Repository startet als GitHub-Pages-faehige Webanwendung mit klar getrennten Schichten fuer Fachlogik, Web-UI und Importpfade.",
+            CatalogRoute: StudyRoutes.Study,
+            Sections: document.Sections
+                .Select(section => new CatalogSectionViewModel(
+                    section.Title,
+                    section.Description,
+                    section.Groups
+                        .SelectMany(group => group.Topics)
+                        .Select(topic => new CatalogTopicViewModel(
+                            topic.Title,
+                            topic.Summary,
+                            topic.SourceSystem,
+                            topic.IsImported,
+                            StudyRoutes.Topic(topic.Slug)))
+                    .ToArray()))
+                .ToArray());
+    }
+
+    public IReadOnlyList<CatalogSectionViewModel> GetSections() => GetLandingSnapshot().Sections;
+
+    private static StudyCatalogDocument CreateSeedDocument()
+    {
+        return new StudyCatalogDocument(
+            "seed",
+            [
+                new StudySectionDocument(
+                    "grundlagen",
+                    "Grundlagen",
+                    "Erste webgerechte Reprasentation von Themen, die spaeter aus bestehenden Companion-Quellen importiert werden.",
+                    [
+                        new StudyGroupDocument(
+                            "Digitale Logik",
+                            [
+                                new StudyTopicDocument("normal-form", "Normalform", "Katalogeintrag fuer digitale Logik und erste Detailseite.", "ISD Companion", true, "NormalFormPage"),
+                                new StudyTopicDocument("quine-mccluskey", "Quine-McCluskey", "Vorbereitung einer weiteren importierten Detailseite.", "ISD Companion", false, "QMCAlgorithmPage")
+                            ])
+                    ]),
+                new StudySectionDocument(
+                    "aufgaben-und-pruefungen",
+                    "Aufgaben und Pruefungen",
+                    "Zielpfad fuer spaetere Exam-Generator-Importe und aufgabenorientierte Webansichten.",
+                    [
+                        new StudyGroupDocument(
+                            "Exam Generator",
+                            [
+                                new StudyTopicDocument("exercise-catalog", "Exercise Catalog", "Platzhalter fuer generierte Aufgabenkataloge.", "Exam Generator", false, "ExerciseCatalogPage")
+                            ])
+                    ])
+            ]);
+    }
+}
+
+public sealed record CatalogLandingSnapshot(
+    string Title,
+    string Intro,
+    string CatalogRoute,
+    IReadOnlyList<CatalogSectionViewModel> Sections);
+
+public sealed record CatalogSectionViewModel(
+    string Title,
+    string Description,
+    IReadOnlyList<CatalogTopicViewModel> Topics);
+
+public sealed record CatalogTopicViewModel(
+    string Title,
+    string Summary,
+    string SourceSystem,
+    bool IsImported,
+    string Route);

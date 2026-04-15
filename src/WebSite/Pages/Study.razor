@@ -1,0 +1,10 @@
+@page "/study"
+@inject StudyCatalogService CatalogService
+
+<PageTitle>Study Catalog</PageTitle>
+
+<h1>Study Catalog</h1>
+
+<p>Diese Seite ist der erste Sammelpunkt fuer importierte Themen, Aufgabenkataloge und spaetere Detailseiten.</p>
+
+<CatalogOverview Sections="@CatalogService.GetSections()" />

@@ -1,0 +1,252 @@
+{
+  "SourceSystem": "ISD Companion",
+  "Sections": [
+    {
+      "Id": "kuenstliche-intelligenz",
+      "Title": "K\u00FCnstliche Intelligenz",
+      "Description": "Importiert aus AIExercisesPage.xaml.",
+      "Groups": [
+        {
+          "Title": "Suchdemos",
+          "Topics": [
+            {
+              "Slug": "rumaenien-suchdemo",
+              "Title": "Rum\u00E4nien-Suchdemo",
+              "Summary": "Importierter Eintrag fuer AIRomaniaSearchPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AIRomaniaSearchPage"
+            }
+          ]
+        },
+        {
+          "Title": "CSP-Demos",
+          "Topics": [
+            {
+              "Slug": "kartenfaerbungs-demo",
+              "Title": "Kartenf\u00E4rbungs-Demo",
+              "Summary": "Importierter Eintrag fuer AIMapColoringPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AIMapColoringPage"
+            },
+            {
+              "Slug": "n-queens-demo",
+              "Title": "N-Queens-Demo",
+              "Summary": "Importierter Eintrag fuer AINQueensPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AINQueensPage"
+            }
+          ]
+        },
+        {
+          "Title": "Planungsdemos",
+          "Topics": [
+            {
+              "Slug": "go-home-planungsdemo",
+              "Title": "Go-Home-Planungsdemo",
+              "Summary": "Importierter Eintrag fuer AIPlanningPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AIPlanningPage"
+            }
+          ]
+        },
+        {
+          "Title": "Lern-Demos",
+          "Topics": [
+            {
+              "Slug": "restaurant-lerndemo",
+              "Title": "Restaurant-Lerndemo",
+              "Summary": "Importierter Eintrag fuer AILearningPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AILearningPage"
+            },
+            {
+              "Slug": "constraint-learning-demo",
+              "Title": "Constraint-Learning-Demo",
+              "Summary": "Importierter Eintrag fuer AIConstraintLearningPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AIConstraintLearningPage"
+            },
+            {
+              "Slug": "cross-validation-demo",
+              "Title": "Cross-Validation-Demo",
+              "Summary": "Importierter Eintrag fuer AICrossValidationPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "AICrossValidationPage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "technische-informatik",
+      "Title": "Technische Informatik",
+      "Description": "Importiert aus ComputingSystemsExercisesPage.xaml.",
+      "Groups": [
+        {
+          "Title": "Technische Informatik",
+          "Topics": [
+            {
+              "Slug": "binaer-zu-dezimal",
+              "Title": "Bin\u00E4r zu Dezimal",
+              "Summary": "Importierter Eintrag fuer BinaryToDecimalPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "BinaryToDecimalPage"
+            },
+            {
+              "Slug": "dezimal-zu-binaer",
+              "Title": "Dezimal zu Bin\u00E4r",
+              "Summary": "Importierter Eintrag fuer DecimalToBinaryPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "DecimalToBinaryPage"
+            },
+            {
+              "Slug": "addition-binaerer-zahlen",
+              "Title": "Addition bin\u00E4rer Zahlen",
+              "Summary": "Importierter Eintrag fuer BinaryAdditionPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "BinaryAdditionPage"
+            },
+            {
+              "Slug": "zweierkomplement",
+              "Title": "Zweierkomplement",
+              "Summary": "Importierter Eintrag fuer TwosComplementPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "TwosComplementPage"
+            },
+            {
+              "Slug": "dnf-und-knf",
+              "Title": "DNF und KNF",
+              "Summary": "Importierter Eintrag fuer NormalFormPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "NormalFormPage"
+            },
+            {
+              "Slug": "kv-diagramme",
+              "Title": "KV Diagramme",
+              "Summary": "Importierter Eintrag fuer KVMapPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "KVMapPage"
+            },
+            {
+              "Slug": "quine-mccluskey",
+              "Title": "Quine\u2013McCluskey",
+              "Summary": "Importierter Eintrag fuer QMCAlgorithmPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "QMCAlgorithmPage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "netzwerke",
+      "Title": "Netzwerke",
+      "Description": "Importiert aus NetworksExercisesPage.xaml.",
+      "Groups": [
+        {
+          "Title": "Netzwerke",
+          "Topics": [
+            {
+              "Slug": "bitcodierungen",
+              "Title": "Bitcodierungen",
+              "Summary": "Importierter Eintrag fuer BitencodingsPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "BitencodingsPage"
+            },
+            {
+              "Slug": "crc",
+              "Title": "CRC",
+              "Summary": "Importierter Eintrag fuer CRCPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "CRCPage"
+            },
+            {
+              "Slug": "minimaler-spannbaum",
+              "Title": "Minimaler Spannbaum",
+              "Summary": "Importierter Eintrag fuer MSTPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "MSTPage"
+            },
+            {
+              "Slug": "kuerzeste-wege",
+              "Title": "K\u00FCrzeste Wege",
+              "Summary": "Importierter Eintrag fuer ShortestPathsPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "ShortestPathsPage"
+            },
+            {
+              "Slug": "netzmasken",
+              "Title": "Netzmasken",
+              "Summary": "Importierter Eintrag fuer NetmaskPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "NetmaskPage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "betriebssysteme",
+      "Title": "Betriebssysteme",
+      "Description": "Importiert aus OperatingSystemsExercisesPage.xaml.",
+      "Groups": [
+        {
+          "Title": "Betriebssysteme",
+          "Topics": [
+            {
+              "Slug": "seitenersetzung",
+              "Title": "Seitenersetzung",
+              "Summary": "Importierter Eintrag fuer PageReplacementPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "PageReplacementPage"
+            },
+            {
+              "Slug": "buddy",
+              "Title": "Buddy",
+              "Summary": "Importierter Eintrag fuer BuddyPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "BuddyPage"
+            },
+            {
+              "Slug": "scheduling",
+              "Title": "Scheduling",
+              "Summary": "Importierter Eintrag fuer SchedulingPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "SchedulingPage"
+            },
+            {
+              "Slug": "echtzeitscheduling",
+              "Title": "Echtzeitscheduling",
+              "Summary": "Importierter Eintrag fuer RealtimeSchedulingPage.",
+              "SourceSystem": "ISD Companion",
+              "IsImported": true,
+              "TargetPage": "RealtimeSchedulingPage"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

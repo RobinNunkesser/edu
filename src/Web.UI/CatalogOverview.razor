@@ -1,0 +1,34 @@
+@if (Sections.Count == 0)
+{
+    <p>Noch keine Katalogbereiche vorhanden.</p>
+}
+else
+{
+    <div class="catalog-grid">
+        @foreach (var catalogSection in Sections)
+        {
+            <section class="catalog-card">
+                <header>
+                    <h2>@catalogSection.Title</h2>
+                    <p>@catalogSection.Description</p>
+                </header>
+
+                <ul>
+                    @foreach (var topic in catalogSection.Topics)
+                    {
+                        <li>
+                            <a href="@topic.Route">@topic.Title</a>
+                            <span>@topic.SourceSystem</span>
+                            <p>@topic.Summary</p>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IReadOnlyList<CatalogSectionViewModel> Sections { get; set; } = Array.Empty<CatalogSectionViewModel>();
+}

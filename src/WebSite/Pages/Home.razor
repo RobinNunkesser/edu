@@ -1,0 +1,23 @@
+﻿@page "/"
+
+@inject StudyCatalogService CatalogService
+
+<PageTitle>edu</PageTitle>
+
+<section class="hero">
+	<p class="eyebrow">GitHub Pages first</p>
+	<h1>@Snapshot.Title</h1>
+	<p class="lead">@Snapshot.Intro</p>
+	<p><a class="hero-link" href="@Snapshot.CatalogRoute">Zum Katalog</a></p>
+</section>
+
+<CatalogOverview Sections="@Snapshot.Sections" />
+
+@code {
+	private CatalogLandingSnapshot Snapshot = default!;
+
+	protected override void OnInitialized()
+	{
+		Snapshot = CatalogService.GetLandingSnapshot();
+	}
+}
