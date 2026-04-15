@@ -5,71 +5,7 @@
 
 <PageTitle>Lehrveranstaltung</PageTitle>
 
-@if (_lecture is null)
-{
-    <section class="page-intro">
-        <p class="section-label">@LandingLabel</p>
-        <h1>@UiText?.LectureNotFoundTitle</h1>
-        <p>@UiText?.LectureNotFoundText</p>
-    </section>
-}
-else
-{
-    <section class="page-intro lecture-hero">
-        <div>
-            <p class="section-label">@LandingLabel</p>
-            <h1>@_lecture.Title</h1>
-            <p>@_lecture.Summary</p>
-        </div>
-
-        <div class="lecture-meta-card">
-            <p class="feature-card-kicker">@UiText?.LectureMetaLabel</p>
-            <h2>@_lecture.Semester</h2>
-            <a class="inline-link" href="@_lecture.SourceUrl" target="_blank" rel="noreferrer">@UiText?.LectureSourceLabel</a>
-        </div>
-    </section>
-
-    <section class="page-section">
-        <div class="tag-row">
-            @foreach (var tag in _lecture.HighlightTags)
-            {
-                <span class="tag">@tag</span>
-            }
-        </div>
-    </section>
-
-    @foreach (var lectureSection in _lecture.Sections)
-    {
-        <section class="page-section">
-            <div class="section-heading">
-                <h2>@lectureSection.Title</h2>
-                <p>@lectureSection.Intro</p>
-            </div>
-
-            <div class="resource-grid">
-                @foreach (var link in lectureSection.Links)
-                {
-                    <article class="resource-card">
-                        <h3>@link.Title</h3>
-                        <p>@link.Description</p>
-                        @if (string.IsNullOrWhiteSpace(link.Url))
-                        {
-                            <span class="resource-inline-note">@UiText?.InlineNote</span>
-                        }
-                        else if (IsExternalLink(link.Url))
-                        {
-                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
-                        }
-                        else
-                        {
-                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
-                        }
-                    </article>
-                }
-            </div>
-        </section>
-    }
-}
+<LecturePageTemplate LandingLabel="@LandingLabel" UiText="@UiText" Lecture="@_lecture" />
 
 @code {
     [Parameter]
@@ -79,10 +15,6 @@ else
     private string LandingLabel = string.Empty;
     private UiTextViewModel? UiText;
     private LectureDetailViewModel? _lecture;
-
-    private static bool IsExternalLink(string url)
-        => Uri.TryCreate(url, UriKind.Absolute, out var uri)
-           && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
 
     protected override async Task OnParametersSetAsync()
     {

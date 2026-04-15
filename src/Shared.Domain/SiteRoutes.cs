@@ -32,6 +32,8 @@ public static class SiteRoutes
 
     public static string Software(SiteLanguage language) => language == SiteLanguage.En ? "/en/software" : "/software";
 
+    public static string TeachingTemplate(SiteLanguage language) => language == SiteLanguage.En ? "/en/teaching/template" : "/lehre/template";
+
     public static string Lecture(SiteLanguage language, string slug) => language == SiteLanguage.En ? $"/en/teaching/{slug}" : $"/lehre/{slug}";
 
     public static string SwitchLanguage(string? relativePath, SiteLanguage targetLanguage)
@@ -60,6 +62,11 @@ public static class SiteRoutes
 
         if ((head == "lehre" || head == "teaching" || head == "study") && pathSegments.Length > 1)
         {
+            if (pathSegments[1].Equals("template", StringComparison.OrdinalIgnoreCase))
+            {
+                return TeachingTemplate(targetLanguage);
+            }
+
             return Lecture(targetLanguage, pathSegments[1]);
         }
 

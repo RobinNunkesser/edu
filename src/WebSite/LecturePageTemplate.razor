@@ -1,0 +1,299 @@
+@if (Lecture is null)
+{
+    <section class="page-intro">
+        <h1>@UiText?.LectureNotFoundTitle</h1>
+        <p>@UiText?.LectureNotFoundText</p>
+    </section>
+}
+else
+{
+    var exerciseDemoSections = GetExerciseDemoSections(Lecture.Sections);
+    var mediaSections = GetMediaSections(Lecture.Sections);
+    var remainingSections = GetRemainingSections(Lecture.Sections);
+
+    <section class="page-intro lecture-hero">
+        <div>
+            <h1>@Lecture.Title</h1>
+            @if (!string.IsNullOrWhiteSpace(Lecture.Summary))
+            {
+                <p>@Lecture.Summary</p>
+            }
+        </div>
+
+        <div class="lecture-meta-card">
+            <h2>@Lecture.Semester</h2>
+        </div>
+    </section>
+
+    @if (Lecture.HighlightTags.Count > 0)
+    {
+        <section class="page-section">
+            <div class="tag-row">
+                @foreach (var tag in Lecture.HighlightTags)
+                {
+                    <span class="tag">@tag</span>
+                }
+            </div>
+        </section>
+    }
+
+    @foreach (var lectureSection in remainingSections)
+    {
+        var assessmentEntries = GetAssessmentEntries(lectureSection);
+        var inlineEntries = GetInlineEntries(lectureSection);
+        var linkedEntries = GetLinkedEntries(lectureSection);
+        var useCompactLinkedLayout = ShouldUseCompactLinkedLayout(lectureSection, linkedEntries);
+
+        <section class="page-section">
+            <div class="section-heading">
+                <h2>@lectureSection.Title</h2>
+                @if (!string.IsNullOrWhiteSpace(lectureSection.Intro))
+                {
+                    <p>@lectureSection.Intro</p>
+                }
+            </div>
+
+            <div class="resource-grid">
+                @if (inlineEntries.Count > 0)
+                {
+                    <article class="resource-card resource-card-grouped">
+                        <div class="resource-table">
+                            @foreach (var entry in inlineEntries)
+                            {
+                                var splitDescription = SplitDescription(entry.Description);
+
+                                <div class="resource-table-row">
+                                    <div class="resource-table-label">@entry.Title</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-primary">@splitDescription.Primary</div>
+                                        @if (!string.IsNullOrWhiteSpace(splitDescription.Secondary))
+                                        {
+                                            <div class="resource-table-secondary">@splitDescription.Secondary</div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+
+                @foreach (var entry in assessmentEntries)
+                {
+                    <article class="resource-card resource-card-assessment">
+                        <p class="feature-card-kicker">@entry.Title</p>
+                        <p class="resource-card-assessment-text">@entry.Description</p>
+                    </article>
+                }
+
+                @if (useCompactLinkedLayout)
+                {
+                    <article class="resource-card resource-card-grouped resource-card-linked-list">
+                        <div class="resource-table resource-table-compact">
+                            @foreach (var link in linkedEntries)
+                            {
+                                <div class="resource-table-row resource-table-row-compact">
+                                    <div class="resource-table-label resource-table-label-compact">@link.Title</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
+                                    </div>
+                                    <div class="resource-table-action">
+                                        @if (IsExternalLink(link.Url))
+                                        {
+                                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+                else
+                {
+                    @foreach (var link in linkedEntries)
+                    {
+                        <article class="resource-card">
+                            <h3>@link.Title</h3>
+                            <p>@link.Description</p>
+                            @if (IsExternalLink(link.Url))
+                            {
+                                <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                            }
+                            else
+                            {
+                                <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                            }
+                        </article>
+                    }
+                }
+            </div>
+        </section>
+    }
+
+    @if (exerciseDemoSections.Count > 0)
+    {
+        <section class="page-section">
+            <div class="section-heading">
+                <h2>@GetExerciseDemoGroupTitle()</h2>
+            </div>
+
+            <div class="exercise-demo-stack">
+                @foreach (var lectureSection in exerciseDemoSections)
+                {
+                    var linkedEntries = GetLinkedEntries(lectureSection);
+
+                    <article class="resource-card resource-card-grouped resource-card-linked-list">
+                        <p class="feature-card-kicker">@lectureSection.Title</p>
+                        <div class="resource-table resource-table-compact">
+                            @foreach (var link in linkedEntries)
+                            {
+                                <div class="resource-table-row resource-table-row-compact">
+                                    <div class="resource-table-label resource-table-label-compact">@link.Title</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
+                                    </div>
+                                    <div class="resource-table-action">
+                                        @if (IsExternalLink(link.Url))
+                                        {
+                                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+    }
+
+    @if (mediaSections.Count > 0)
+    {
+        <section class="page-section">
+            <div class="section-heading">
+                <h2>@GetMediaGroupTitle()</h2>
+            </div>
+
+            <div class="exercise-demo-stack">
+                @foreach (var lectureSection in mediaSections)
+                {
+                    var linkedEntries = GetLinkedEntries(lectureSection);
+
+                    <article class="resource-card resource-card-grouped resource-card-linked-list">
+                        <p class="feature-card-kicker">@lectureSection.Title</p>
+                        <div class="resource-table resource-table-compact">
+                            @foreach (var link in linkedEntries)
+                            {
+                                <div class="resource-table-row resource-table-row-compact">
+                                    <div class="resource-table-label resource-table-label-compact">@link.Title</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
+                                    </div>
+                                    <div class="resource-table-action">
+                                        @if (IsExternalLink(link.Url))
+                                        {
+                                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+    }
+}
+
+@code {
+    [Parameter]
+    public string LandingLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public UiTextViewModel? UiText { get; set; }
+
+    [Parameter]
+    public LectureDetailViewModel? Lecture { get; set; }
+
+    private static IReadOnlyList<ResourceLinkViewModel> GetAssessmentEntries(LectureSectionViewModel section)
+        => section.Links.Where(IsAssessmentEntry).ToArray();
+
+    private static IReadOnlyList<ResourceLinkViewModel> GetInlineEntries(LectureSectionViewModel section)
+        => section.Links.Where(link => string.IsNullOrWhiteSpace(link.Url) && !IsAssessmentEntry(link)).ToArray();
+
+    private static IReadOnlyList<ResourceLinkViewModel> GetLinkedEntries(LectureSectionViewModel section)
+        => section.Links.Where(link => !string.IsNullOrWhiteSpace(link.Url)).ToArray();
+
+    private static IReadOnlyList<LectureSectionViewModel> GetExerciseDemoSections(IReadOnlyList<LectureSectionViewModel> sections)
+        => sections.Where(section => IsExerciseDemoSection(section.Title)).ToArray();
+
+    private static IReadOnlyList<LectureSectionViewModel> GetMediaSections(IReadOnlyList<LectureSectionViewModel> sections)
+        => sections.Where(section => IsMediaSection(section.Title)).ToArray();
+
+    private static IReadOnlyList<LectureSectionViewModel> GetRemainingSections(IReadOnlyList<LectureSectionViewModel> sections)
+        => sections.Where(section => !IsExerciseDemoSection(section.Title) && !IsMediaSection(section.Title)).ToArray();
+
+    private static bool ShouldUseCompactLinkedLayout(LectureSectionViewModel section, IReadOnlyList<ResourceLinkViewModel> linkedEntries)
+        => linkedEntries.Count >= 6 || UsesCompactLayoutByTitle(section.Title);
+
+    private static bool IsExerciseDemoSection(string title)
+        => title.Equals("Übungsblätter", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Exercise Sheets", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Probeklausuren", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Mock Exams", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Interaktive Übungen / Demonstratoren", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Interactive Exercises / Demonstrators", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsMediaSection(string title)
+        => title.Equals("Folien", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Slides", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Aufzeichnungen", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Recordings", StringComparison.OrdinalIgnoreCase);
+
+    private static bool UsesCompactLayoutByTitle(string title)
+          => title.Equals("Übungen", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Exercises", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Übungsblätter", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Exercise Sheets", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Probeklausuren", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Mock Exams", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Interaktive Übungen / Demonstratoren", StringComparison.OrdinalIgnoreCase)
+              || title.Equals("Interactive Exercises / Demonstrators", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Folien", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Slides", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Aufzeichnungen", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Recordings", StringComparison.OrdinalIgnoreCase);
+
+    private string GetExerciseDemoGroupTitle()
+        => LandingLabel == "Lehre" ? "Übungen und Demonstratoren" : "Exercises and Demonstrators";
+
+    private string GetMediaGroupTitle()
+        => LandingLabel == "Lehre" ? "Folien und Aufzeichnungen" : "Slides and Recordings";
+
+    private static (string Primary, string? Secondary) SplitDescription(string description)
+    {
+        var parts = description.Split(',', 2, StringSplitOptions.TrimEntries);
+        return parts.Length == 2
+            ? (parts[0], parts[1])
+            : (description, null);
+    }
+
+    private static bool IsAssessmentEntry(ResourceLinkViewModel link)
+        => string.Equals(link.Title, "Prüfungsform", StringComparison.OrdinalIgnoreCase)
+           || string.Equals(link.Title, "Assessment", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsExternalLink(string url)
+        => Uri.TryCreate(url, UriKind.Absolute, out var uri)
+           && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+}

@@ -143,15 +143,126 @@ a {
 .lecture-hero {
     grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
     align-items: start;
+    gap: 1.25rem;
+}
+
+.lecture-meta-card {
+    align-content: start;
+    min-height: 100%;
 }
 
 .inline-link {
     font-weight: 600;
 }
 
-.resource-inline-note {
+.resource-card-grouped {
+    grid-column: 1 / -1;
+}
+
+.resource-card-assessment {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.78), rgba(239, 246, 255, 0.96));
+    align-content: start;
+}
+
+.resource-card-assessment-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #18314f;
+    max-width: 58ch;
+}
+
+.resource-table {
+    display: grid;
+    gap: 0;
+}
+
+.resource-table-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(140, 173, 202, 0.24);
+}
+
+.resource-table-row:last-child {
+    border-bottom: none;
+}
+
+.resource-table-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #3d668e;
+}
+
+.resource-table-value {
+    display: grid;
+    gap: 0.2rem;
+    color: #18314f;
+    line-height: 1.55;
+}
+
+.resource-table-primary {
+    font-weight: 600;
+    color: #18314f;
+}
+
+.resource-table-secondary {
     color: #526071;
     font-size: 0.95rem;
+}
+
+.resource-table-secondary-strong {
+    color: #526071;
+}
+
+.resource-card-linked-list {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.exercise-demo-stack {
+    display: grid;
+    gap: 1rem;
+}
+
+.resource-table-compact {
+    gap: 0;
+}
+
+.resource-table-row-compact {
+    grid-template-columns: minmax(220px, 1.4fr) minmax(0, 1.6fr) auto;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    align-items: center;
+}
+
+.resource-table-label-compact {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.95rem;
+    color: #18314f;
+}
+
+.resource-table-action {
+    justify-self: end;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .resource-table-row-compact {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        align-items: start;
+    }
+
+    .resource-table-action {
+        justify-self: start;
+    }
 }
 
 .publication-meta {
