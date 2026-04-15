@@ -56,9 +56,13 @@ else
                         {
                             <span class="resource-inline-note">@UiText?.InlineNote</span>
                         }
-                        else
+                        else if (IsExternalLink(link.Url))
                         {
                             <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                        }
+                        else
+                        {
+                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
                         }
                     </article>
                 }
@@ -75,6 +79,10 @@ else
     private string LandingLabel = string.Empty;
     private UiTextViewModel? UiText;
     private LectureDetailViewModel? _lecture;
+
+    private static bool IsExternalLink(string url)
+        => Uri.TryCreate(url, UriKind.Absolute, out var uri)
+           && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
 
     protected override async Task OnParametersSetAsync()
     {

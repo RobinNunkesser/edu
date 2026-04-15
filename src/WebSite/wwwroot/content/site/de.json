@@ -186,6 +186,7 @@
           "intro": "Begleitende digitale und interaktive Materialien.",
           "links": [
             { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Companion-App mit Uebungen zur Vorlesung" },
+            { "title": "Minimaler Spannbaum in edu", "url": "/study/minimaler-spannbaum", "description": "Interaktiver technischer Durchstich zum MST direkt in edu" },
             { "title": "Externe DNF/CNF-Seite", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "Zusaetzliche Erklaerung" },
             { "title": "Externe Karnaugh-Veitch-Map", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/karnaughmap/index.html", "description": "Zusaetzliche Erklaerung" },
             { "title": "Externer Quine-McCluskey-Algorithmus", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/qmc/index.html", "description": "Zusaetzliche Erklaerung" }
