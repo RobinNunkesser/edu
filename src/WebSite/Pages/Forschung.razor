@@ -1,46 +1,41 @@
 @page "/forschung"
 @page "/en/research"
 @inject NavigationManager NavigationManager
+@inject SiteContentService ContentService
 
 <PageTitle>Forschung</PageTitle>
 
-<section class="page-intro">
-    <p class="section-label">@(IsEnglish ? "Research" : "Forschung")</p>
-    <h1>@(IsEnglish ? "Research themes that connect teaching and software" : "Forschungsthemen, an denen Lehre und Software anschliessen")</h1>
-    <p>
-        @(IsEnglish
-            ? "This area will grow into an overview of research themes, project ideas, and entry points for theses. In the first step it establishes the future structure next to the already expanded teaching section."
-            : "Dieser Bereich wird als Uebersicht fuer Forschungsschwerpunkte, Projektideen und Anknuepfungspunkte fuer Abschlussarbeiten ausgebaut. Im ersten Schritt markiert er die kuenftige Struktur neben der bereits vertieften Lehre.")
-    </p>
-</section>
+@if (Landing is not null)
+{
+    <section class="page-intro">
+        <p class="section-label">@Landing.Label</p>
+        <h1>@Landing.Title</h1>
+        <p>@Landing.Intro</p>
+    </section>
 
-<section class="page-section">
-    <div class="feature-grid">
-        <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">@(IsEnglish ? "Themes" : "Themen")</p>
-            <h3>@(IsEnglish ? "AI, software engineering, and didactic tooling" : "KI, Softwaretechnik, didaktische Werkzeuge")</h3>
-            <p>@(IsEnglish ? "Research topics will later be connected with projects, artifacts, and clear contact points." : "Forschungsschwerpunkte werden kuenftig mit Projekten, Artefakten und Ansprechpunkten verknuepft.")</p>
-        </article>
-
-        <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">@(IsEnglish ? "Entry points" : "Anschluss")</p>
-            <h3>@(IsEnglish ? "Projects and theses" : "Projekt- und Abschlussarbeiten")</h3>
-            <p>@(IsEnglish ? "The plan is to expose visible topic windows for student work and collaborative development projects." : "Geplant sind klar sichtbare Themenfenster fuer studentische Arbeiten und gemeinsame Entwicklungsprojekte.")</p>
-        </article>
-
-        <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">Transfer</p>
-            <h3>@(IsEnglish ? "From research prototype to teaching software" : "Vom Forschungsprototyp zur Lehrsoftware")</h3>
-            <p>@(IsEnglish ? "The page should later show how demonstrators, benchmarks, and learning software emerge from research work." : "Die Seite soll kuenftig zeigen, wie Demonstratoren, Benchmarks und Lernsoftware aus Forschungsarbeit entstehen.")</p>
-        </article>
-    </div>
-</section>
+    <section class="page-section">
+        <div class="feature-grid">
+            @foreach (var card in Cards)
+            {
+                <article class="feature-card feature-card-static">
+                    <p class="feature-card-kicker">@card.Kicker</p>
+                    <h3>@card.Title</h3>
+                    <p>@card.Text</p>
+                </article>
+            }
+        </div>
+    </section>
+}
 
 @code {
-    private bool IsEnglish;
+    private SiteLanguage CurrentLanguage;
+    private SectionLandingViewModel? Landing;
+    private IReadOnlyList<InfoCardViewModel> Cards = [];
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        IsEnglish = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri)) == SiteLanguage.En;
+        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        Landing = await ContentService.GetResearchLandingAsync(CurrentLanguage);
+        Cards = await ContentService.GetResearchCardsAsync(CurrentLanguage);
     }
 }

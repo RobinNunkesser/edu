@@ -1,0 +1,367 @@
+{
+  "ui": {
+    "navHome": "Home",
+    "navTeaching": "Teaching",
+    "navResearch": "Research",
+    "navSoftware": "Software",
+    "headerPrototype": "Bilingual prototype",
+    "lectureMetaLabel": "Overview",
+    "lectureSourceLabel": "Source in lectures wiki",
+    "openMaterialLabel": "Open material",
+    "inlineNote": "Documented directly on the course page",
+    "lectureNotFoundTitle": "Course not found",
+    "lectureNotFoundText": "No course page has been mapped to this route yet.",
+    "notFoundTitle": "Not found",
+    "notFoundText": "There is no content at this address."
+  },
+  "home": {
+    "heroKicker": "edu",
+    "heroTitle": "Teaching, research, and software in one place",
+    "heroLead": "The site is moving from a companion demo to a clearly structured workspace: courses, research topics, and software artifacts each get their own entry point.",
+    "focusLabel": "Current focus",
+    "focusTitle": "Courses first",
+    "focusText": "The first iteration adopts structure and material from the lectures wiki and puts exercises, slides, videos, and project-related resources directly onto the course pages.",
+    "navigationLabel": "Navigation",
+    "navigationTitle": "Three clear entry points",
+    "navigationText": "Instead of a generic study hub, the home page now leads directly into the three main areas.",
+    "nextLabel": "Next iteration",
+    "nextTitle": "More courses, less hardcode",
+    "nextText": "Content is gradually moving into language files and importable source data. That makes it easier to add more courses without expanding code-bound translations."
+  },
+  "teaching": {
+    "label": "Teaching",
+    "title": "Courses with direct access to exercises and materials",
+    "intro": "The current iteration adopts structure and content from the lectures wiki. Course pages should not just list links, but keep the most relevant working materials within immediate reach."
+  },
+  "research": {
+    "label": "Research",
+    "title": "Research themes that connect teaching and software",
+    "intro": "This area will grow into an overview of research themes, project ideas, and entry points for theses. In the first step it establishes the future structure next to the already expanded teaching section."
+  },
+  "software": {
+    "label": "Software",
+    "title": "Teaching software, open-source building blocks, and reusable packages",
+    "intro": "This area collects the tools, apps, and libraries that emerge from teaching and research. The current companion work is the technical starting point for that layer."
+  },
+  "areas": [
+    {
+      "key": "teaching",
+      "title": "Teaching",
+      "summary": "Courses with dedicated subpages, exercises, slides, videos, and supporting materials.",
+      "highlights": ["Courses", "Exercises", "Materials"]
+    },
+    {
+      "key": "research",
+      "title": "Research",
+      "summary": "Focus areas, research themes, and entry points for projects and theses.",
+      "highlights": ["Topics", "Projects", "Theses"]
+    },
+    {
+      "key": "software",
+      "title": "Software",
+      "summary": "Teaching software, open-source artifacts, and reusable packages from projects and courses.",
+      "highlights": ["Apps", "Packages", "Repos"]
+    }
+  ],
+  "researchCards": [
+    {
+      "kicker": "Themes",
+      "title": "AI, software engineering, and didactic tooling",
+      "text": "Research topics will later be connected with projects, artifacts, and clear contact points."
+    },
+    {
+      "kicker": "Entry points",
+      "title": "Projects and theses",
+      "text": "The plan is to expose visible topic windows for student work and collaborative development projects."
+    },
+    {
+      "kicker": "Transfer",
+      "title": "From research prototype to teaching software",
+      "text": "The page should later show how demonstrators, benchmarks, and learning software emerge from research work."
+    }
+  ],
+  "softwareCards": [
+    {
+      "kicker": "Companions",
+      "title": "Interactive learning tools",
+      "text": "Companion applications and their importable content should become visible here in one place."
+    },
+    {
+      "kicker": "Packages",
+      "title": "NuGet and PyPI artifacts",
+      "text": "Reusable libraries and helper tools will later receive a curated overview here."
+    },
+    {
+      "kicker": "Repos",
+      "title": "Project landscape",
+      "text": "Selected repositories will later be described with context, purpose, and usage instead of being listed as bare links."
+    }
+  ],
+  "lectures": [
+    {
+      "slug": "app-development",
+      "title": "App Development",
+      "semester": "6th semester",
+      "summary": "This version follows the lectures wiki and bundles course logistics, project setup, slides, and lecture recordings on a single page.",
+      "wikiPath": "AppDevelopment",
+      "highlightTags": ["Project format", "GitHub Assignment", "Slides", "Videos"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Schedule, module context, and assessment format for summer term 2026.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Tue 09:30 - 11:00, H4.3-E00-100" },
+            { "title": "Lab", "url": "", "description": "Tue 11:00 - 12:30, H3.3-E01-220" },
+            { "title": "Assessment", "url": "", "description": "Presentation plus project submission, teams of up to three" }
+          ]
+        },
+        {
+          "title": "Exercises and project work",
+          "intro": "The course is project-driven. The most relevant working materials are the assignment, submission criteria, and referenced material.",
+          "links": [
+            { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/nFtBV3dj", "description": "Project baseline for the course" },
+            { "title": "Submission criteria", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/Abgabekriterien", "description": "General criteria for software projects" },
+            { "title": "Textbook App Engineering", "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5", "description": "Companion textbook" }
+          ]
+        },
+        {
+          "title": "Course materials",
+          "intro": "Slides and lecture recordings from the lectures wiki.",
+          "links": [
+            { "title": "AI-assisted development", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/KIgestuetzteEntwicklung.pdf", "description": "Course introduction" },
+            { "title": "GitHub Copilot", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/GitHubCopilot.pdf", "description": "Tooling focus" },
+            { "title": "Lecture 1 SS2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8158f9be-cbdf-4024-8647-b42c0096caa3", "description": "Panopto recording from 2026-04-14" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "technische-informatik",
+      "title": "Technical Computer Engineering",
+      "semester": "3rd semester",
+      "summary": "Exercises and mock exams are placed front and center, complemented by companion and lecture materials.",
+      "wikiPath": "TechnischeInformatik",
+      "highlightTags": ["Exercises", "Mock exams", "Companion", "Slides"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Course setup from winter term 2024/2025.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Thu 09:30 - 11:00, H4.3-E00-110" },
+            { "title": "Lab", "url": "", "description": "Thu 11:00 - 12:30, H4.2-E00-140" },
+            { "title": "Assessment", "url": "", "description": "Written exam during the exam period, combined with Fundamentals of Programming" }
+          ]
+        },
+        {
+          "title": "Featured exercises",
+          "intro": "The PDF exercise sheets and mock exams are linked directly from the lectures wiki structure.",
+          "links": [
+            { "title": "Information representation", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung01Informationsdarstellung.pdf", "description": "Exercise sheet" },
+            { "title": "Boolean algebra", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung02BoolescheAlgebra.pdf", "description": "Exercise sheet" },
+            { "title": "Boolean minimization", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung03BoolescheMinimierung.pdf", "description": "Exercise sheet" },
+            { "title": "Mock exam part 1", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil01.pdf", "description": "Exam preparation" },
+            { "title": "Mock exam part 2", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil02.pdf", "description": "Exam preparation" }
+          ]
+        },
+        {
+          "title": "Additional materials",
+          "intro": "Supporting digital and interactive materials.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Companion app with lecture exercises" },
+            { "title": "External DNF/CNF page", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "Additional explanation" },
+            { "title": "External Karnaugh-Veitch map", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/karnaughmap/index.html", "description": "Additional explanation" },
+            { "title": "External Quine-McCluskey algorithm", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/qmc/index.html", "description": "Additional explanation" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "kuenstliche-intelligenz",
+      "title": "Artificial Intelligence",
+      "semester": "6th semester",
+      "summary": "The page focuses on project ideas, assignment-driven workflows, slides, and code entry points.",
+      "wikiPath": "AI",
+      "highlightTags": ["Project ideas", "Slides", "Code", "Videos"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Course setup from summer term 2026.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Wed 12:00 - 13:30, H4.1-E00-110" },
+            { "title": "Lab", "url": "", "description": "Mon 11:00 - 12:30, odd calendar weeks, H4.1-E00-140" },
+            { "title": "Assessment", "url": "", "description": "Presentation plus project submission, teams of up to three" }
+          ]
+        },
+        {
+          "title": "Project-based exercises",
+          "intro": "The course is project-based instead of being centered around classic exercise sheets.",
+          "links": [
+            { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/QZgdkZsE", "description": "Project baseline inside the course" },
+            { "title": "AIMA", "url": "http://aima.cs.berkeley.edu", "description": "Artificial Intelligence: A Modern Approach" },
+            { "title": "Project ideas in the wiki", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/AI", "description": "Demonstrators, benchmarks, and original ideas" }
+          ]
+        },
+        {
+          "title": "Code and materials",
+          "intro": "Code sources and selected teaching materials from the wiki.",
+          "links": [
+            { "title": "Ports", "url": "https://github.com/Italbytz/nuget-ports-algorithms", "description": "C# ports" },
+            { "title": "Adapters", "url": "https://github.com/Italbytz/nuget-adapters-algorithms", "description": "Adapter layer" },
+            { "title": "Intelligent agents", "url": "https://mymoodle.hshl.de/pluginfile.php/2056583/mod_folder/content/0/IntelligenteAgenten.pdf", "description": "Topic introduction" },
+            { "title": "Learning from examples", "url": "https://mymoodle.hshl.de/pluginfile.php/2017628/mod_folder/content/0/AI09LernenAusBeispielen.pdf", "description": "Learning chapter" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "netzwerke",
+      "title": "Computer Networks",
+      "semester": "3rd semester",
+      "summary": "Global exercise sheets, companion references, and a curated collection of slides and lecture videos are central to this course page.",
+      "wikiPath": "Netzwerke",
+      "highlightTags": ["Global exercises", "Companion", "Slides", "Videos"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Course setup from winter term 2025/2026.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Thu 11:00 - 12:30, H1.1-E01-150" },
+            { "title": "Assessment", "url": "", "description": "Written exam during the exam period, combined with Operating Systems" },
+            { "title": "Textbook", "url": "https://link.springer.com/book/10.1007%2F978-3-662-59897-9", "description": "Computernetze kompakt" }
+          ]
+        },
+        {
+          "title": "Featured exercises",
+          "intro": "Global exercise sheets and mock exams linked directly from the wiki.",
+          "links": [
+            { "title": "Basics", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN01Grundlagen.pdf", "description": "Exercise sheet" },
+            { "title": "Physical layer", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN02Bituebertragungsschicht.pdf", "description": "Exercise sheet" },
+            { "title": "Transport layer", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN05Transportschicht.pdf", "description": "Exercise sheet" },
+            { "title": "Mock exam", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN07Probeklausur.pdf", "description": "Exam preparation" }
+          ]
+        },
+        {
+          "title": "Additional materials",
+          "intro": "Companion references, slides, and lecture recordings on one page.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Many exercises for the course" },
+            { "title": "Application layer slides", "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN08Anwendungsschicht.pdf", "description": "Selected slide deck" },
+            { "title": "Lecture 1 WS2025/2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=729fab63-51ff-4472-a319-b36400c16574", "description": "Panopto recording" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "betriebssysteme",
+      "title": "Operating Systems",
+      "semester": "3rd semester",
+      "summary": "Global exercises, companion references, as well as slides and videos covering the full course.",
+      "wikiPath": "Betriebssysteme",
+      "highlightTags": ["Global exercises", "Companion", "Slides", "Videos"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Course setup from winter term 2025/2026.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Thu 09:30 - 11:00, H1.1-E01-150" },
+            { "title": "Assessment", "url": "", "description": "Written exam during the exam period, combined with Computer Networks" },
+            { "title": "Textbook", "url": "https://link.springer.com/book/10.1007%2F978-3-662-61411-2", "description": "Betriebssysteme kompakt" }
+          ]
+        },
+        {
+          "title": "Featured exercises",
+          "intro": "Global exercises and mock exams adopted directly from the wiki.",
+          "links": [
+            { "title": "Basics", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS01Grundlagen.pdf", "description": "Exercise sheet" },
+            { "title": "Memory management", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS02Speicherverwaltung.pdf", "description": "Exercise sheet" },
+            { "title": "Process management", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS04Prozessverwaltung.pdf", "description": "Exercise sheet" },
+            { "title": "Mock exam", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS07Probeklausur03.pdf", "description": "Exam preparation" }
+          ]
+        },
+        {
+          "title": "Additional materials",
+          "intro": "Companion, slides, and lecture recordings for the course.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Many exercises for the course" },
+            { "title": "Process management slides", "url": "https://mymoodle.hshl.de/pluginfile.php/2037413/mod_folder/content/0/BS07Prozesse.pdf", "description": "Selected slide deck" },
+            { "title": "Lecture 1 WS2025/2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=3ca5bbf4-6ca6-4e65-a7fe-b36300f96fc7", "description": "Panopto recording" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "softwaretechnik",
+      "title": "Software Engineering",
+      "semester": "4th semester",
+      "summary": "Project-based course with GitHub Assignment, early deliverable review, App Engineering context, and video recording.",
+      "wikiPath": "Softwaretechnik",
+      "highlightTags": ["Project", "GitHub Assignment", "Textbook", "Videos"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Course setup from summer term 2026.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Mon 09:30 - 11:00, H1.1-E01-130" },
+            { "title": "Lab", "url": "", "description": "Thu 11:00 - 12:30, H4.2-E00-140" },
+            { "title": "Assessment", "url": "", "description": "Presentation of an early deliverable plus project artifact, teams of up to four" }
+          ]
+        },
+        {
+          "title": "Project work",
+          "intro": "Cross-course project with GitHub Assignment and App Engineering textbook support.",
+          "links": [
+            { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/azV8Ym68", "description": "Project baseline for the course" },
+            { "title": "App Engineering", "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5", "description": "Textbook" },
+            { "title": "App Engineering slides", "url": "https://mymoodle.hshl.de/pluginfile.php/2056581/mod_folder/content/0/AppEngineering.pdf", "description": "Selected slide deck" }
+          ]
+        },
+        {
+          "title": "Lecture recordings",
+          "intro": "First recording from summer term 2026.",
+          "links": [
+            { "title": "Lecture 1 SS2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fce5c463-eb44-434a-b0d9-b42b009899e4", "description": "Panopto recording from 2026-04-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "grundlagen-der-informatik",
+      "title": "Foundations of Computer Science",
+      "semester": "1st semester",
+      "summary": "Exercises, companion references, external explanations, and a broad slide collection for the first computer science concepts.",
+      "wikiPath": "GDI",
+      "highlightTags": ["Exercises", "Companion", "Slides", "Videos"],
+      "sections": [
+        {
+          "title": "Course logistics",
+          "intro": "Course setup from winter term 2025/2026.",
+          "links": [
+            { "title": "Lecture", "url": "", "description": "Tue 10:00 - 11:30, Lecture hall HAM 3" },
+            { "title": "Lab", "url": "", "description": "Tue 12:00 - 13:30, PC lab H4.1-E00-130" },
+            { "title": "Assessment", "url": "", "description": "Written exam during the exam period, combined with Fundamentals of Programming" }
+          ]
+        },
+        {
+          "title": "Featured exercises",
+          "intro": "Exercise sheets and mock exams linked directly from the lectures wiki.",
+          "links": [
+            { "title": "Information representation", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIUebung01Informationsdarstellung.pdf", "description": "Exercise sheet" },
+            { "title": "Boolean algebra", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIUebung02BoolescheAlgebra.pdf", "description": "Exercise sheet" },
+            { "title": "Finite automata", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIUebung05EndlicheAutomaten.pdf", "description": "Exercise sheet" },
+            { "title": "Mock exam part 1", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIProbeklausurTeil01.pdf", "description": "Exam preparation" }
+          ]
+        },
+        {
+          "title": "Additional materials",
+          "intro": "Companion, external explanations, and slides for the course topics.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Exercises for the course" },
+            { "title": "External DNF/CNF page", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "Additional explanation" },
+            { "title": "Boolean algebra slides", "url": "https://mymoodle.hshl.de/pluginfile.php/2036853/mod_folder/content/0/GDI04BoolescheAlgebra.pdf", "description": "Selected slide deck" },
+            { "title": "Lecture 1 WS2025/2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7c97e9cf-7d2c-4824-98d3-b36100ca36e2", "description": "Panopto recording" }
+          ]
+        }
+      ]
+    }
+  ]
+}

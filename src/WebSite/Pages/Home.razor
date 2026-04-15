@@ -6,66 +6,59 @@
 
 <PageTitle>edu</PageTitle>
 
-<section class="hero">
-	<div class="hero-copy">
-		<p class="hero-kicker">edu</p>
-		<h1>@(CurrentLanguage == SiteLanguage.En ? "Teaching, research, and software in one place" : "Lehre, Forschung und Software an einem Ort")</h1>
-		<p class="hero-lead">
-			@(CurrentLanguage == SiteLanguage.En
-				? "The site is moving from a companion demo to a clearly structured workspace: courses, research topics, and software artifacts each get their own entry point."
-				: "Die Seite wird von einer Companion-Demo zu einer klar gegliederten Arbeitsoberflaeche umgebaut: Lehrveranstaltungen mit Unterseiten, Forschungsschwerpunkte und Software-Artefakte bekommen jeweils ihren eigenen Einstieg.")
-		</p>
-	</div>
+@if (HomePage is not null)
+{
+	<section class="hero">
+		<div class="hero-copy">
+			<p class="hero-kicker">@HomePage.HeroKicker</p>
+			<h1>@HomePage.HeroTitle</h1>
+			<p class="hero-lead">@HomePage.HeroLead</p>
+		</div>
 
-	<div class="hero-panel">
-		<p class="hero-panel-label">@(CurrentLanguage == SiteLanguage.En ? "Current focus" : "Aktuelle Ausrichtung")</p>
-		<h2>@(CurrentLanguage == SiteLanguage.En ? "Courses first" : "Lehrveranstaltungen zuerst")</h2>
-		<p>
-			@(CurrentLanguage == SiteLanguage.En
-				? "The first iteration adopts structure and material from the lectures wiki and puts exercises, slides, videos, and project-related resources directly onto the course pages."
-				: "Die erste Ausbaustufe uebernimmt Struktur und Inhalte aus dem lectures-Wiki und stellt insbesondere Uebungen, Folien, Videos und projektbezogene Materialien direkt auf den Kursseiten bereit.")
-		</p>
-	</div>
-</section>
+		<div class="hero-panel">
+			<p class="hero-panel-label">@HomePage.FocusLabel</p>
+			<h2>@HomePage.FocusTitle</h2>
+			<p>@HomePage.FocusText</p>
+		</div>
+	</section>
 
-<section class="page-section">
-	<div class="section-heading">
-		<p class="section-label">@(CurrentLanguage == SiteLanguage.En ? "Navigation" : "Navigation")</p>
-		<h2>@(CurrentLanguage == SiteLanguage.En ? "Three clear entry points" : "Drei klare Einstiege")</h2>
-		<p>@(CurrentLanguage == SiteLanguage.En ? "Instead of a generic study hub, the home page now leads directly into the three main areas." : "Statt eines allgemeinen Study-Hubs fuehrt die Startseite jetzt direkt in die drei Hauptbereiche.")</p>
-	</div>
+	<section class="page-section">
+		<div class="section-heading">
+			<p class="section-label">@HomePage.NavigationLabel</p>
+			<h2>@HomePage.NavigationTitle</h2>
+			<p>@HomePage.NavigationText</p>
+		</div>
 
-	<div class="feature-grid">
-		@foreach (var area in Areas)
-		{
-			<a class="feature-card" href="@area.Route">
-				<p class="feature-card-kicker">@string.Join(" / ", area.Highlights)</p>
-				<h3>@area.Title</h3>
-				<p>@area.Summary</p>
-			</a>
-		}
-	</div>
-</section>
+		<div class="feature-grid">
+			@foreach (var area in Areas)
+			{
+				<a class="feature-card" href="@area.Route">
+					<p class="feature-card-kicker">@string.Join(" / ", area.Highlights)</p>
+					<h3>@area.Title</h3>
+					<p>@area.Summary</p>
+				</a>
+			}
+		</div>
+	</section>
 
-<section class="page-section page-section-muted">
-	<div class="section-heading">
-		<p class="section-label">@(CurrentLanguage == SiteLanguage.En ? "Next iteration" : "Naechster Ausbau")</p>
-		<h2>@(CurrentLanguage == SiteLanguage.En ? "Teaching gets depth first" : "Lehre bekommt zuerst Tiefe")</h2>
-		<p>
-			@(CurrentLanguage == SiteLanguage.En
-				? "App Development, Technical Computer Engineering, and Artificial Intelligence are the first courses adopted from the existing wiki and will be connected with imported content in the next step."
-				: "App Development, Technische Informatik und Kuenstliche Intelligenz sind als erste Lehrveranstaltungen direkt aus dem vorhandenen Wiki uebernommen und werden im naechsten Schritt weiter mit importierten Inhalten verknuepft.")
-		</p>
-	</div>
-</section>
+	<section class="page-section page-section-muted">
+		<div class="section-heading">
+			<p class="section-label">@HomePage.NextLabel</p>
+			<h2>@HomePage.NextTitle</h2>
+			<p>@HomePage.NextText</p>
+		</div>
+	</section>
+}
 
 @code {
 	private SiteLanguage CurrentLanguage;
+	private HomePageViewModel? HomePage;
 	private IReadOnlyList<HomeAreaViewModel> Areas = [];
 
-	protected override void OnParametersSet()
+	protected override async Task OnParametersSetAsync()
 	{
 		CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
-		Areas = ContentService.GetAreas(CurrentLanguage);
+		HomePage = await ContentService.GetHomePageAsync(CurrentLanguage);
+		Areas = await ContentService.GetAreasAsync(CurrentLanguage);
 	}
 }

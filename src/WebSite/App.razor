@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager NavigationManager
+@inject SiteContentService ContentService
 
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
@@ -6,13 +7,19 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>@(IsEnglish ? "Not found" : "Nicht gefunden")</PageTitle>
+        <PageTitle>@UiText.NotFoundTitle</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">@(IsEnglish ? "Sorry, there is nothing at this address." : "Unter dieser Adresse ist kein Inhalt hinterlegt.")</p>
+            <p role="alert">@UiText.NotFoundText</p>
         </LayoutView>
     </NotFound>
 </Router>
 
 @code {
-    private bool IsEnglish => SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri)) == SiteLanguage.En;
+    private UiTextViewModel UiText = new("Home", "Lehre", "Forschung", "Software", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, "Nicht gefunden", "Unter dieser Adresse ist kein Inhalt hinterlegt.");
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var language = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        UiText = await ContentService.GetUiTextAsync(language);
+    }
 }

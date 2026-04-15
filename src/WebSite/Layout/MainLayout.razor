@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @implements IDisposable
 @inject NavigationManager NavigationManager
+@inject SiteContentService ContentService
 
 <div class="page">
     <div class="sidebar">
@@ -9,7 +10,7 @@
 
     <main>
         <div class="top-row px-4">
-            <span>@(CurrentLanguage == SiteLanguage.En ? "Bilingual prototype" : "Zweisprachiger Prototyp")</span>
+            <span>@UiText.HeaderPrototype</span>
             <div class="language-switch">
                 <a class="@(CurrentLanguage == SiteLanguage.De ? "active-language" : null)" href="@SiteRoutes.SwitchLanguage(RelativePath, SiteLanguage.De)">DE</a>
                 <a class="@(CurrentLanguage == SiteLanguage.En ? "active-language" : null)" href="@SiteRoutes.SwitchLanguage(RelativePath, SiteLanguage.En)">EN</a>
@@ -25,10 +26,11 @@
 @code {
     private SiteLanguage CurrentLanguage;
     private string RelativePath = string.Empty;
+    private UiTextViewModel UiText = new("Home", "Lehre", "Forschung", "Software", "Zweisprachiger Prototyp", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        UpdateRouteState();
+        await UpdateRouteStateAsync();
         NavigationManager.LocationChanged += HandleLocationChanged;
     }
 
@@ -37,15 +39,16 @@
         NavigationManager.LocationChanged -= HandleLocationChanged;
     }
 
-    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    private async void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
     {
-        UpdateRouteState(e.Location);
-        StateHasChanged();
+        await UpdateRouteStateAsync(e.Location);
+        await InvokeAsync(StateHasChanged);
     }
 
-    private void UpdateRouteState(string? location = null)
+    private async Task UpdateRouteStateAsync(string? location = null)
     {
         RelativePath = NavigationManager.ToBaseRelativePath(location ?? NavigationManager.Uri);
         CurrentLanguage = SiteRoutes.GetLanguage(RelativePath);
+        UiText = await ContentService.GetUiTextAsync(CurrentLanguage);
     }
 }

@@ -1,5 +1,6 @@
 ﻿@implements IDisposable
 @inject NavigationManager NavigationManager
+@inject SiteContentService ContentService
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -14,22 +15,22 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="@SiteRoutes.Home(CurrentLanguage)" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @(CurrentLanguage == SiteLanguage.En ? "Home" : "Home")
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @UiText.NavHome
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="@SiteRoutes.Teaching(CurrentLanguage)">
-                <span class="bi bi-journal-richtext" aria-hidden="true"></span> @(CurrentLanguage == SiteLanguage.En ? "Teaching" : "Lehre")
+                <span class="bi bi-journal-richtext" aria-hidden="true"></span> @UiText.NavTeaching
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="@SiteRoutes.Research(CurrentLanguage)">
-                <span class="bi bi-diagram-3" aria-hidden="true"></span> @(CurrentLanguage == SiteLanguage.En ? "Research" : "Forschung")
+                <span class="bi bi-diagram-3" aria-hidden="true"></span> @UiText.NavResearch
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="@SiteRoutes.Software(CurrentLanguage)">
-                <span class="bi bi-code-square" aria-hidden="true"></span> Software
+                <span class="bi bi-code-square" aria-hidden="true"></span> @UiText.NavSoftware
             </NavLink>
         </div>
     </nav>
@@ -38,12 +39,13 @@
 @code {
     private bool collapseNavMenu = true;
     private SiteLanguage CurrentLanguage;
+    private UiTextViewModel UiText = new("Home", "Lehre", "Forschung", "Software", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        await LoadUiAsync(NavigationManager.Uri);
         NavigationManager.LocationChanged += HandleLocationChanged;
     }
 
@@ -57,9 +59,15 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    private async void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
     {
-        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(e.Location));
-        StateHasChanged();
+        await LoadUiAsync(e.Location);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task LoadUiAsync(string location)
+    {
+        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(location));
+        UiText = await ContentService.GetUiTextAsync(CurrentLanguage);
     }
 }

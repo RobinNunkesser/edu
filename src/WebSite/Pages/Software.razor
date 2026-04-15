@@ -1,46 +1,41 @@
 @page "/software"
 @page "/en/software"
 @inject NavigationManager NavigationManager
+@inject SiteContentService ContentService
 
 <PageTitle>Software</PageTitle>
 
-<section class="page-intro">
-    <p class="section-label">Software</p>
-    <h1>@(IsEnglish ? "Teaching software, open-source building blocks, and reusable packages" : "Lehrsoftware, Open-Source-Bausteine und wiederverwendbare Pakete")</h1>
-    <p>
-        @(IsEnglish
-            ? "This area collects the tools, apps, and libraries that emerge from teaching and research. The current companion work is the technical starting point for that layer."
-            : "Dieser Bereich sammelt die Werkzeuge, Apps und Bibliotheken, die in Lehre und Forschung entstehen. Die aktuelle Companion-Arbeit bildet dafuer den technischen Ausgangspunkt.")
-    </p>
-</section>
+@if (Landing is not null)
+{
+    <section class="page-intro">
+        <p class="section-label">@Landing.Label</p>
+        <h1>@Landing.Title</h1>
+        <p>@Landing.Intro</p>
+    </section>
 
-<section class="page-section">
-    <div class="feature-grid">
-        <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">Companions</p>
-            <h3>@(IsEnglish ? "Interactive learning tools" : "Interaktive Lernwerkzeuge")</h3>
-            <p>@(IsEnglish ? "Companion applications and their importable content should become visible here in one place." : "Companion-Anwendungen und deren importierbare Inhalte sollen hier gebuendelt sichtbar werden.")</p>
-        </article>
-
-        <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">@(IsEnglish ? "Packages" : "Pakete")</p>
-            <h3>NuGet- und PyPI-Artefakte</h3>
-            <p>@(IsEnglish ? "Reusable libraries and helper tools will later receive a curated overview here." : "Wiederverwendbare Bibliotheken und Hilfswerkzeuge erhalten kuenftig eine kuratierte Uebersicht.")</p>
-        </article>
-
-        <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">Repos</p>
-            <h3>@(IsEnglish ? "Project landscape" : "Projektlandschaft")</h3>
-            <p>@(IsEnglish ? "Selected repositories will later be described with context, purpose, and usage instead of being listed as bare links." : "Ausgewaehlte Repositories werden spaeter mit Kontext, Zweck und Einsatzzweck beschrieben statt nur verlinkt.")</p>
-        </article>
-    </div>
-</section>
+    <section class="page-section">
+        <div class="feature-grid">
+            @foreach (var card in Cards)
+            {
+                <article class="feature-card feature-card-static">
+                    <p class="feature-card-kicker">@card.Kicker</p>
+                    <h3>@card.Title</h3>
+                    <p>@card.Text</p>
+                </article>
+            }
+        </div>
+    </section>
+}
 
 @code {
-    private bool IsEnglish;
+    private SiteLanguage CurrentLanguage;
+    private SectionLandingViewModel? Landing;
+    private IReadOnlyList<InfoCardViewModel> Cards = [];
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        IsEnglish = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri)) == SiteLanguage.En;
+        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        Landing = await ContentService.GetSoftwareLandingAsync(CurrentLanguage);
+        Cards = await ContentService.GetSoftwareCardsAsync(CurrentLanguage);
     }
 }

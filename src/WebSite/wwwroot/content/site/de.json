@@ -1,0 +1,367 @@
+{
+  "ui": {
+    "navHome": "Home",
+    "navTeaching": "Lehre",
+    "navResearch": "Forschung",
+    "navSoftware": "Software",
+    "headerPrototype": "Zweisprachiger Prototyp",
+    "lectureMetaLabel": "Rahmen",
+    "lectureSourceLabel": "Quelle im lectures-Wiki",
+    "openMaterialLabel": "Material oeffnen",
+    "inlineNote": "Direkt auf der Kursseite dokumentiert",
+    "lectureNotFoundTitle": "Lehrveranstaltung nicht gefunden",
+    "lectureNotFoundText": "Fuer diese Route ist noch keine Unterseite hinterlegt.",
+    "notFoundTitle": "Nicht gefunden",
+    "notFoundText": "Unter dieser Adresse ist kein Inhalt hinterlegt."
+  },
+  "home": {
+    "heroKicker": "edu",
+    "heroTitle": "Lehre, Forschung und Software an einem Ort",
+    "heroLead": "Die Seite wird von einer Companion-Demo zu einer klar gegliederten Arbeitsoberflaeche umgebaut: Lehrveranstaltungen mit Unterseiten, Forschungsschwerpunkte und Software-Artefakte bekommen jeweils ihren eigenen Einstieg.",
+    "focusLabel": "Aktuelle Ausrichtung",
+    "focusTitle": "Lehrveranstaltungen zuerst",
+    "focusText": "Die erste Ausbaustufe uebernimmt Struktur und Inhalte aus dem lectures-Wiki und stellt insbesondere Uebungen, Folien, Videos und projektbezogene Materialien direkt auf den Kursseiten bereit.",
+    "navigationLabel": "Navigation",
+    "navigationTitle": "Drei klare Einstiege",
+    "navigationText": "Statt eines allgemeinen Study-Hubs fuehrt die Startseite jetzt direkt in die drei Hauptbereiche.",
+    "nextLabel": "Naechster Ausbau",
+    "nextTitle": "Mehr Veranstaltungen, weniger Hardcode",
+    "nextText": "Die Inhalte werden schrittweise aus Sprachdateien und importierbaren Quelldaten gespeist. Damit koennen weitere Lehrveranstaltungen schneller uebernommen werden."
+  },
+  "teaching": {
+    "label": "Lehre",
+    "title": "Lehrveranstaltungen mit direktem Zugriff auf Uebungen und Materialien",
+    "intro": "Der aktuelle Ausbau uebernimmt Struktur und Inhalte aus dem lectures-Wiki. Kursseiten sollen nicht nur auflisten, sondern die wichtigsten Arbeitsmaterialien direkt in Reichweite bringen."
+  },
+  "research": {
+    "label": "Forschung",
+    "title": "Forschungsthemen, an denen Lehre und Software anschliessen",
+    "intro": "Dieser Bereich wird als Uebersicht fuer Forschungsschwerpunkte, Projektideen und Anknuepfungspunkte fuer Abschlussarbeiten ausgebaut. Im ersten Schritt markiert er die kuenftige Struktur neben der bereits vertieften Lehre."
+  },
+  "software": {
+    "label": "Software",
+    "title": "Lehrsoftware, Open-Source-Bausteine und wiederverwendbare Pakete",
+    "intro": "Dieser Bereich sammelt die Werkzeuge, Apps und Bibliotheken, die in Lehre und Forschung entstehen. Die aktuelle Companion-Arbeit bildet dafuer den technischen Ausgangspunkt."
+  },
+  "areas": [
+    {
+      "key": "teaching",
+      "title": "Lehre",
+      "summary": "Lehrveranstaltungen mit Unterseiten, Uebungen, Folien, Videos und weiterfuehrenden Materialien.",
+      "highlights": ["Vorlesungen", "Uebungen", "Lehrmaterialien"]
+    },
+    {
+      "key": "research",
+      "title": "Forschung",
+      "summary": "Schwerpunkte, Themenfelder und Anknuepfungspunkte fuer Projekt- und Abschlussarbeiten.",
+      "highlights": ["Schwerpunkte", "Projekte", "Arbeiten"]
+    },
+    {
+      "key": "software",
+      "title": "Software",
+      "summary": "Lehrsoftware, Open-Source-Artefakte und wiederverwendbare Pakete aus Projekten und Lehrveranstaltungen.",
+      "highlights": ["Apps", "Pakete", "Repos"]
+    }
+  ],
+  "researchCards": [
+    {
+      "kicker": "Themen",
+      "title": "KI, Softwaretechnik, didaktische Werkzeuge",
+      "text": "Forschungsschwerpunkte werden kuenftig mit Projekten, Artefakten und Ansprechpunkten verknuepft."
+    },
+    {
+      "kicker": "Anschluss",
+      "title": "Projekt- und Abschlussarbeiten",
+      "text": "Geplant sind klar sichtbare Themenfenster fuer studentische Arbeiten und gemeinsame Entwicklungsprojekte."
+    },
+    {
+      "kicker": "Transfer",
+      "title": "Vom Forschungsprototyp zur Lehrsoftware",
+      "text": "Die Seite soll kuenftig zeigen, wie Demonstratoren, Benchmarks und Lernsoftware aus Forschungsarbeit entstehen."
+    }
+  ],
+  "softwareCards": [
+    {
+      "kicker": "Companions",
+      "title": "Interaktive Lernwerkzeuge",
+      "text": "Companion-Anwendungen und deren importierbare Inhalte sollen hier gebuendelt sichtbar werden."
+    },
+    {
+      "kicker": "Pakete",
+      "title": "NuGet- und PyPI-Artefakte",
+      "text": "Wiederverwendbare Bibliotheken und Hilfswerkzeuge erhalten kuenftig eine kuratierte Uebersicht."
+    },
+    {
+      "kicker": "Repos",
+      "title": "Projektlandschaft",
+      "text": "Ausgewaehlte Repositories werden spaeter mit Kontext, Zweck und Einsatzzweck beschrieben statt nur verlinkt."
+    }
+  ],
+  "lectures": [
+    {
+      "slug": "app-development",
+      "title": "App Development",
+      "semester": "6. Semester",
+      "summary": "Die Struktur orientiert sich am lectures-Wiki und buendelt organisatorische Informationen, Projektformat, Folien und Vorlesungsvideos auf einer Seite.",
+      "wikiPath": "AppDevelopment",
+      "highlightTags": ["Projektformat", "GitHub Assignment", "Folien", "Videos"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Termin, Modulzuordnung und Pruefungsform fuer das Sommersemester 2026.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Di 09:30 - 11:00, H4.3-E00-100" },
+            { "title": "Uebung", "url": "", "description": "Di 11:00 - 12:30, H3.3-E01-220" },
+            { "title": "Pruefungsform", "url": "", "description": "Praesentation plus Projektabgabe, Teams bis 3 Personen" }
+          ]
+        },
+        {
+          "title": "Uebungen und Projektarbeit",
+          "intro": "Die Lehrveranstaltung ist projektorientiert. Die prominenten Arbeitsmaterialien sind Assignment, Abgabekriterien und referenzierte Inhalte.",
+          "links": [
+            { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/nFtBV3dj", "description": "Projektgrundlage fuer die Lehrveranstaltung" },
+            { "title": "Abgabekriterien", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/Abgabekriterien", "description": "Allgemeine Kriterien fuer Softwareprojekte" },
+            { "title": "Lehrbuch App Engineering", "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5", "description": "Begleitendes Lehrbuch" }
+          ]
+        },
+        {
+          "title": "Lehrmaterialien",
+          "intro": "Folien und Vorlesungsvideos aus dem lectures-Wiki.",
+          "links": [
+            { "title": "Folie KI-gestuetzte Entwicklung", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/KIgestuetzteEntwicklung.pdf", "description": "Einfuehrung in die Veranstaltung" },
+            { "title": "GitHub Copilot", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/GitHubCopilot.pdf", "description": "Werkzeugschwerpunkt" },
+            { "title": "Vorlesung 1 SS2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8158f9be-cbdf-4024-8647-b42c0096caa3", "description": "Panopto-Aufzeichnung vom 14.04.2026" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "technische-informatik",
+      "title": "Technische Informatik",
+      "semester": "3. Semester",
+      "summary": "Uebungen und Probeklausuren stehen prominent im Vordergrund, ergaenzt um Companion- und Vorlesungsmaterialien.",
+      "wikiPath": "TechnischeInformatik",
+      "highlightTags": ["Uebungen", "Probeklausuren", "Companion", "Folien"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Rahmendaten aus dem Wintersemester 2024/2025.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Do 09:30 - 11:00, H4.3-E00-110" },
+            { "title": "Uebung", "url": "", "description": "Do 11:00 - 12:30, H4.2-E00-140" },
+            { "title": "Pruefungsform", "url": "", "description": "Klausur im Pruefungszeitraum, zusammen mit Grundlagen der Programmierung" }
+          ]
+        },
+        {
+          "title": "Prominente Uebungen",
+          "intro": "Die PDF-Uebungen und Probeklausuren stammen direkt aus der lectures-Wiki-Struktur.",
+          "links": [
+            { "title": "Uebung Informationsdarstellung", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung01Informationsdarstellung.pdf", "description": "Aufgabenblatt" },
+            { "title": "Uebung Boolesche Algebra", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung02BoolescheAlgebra.pdf", "description": "Aufgabenblatt" },
+            { "title": "Uebung Boolesche Minimierung", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung03BoolescheMinimierung.pdf", "description": "Aufgabenblatt" },
+            { "title": "Probeklausur Teil 1", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil01.pdf", "description": "Pruefungsvorbereitung" },
+            { "title": "Probeklausur Teil 2", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil02.pdf", "description": "Pruefungsvorbereitung" }
+          ]
+        },
+        {
+          "title": "Weitere Inhalte",
+          "intro": "Begleitende digitale und interaktive Materialien.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Companion-App mit Uebungen zur Vorlesung" },
+            { "title": "Externe DNF/CNF-Seite", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "Zusaetzliche Erklaerung" },
+            { "title": "Externe Karnaugh-Veitch-Map", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/karnaughmap/index.html", "description": "Zusaetzliche Erklaerung" },
+            { "title": "Externer Quine-McCluskey-Algorithmus", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/qmc/index.html", "description": "Zusaetzliche Erklaerung" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "kuenstliche-intelligenz",
+      "title": "Kuenstliche Intelligenz",
+      "semester": "6. Semester",
+      "summary": "Die Seite stellt Projektideen, assignment-nahe Arbeitsweise, Folien und Code-Einstieg in den Vordergrund.",
+      "wikiPath": "AI",
+      "highlightTags": ["Projektideen", "Folien", "Code", "Videos"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Rahmendaten aus dem Sommersemester 2026.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Mi 12:00 - 13:30, H4.1-E00-110" },
+            { "title": "Uebung", "url": "", "description": "Mo 11:00 - 12:30, ungerade Kalenderwochen, H4.1-E00-140" },
+            { "title": "Pruefungsform", "url": "", "description": "Praesentation plus Projektabgabe, Teams bis 3 Personen" }
+          ]
+        },
+        {
+          "title": "Projektorientierte Uebungen",
+          "intro": "Die Veranstaltung arbeitet projektbasiert statt ueber klassische Uebungsblaetter.",
+          "links": [
+            { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/QZgdkZsE", "description": "Projektbasis im Kurs" },
+            { "title": "AIMA", "url": "http://aima.cs.berkeley.edu", "description": "Artificial Intelligence: A Modern Approach" },
+            { "title": "Projektideen im Wiki", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/AI", "description": "Demonstratoren, Benchmarks und eigene Ideen" }
+          ]
+        },
+        {
+          "title": "Code und Materialien",
+          "intro": "Codequellen und ausgewaehlte Lehrmaterialien aus dem Wiki.",
+          "links": [
+            { "title": "Ports", "url": "https://github.com/Italbytz/nuget-ports-algorithms", "description": "C#-Portierungen" },
+            { "title": "Adapters", "url": "https://github.com/Italbytz/nuget-adapters-algorithms", "description": "Adapter-Schicht" },
+            { "title": "Folie Intelligente Agenten", "url": "https://mymoodle.hshl.de/pluginfile.php/2056583/mod_folder/content/0/IntelligenteAgenten.pdf", "description": "Themeneinstieg" },
+            { "title": "Folie Lernen aus Beispielen", "url": "https://mymoodle.hshl.de/pluginfile.php/2017628/mod_folder/content/0/AI09LernenAusBeispielen.pdf", "description": "Lernkapitel" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "netzwerke",
+      "title": "Netzwerke",
+      "semester": "3. Semester",
+      "summary": "Globaluebungen, Companion-Hinweise und eine gut gepflegte Sammlung von Folien und Vorlesungsvideos stehen im Mittelpunkt.",
+      "wikiPath": "Netzwerke",
+      "highlightTags": ["Globaluebungen", "Companion", "Folien", "Videos"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Rahmendaten aus dem Wintersemester 2025/2026.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Do 11:00 - 12:30, H1.1-E01-150" },
+            { "title": "Pruefungsform", "url": "", "description": "Klausur im Pruefungszeitraum, zusammen mit Betriebssysteme" },
+            { "title": "Lehrbuch", "url": "https://link.springer.com/book/10.1007%2F978-3-662-59897-9", "description": "Computernetze kompakt" }
+          ]
+        },
+        {
+          "title": "Prominente Uebungen",
+          "intro": "Globaluebungen und Probeklausuren direkt aus der Wiki-Struktur.",
+          "links": [
+            { "title": "Grundlagen", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN01Grundlagen.pdf", "description": "Aufgabenblatt" },
+            { "title": "Bituebertragungsschicht", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN02Bituebertragungsschicht.pdf", "description": "Aufgabenblatt" },
+            { "title": "Transportschicht", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN05Transportschicht.pdf", "description": "Aufgabenblatt" },
+            { "title": "Probeklausur", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN07Probeklausur.pdf", "description": "Pruefungsvorbereitung" }
+          ]
+        },
+        {
+          "title": "Weitere Inhalte",
+          "intro": "Companion, Folien und Vorlesungsvideos in einer Seite gebuendelt.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Viele Uebungen zur Vorlesung" },
+            { "title": "Folie Anwendungsschicht", "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN08Anwendungsschicht.pdf", "description": "Ausgewaehlte Vorlesungsfolie" },
+            { "title": "Vorlesung 1 WS2025/2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=729fab63-51ff-4472-a319-b36400c16574", "description": "Panopto-Aufzeichnung" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "betriebssysteme",
+      "title": "Betriebssysteme",
+      "semester": "3. Semester",
+      "summary": "Globaluebungen, Companion-Verweise sowie Folien und Videos fuer die komplette Veranstaltung.",
+      "wikiPath": "Betriebssysteme",
+      "highlightTags": ["Globaluebungen", "Companion", "Folien", "Videos"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Rahmendaten aus dem Wintersemester 2025/2026.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Do 09:30 - 11:00, H1.1-E01-150" },
+            { "title": "Pruefungsform", "url": "", "description": "Klausur im Pruefungszeitraum, zusammen mit Netzwerke" },
+            { "title": "Lehrbuch", "url": "https://link.springer.com/book/10.1007%2F978-3-662-61411-2", "description": "Betriebssysteme kompakt" }
+          ]
+        },
+        {
+          "title": "Prominente Uebungen",
+          "intro": "Globaluebungen und Probeklausuren direkt aus dem Wiki uebernommen.",
+          "links": [
+            { "title": "Grundlagen", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS01Grundlagen.pdf", "description": "Aufgabenblatt" },
+            { "title": "Speicherverwaltung", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS02Speicherverwaltung.pdf", "description": "Aufgabenblatt" },
+            { "title": "Prozessverwaltung", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS04Prozessverwaltung.pdf", "description": "Aufgabenblatt" },
+            { "title": "Probeklausur", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/os/BS07Probeklausur03.pdf", "description": "Pruefungsvorbereitung" }
+          ]
+        },
+        {
+          "title": "Weitere Inhalte",
+          "intro": "Companion, Folien und Vorlesungsvideos fuer die Veranstaltung.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Viele Uebungen zur Vorlesung" },
+            { "title": "Folie Prozessverwaltung", "url": "https://mymoodle.hshl.de/pluginfile.php/2037413/mod_folder/content/0/BS07Prozesse.pdf", "description": "Ausgewaehlte Vorlesungsfolie" },
+            { "title": "Vorlesung 1 WS2025/2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=3ca5bbf4-6ca6-4e65-a7fe-b36300f96fc7", "description": "Panopto-Aufzeichnung" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "softwaretechnik",
+      "title": "Softwaretechnik",
+      "semester": "4. Semester",
+      "summary": "Projektorientierte Lehrveranstaltung mit GitHub Assignment, Vorabgabe, App-Engineering-Bezug und Videoaufzeichnung.",
+      "wikiPath": "Softwaretechnik",
+      "highlightTags": ["Projekt", "GitHub Assignment", "Lehrbuch", "Videos"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Rahmendaten aus dem Sommersemester 2026.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Mo 09:30 - 11:00, H1.1-E01-130" },
+            { "title": "Uebung", "url": "", "description": "Do 11:00 - 12:30, H4.2-E00-140" },
+            { "title": "Pruefungsform", "url": "", "description": "Praesentation einer Vorabgabe und Projektartefakt, Teams bis 4 Personen" }
+          ]
+        },
+        {
+          "title": "Projektarbeit",
+          "intro": "Vorlesungsuebergreifendes Projekt mit GitHub Assignment und App-Engineering-Lehrbuch.",
+          "links": [
+            { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/azV8Ym68", "description": "Projektbasis fuer die Veranstaltung" },
+            { "title": "App Engineering", "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5", "description": "Lehrbuch" },
+            { "title": "Folie App Engineering", "url": "https://mymoodle.hshl.de/pluginfile.php/2056581/mod_folder/content/0/AppEngineering.pdf", "description": "Ausgewaehlte Vorlesungsfolie" }
+          ]
+        },
+        {
+          "title": "Vorlesungsvideos",
+          "intro": "Erste Aufzeichnung aus dem Sommersemester 2026.",
+          "links": [
+            { "title": "Vorlesung 1 SS2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fce5c463-eb44-434a-b0d9-b42b009899e4", "description": "Panopto-Aufzeichnung vom 13.04.2026" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "grundlagen-der-informatik",
+      "title": "Grundlagen der Informatik",
+      "semester": "1. Semester",
+      "summary": "Uebungen, Companion-Hinweise, externe Erklaerungen und eine breite Foliensammlung fuer den Einstieg in die Informatik.",
+      "wikiPath": "GDI",
+      "highlightTags": ["Uebungen", "Companion", "Folien", "Videos"],
+      "sections": [
+        {
+          "title": "Organisatorisches",
+          "intro": "Rahmendaten aus dem Wintersemester 2025/2026.",
+          "links": [
+            { "title": "Vorlesung", "url": "", "description": "Di 10:00 - 11:30, Hoersaal HAM 3" },
+            { "title": "Uebung", "url": "", "description": "Di 12:00 - 13:30, PC-Pool H4.1-E00-130" },
+            { "title": "Pruefungsform", "url": "", "description": "Klausur im Pruefungszeitraum, zusammen mit Grundlagen der Programmierung" }
+          ]
+        },
+        {
+          "title": "Prominente Uebungen",
+          "intro": "Uebungsblaetter und Probeklausuren direkt aus dem lectures-Wiki.",
+          "links": [
+            { "title": "Uebung Informationsdarstellung", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIUebung01Informationsdarstellung.pdf", "description": "Aufgabenblatt" },
+            { "title": "Uebung Boolesche Algebra", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIUebung02BoolescheAlgebra.pdf", "description": "Aufgabenblatt" },
+            { "title": "Uebung Endliche Automaten", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIUebung05EndlicheAutomaten.pdf", "description": "Aufgabenblatt" },
+            { "title": "Probeklausur Teil 1", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/gdi/GDIProbeklausurTeil01.pdf", "description": "Pruefungsvorbereitung" }
+          ]
+        },
+        {
+          "title": "Weitere Inhalte",
+          "intro": "Companion, externe Erklaerungen und Foliensammlung fuer die Themen der Veranstaltung.",
+          "links": [
+            { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Uebungen zur Vorlesung" },
+            { "title": "Externe DNF/CNF-Seite", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "Zusaetzliche Erklaerung" },
+            { "title": "Folie Boolesche Algebra", "url": "https://mymoodle.hshl.de/pluginfile.php/2036853/mod_folder/content/0/GDI04BoolescheAlgebra.pdf", "description": "Ausgewaehlte Vorlesungsfolie" },
+            { "title": "Vorlesung 1 WS2025/2026", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7c97e9cf-7d2c-4824-98d3-b36100ca36e2", "description": "Panopto-Aufzeichnung" }
+          ]
+        }
+      ]
+    }
+  ]
+}
