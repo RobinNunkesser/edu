@@ -1,4 +1,5 @@
-using System.Net.Http.Json;
+using System.Reflection;
+using System.Text.Json;
 using Shared.Domain;
 
 namespace Shared.Application;
@@ -6,14 +7,12 @@ namespace Shared.Application;
 public sealed class SiteContentService
 {
     private const string LecturesWikiRepository = "https://github.com/isd-nunkesser/lectures.wiki/wiki";
-
-    private readonly HttpClient _httpClient;
-    private readonly Dictionary<SiteLanguage, SiteContentDocument> _cache = new();
-
-    public SiteContentService(HttpClient httpClient)
+    private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        _httpClient = httpClient;
-    }
+        PropertyNameCaseInsensitive = true
+    };
+
+    private readonly Dictionary<SiteLanguage, SiteContentDocument> _cache = new();
 
     public async Task<UiTextViewModel> GetUiTextAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Ui;
 
@@ -77,9 +76,15 @@ public sealed class SiteContentService
             return cached;
         }
 
-        var path = language == SiteLanguage.En ? "content/site/en.json" : "content/site/de.json";
-        var document = await _httpClient.GetFromJsonAsync<SiteContentDocument>(path)
-            ?? throw new InvalidOperationException($"Could not load site content from {path}.");
+        var resourceName = language == SiteLanguage.En
+            ? "Shared.Application.Content.en.json"
+            : "Shared.Application.Content.de.json";
+
+        await using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)
+            ?? throw new InvalidOperationException($"Could not load embedded site content resource {resourceName}.");
+
+        var document = await JsonSerializer.DeserializeAsync<SiteContentDocument>(stream, JsonOptions)
+            ?? throw new InvalidOperationException($"Could not deserialize embedded site content resource {resourceName}.");
 
         _cache[language] = document;
         return document;

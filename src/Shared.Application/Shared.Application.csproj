@@ -5,6 +5,11 @@
     <ProjectReference Include="..\Content.Schema\Content.Schema.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="..\WebSite\wwwroot\content\site\de.json" LogicalName="Shared.Application.Content.de.json" />
+    <EmbeddedResource Include="..\WebSite\wwwroot\content\site\en.json" LogicalName="Shared.Application.Content.en.json" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
