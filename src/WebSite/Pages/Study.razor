@@ -17,15 +17,23 @@
 	</section>
 
 	<section class="page-section">
-		<div class="feature-grid">
-			@foreach (var lecture in Lectures)
-			{
-				<a class="feature-card" href="@lecture.Route">
-					<p class="feature-card-kicker">@lecture.Semester</p>
-					<h3>@lecture.Title</h3>
-				</a>
-			}
-		</div>
+		@foreach (var semesterGroup in GroupedLectures)
+		{
+			<section class="page-section page-section-muted">
+				<div class="section-heading">
+					<h2>@GetSemesterGroupTitle(semesterGroup.SemesterNumber)</h2>
+				</div>
+
+				<div class="feature-grid">
+					@foreach (var lecture in semesterGroup.Lectures)
+					{
+						<a class="feature-card" href="@lecture.Route">
+							<h3>@lecture.Title</h3>
+						</a>
+					}
+				</div>
+			</section>
+		}
 	</section>
 }
 
@@ -33,11 +41,48 @@
 	private SiteLanguage CurrentLanguage;
 	private SectionLandingViewModel? Landing;
 	private IReadOnlyList<LectureOverviewViewModel> Lectures = [];
+	private IReadOnlyList<SemesterLectureGroup> GroupedLectures = [];
 
 	protected override async Task OnParametersSetAsync()
 	{
 		CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
 		Landing = await ContentService.GetTeachingLandingAsync(CurrentLanguage);
 		Lectures = await ContentService.GetTeachingLecturesAsync(CurrentLanguage);
+		GroupedLectures = Lectures
+			.Select(lecture => new { Lecture = lecture, SemesterNumber = ParseSemesterNumber(lecture.Semester) })
+			.OrderBy(item => item.SemesterNumber)
+			.ThenBy(item => item.Lecture.Title)
+			.GroupBy(item => item.SemesterNumber)
+			.Select(group => new SemesterLectureGroup(group.Key, group.Select(item => item.Lecture).ToArray()))
+			.ToArray();
 	}
+
+	private string GetSemesterGroupTitle(int semesterNumber)
+		=> CurrentLanguage == SiteLanguage.En
+			? $"{semesterNumber}{GetEnglishOrdinalSuffix(semesterNumber)} semester"
+			: $"{semesterNumber}. Semester";
+
+	private static int ParseSemesterNumber(string semester)
+		=> int.TryParse(semester.Split('.', 2)[0], out var value) ? value : 99;
+
+	private static string GetEnglishOrdinalSuffix(int number)
+	{
+		var remainder100 = number % 100;
+		if (remainder100 is 11 or 12 or 13)
+		{
+			return "th";
+		}
+
+		return (number % 10) switch
+		{
+			1 => "st",
+			2 => "nd",
+			3 => "rd",
+			_ => "th"
+		};
+	}
+
+	private sealed record SemesterLectureGroup(
+		int SemesterNumber,
+		IReadOnlyList<LectureOverviewViewModel> Lectures);
 }
