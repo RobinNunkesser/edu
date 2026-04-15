@@ -1,12 +1,18 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@inject NavigationManager NavigationManager
+
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
+        <PageTitle>@(IsEnglish ? "Not found" : "Nicht gefunden")</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+            <p role="alert">@(IsEnglish ? "Sorry, there is nothing at this address." : "Unter dieser Adresse ist kein Inhalt hinterlegt.")</p>
         </LayoutView>
     </NotFound>
 </Router>
+
+@code {
+    private bool IsEnglish => SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri)) == SiteLanguage.En;
+}

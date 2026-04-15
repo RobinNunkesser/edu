@@ -1,4 +1,6 @@
 @page "/lehre/{Slug}"
+@page "/en/teaching/{Slug}"
+@inject NavigationManager NavigationManager
 @inject SiteContentService ContentService
 
 <PageTitle>Lehrveranstaltung</PageTitle>
@@ -6,24 +8,24 @@
 @if (_lecture is null)
 {
     <section class="page-intro">
-        <p class="section-label">Lehre</p>
-        <h1>Lehrveranstaltung nicht gefunden</h1>
-        <p>Fuer diese Route ist noch keine Unterseite hinterlegt.</p>
+        <p class="section-label">@(CurrentLanguage == SiteLanguage.En ? "Teaching" : "Lehre")</p>
+        <h1>@(CurrentLanguage == SiteLanguage.En ? "Course not found" : "Lehrveranstaltung nicht gefunden")</h1>
+        <p>@(CurrentLanguage == SiteLanguage.En ? "No course page has been mapped to this route yet." : "Fuer diese Route ist noch keine Unterseite hinterlegt.")</p>
     </section>
 }
 else
 {
     <section class="page-intro lecture-hero">
         <div>
-            <p class="section-label">Lehre</p>
+            <p class="section-label">@(CurrentLanguage == SiteLanguage.En ? "Teaching" : "Lehre")</p>
             <h1>@_lecture.Title</h1>
             <p>@_lecture.Summary</p>
         </div>
 
         <div class="lecture-meta-card">
-            <p class="feature-card-kicker">Rahmen</p>
+            <p class="feature-card-kicker">@(CurrentLanguage == SiteLanguage.En ? "Overview" : "Rahmen")</p>
             <h2>@_lecture.Semester</h2>
-            <a class="inline-link" href="@_lecture.SourceUrl" target="_blank" rel="noreferrer">Quelle im lectures-Wiki</a>
+            <a class="inline-link" href="@_lecture.SourceUrl" target="_blank" rel="noreferrer">@(CurrentLanguage == SiteLanguage.En ? "Source in lectures wiki" : "Quelle im lectures-Wiki")</a>
         </div>
     </section>
 
@@ -52,11 +54,11 @@ else
                         <p>@link.Description</p>
                         @if (string.IsNullOrWhiteSpace(link.Url))
                         {
-                            <span class="resource-inline-note">Direkt auf der Kursseite dokumentiert</span>
+                            <span class="resource-inline-note">@(CurrentLanguage == SiteLanguage.En ? "Documented directly on the course page" : "Direkt auf der Kursseite dokumentiert")</span>
                         }
                         else
                         {
-                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">Material oeffnen</a>
+                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@(CurrentLanguage == SiteLanguage.En ? "Open material" : "Material oeffnen")</a>
                         }
                     </article>
                 }
@@ -69,10 +71,12 @@ else
     [Parameter]
     public string Slug { get; set; } = string.Empty;
 
+    private SiteLanguage CurrentLanguage;
     private LectureDetailViewModel? _lecture;
 
     protected override void OnParametersSet()
     {
-        _lecture = ContentService.GetLectureBySlug(Slug);
+        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        _lecture = ContentService.GetLectureBySlug(CurrentLanguage, Slug);
     }
 }

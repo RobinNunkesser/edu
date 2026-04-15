@@ -1,34 +1,46 @@
 @page "/forschung"
+@page "/en/research"
+@inject NavigationManager NavigationManager
 
 <PageTitle>Forschung</PageTitle>
 
 <section class="page-intro">
-    <p class="section-label">Forschung</p>
-    <h1>Forschungsthemen, an denen Lehre und Software anschliessen</h1>
+    <p class="section-label">@(IsEnglish ? "Research" : "Forschung")</p>
+    <h1>@(IsEnglish ? "Research themes that connect teaching and software" : "Forschungsthemen, an denen Lehre und Software anschliessen")</h1>
     <p>
-        Dieser Bereich wird als Uebersicht fuer Forschungsschwerpunkte, Projektideen und Anknuepfungspunkte fuer
-        Abschlussarbeiten ausgebaut. Im ersten Schritt markiert er die kuenftige Struktur neben der bereits vertieften Lehre.
+        @(IsEnglish
+            ? "This area will grow into an overview of research themes, project ideas, and entry points for theses. In the first step it establishes the future structure next to the already expanded teaching section."
+            : "Dieser Bereich wird als Uebersicht fuer Forschungsschwerpunkte, Projektideen und Anknuepfungspunkte fuer Abschlussarbeiten ausgebaut. Im ersten Schritt markiert er die kuenftige Struktur neben der bereits vertieften Lehre.")
     </p>
 </section>
 
 <section class="page-section">
     <div class="feature-grid">
         <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">Themen</p>
-            <h3>KI, Softwaretechnik, didaktische Werkzeuge</h3>
-            <p>Forschungsschwerpunkte werden kuenftig mit Projekten, Artefakten und Ansprechpunkten verknuepft.</p>
+            <p class="feature-card-kicker">@(IsEnglish ? "Themes" : "Themen")</p>
+            <h3>@(IsEnglish ? "AI, software engineering, and didactic tooling" : "KI, Softwaretechnik, didaktische Werkzeuge")</h3>
+            <p>@(IsEnglish ? "Research topics will later be connected with projects, artifacts, and clear contact points." : "Forschungsschwerpunkte werden kuenftig mit Projekten, Artefakten und Ansprechpunkten verknuepft.")</p>
         </article>
 
         <article class="feature-card feature-card-static">
-            <p class="feature-card-kicker">Anschluss</p>
-            <h3>Projekt- und Abschlussarbeiten</h3>
-            <p>Geplant sind klar sichtbare Themenfenster fuer studentische Arbeiten und gemeinsame Entwicklungsprojekte.</p>
+            <p class="feature-card-kicker">@(IsEnglish ? "Entry points" : "Anschluss")</p>
+            <h3>@(IsEnglish ? "Projects and theses" : "Projekt- und Abschlussarbeiten")</h3>
+            <p>@(IsEnglish ? "The plan is to expose visible topic windows for student work and collaborative development projects." : "Geplant sind klar sichtbare Themenfenster fuer studentische Arbeiten und gemeinsame Entwicklungsprojekte.")</p>
         </article>
 
         <article class="feature-card feature-card-static">
             <p class="feature-card-kicker">Transfer</p>
-            <h3>Vom Forschungsprototyp zur Lehrsoftware</h3>
-            <p>Die Seite soll kuenftig zeigen, wie Demonstratoren, Benchmarks und Lernsoftware aus Forschungsarbeit entstehen.</p>
+            <h3>@(IsEnglish ? "From research prototype to teaching software" : "Vom Forschungsprototyp zur Lehrsoftware")</h3>
+            <p>@(IsEnglish ? "The page should later show how demonstrators, benchmarks, and learning software emerge from research work." : "Die Seite soll kuenftig zeigen, wie Demonstratoren, Benchmarks und Lernsoftware aus Forschungsarbeit entstehen.")</p>
         </article>
     </div>
 </section>
+
+@code {
+    private bool IsEnglish;
+
+    protected override void OnParametersSet()
+    {
+        IsEnglish = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri)) == SiteLanguage.En;
+    }
+}

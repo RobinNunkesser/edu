@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@implements IDisposable
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +9,11 @@
 
     <main>
         <div class="top-row px-4">
-            <span>Companion Web Prototype</span>
+            <span>@(CurrentLanguage == SiteLanguage.En ? "Bilingual prototype" : "Zweisprachiger Prototyp")</span>
+            <div class="language-switch">
+                <a class="@(CurrentLanguage == SiteLanguage.De ? "active-language" : null)" href="@SiteRoutes.SwitchLanguage(RelativePath, SiteLanguage.De)">DE</a>
+                <a class="@(CurrentLanguage == SiteLanguage.En ? "active-language" : null)" href="@SiteRoutes.SwitchLanguage(RelativePath, SiteLanguage.En)">EN</a>
+            </div>
         </div>
 
         <article class="content px-4">
@@ -15,3 +21,31 @@
         </article>
     </main>
 </div>
+
+@code {
+    private SiteLanguage CurrentLanguage;
+    private string RelativePath = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        UpdateRouteState();
+        NavigationManager.LocationChanged += HandleLocationChanged;
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChanged;
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        UpdateRouteState(e.Location);
+        StateHasChanged();
+    }
+
+    private void UpdateRouteState(string? location = null)
+    {
+        RelativePath = NavigationManager.ToBaseRelativePath(location ?? NavigationManager.Uri);
+        CurrentLanguage = SiteRoutes.GetLanguage(RelativePath);
+    }
+}

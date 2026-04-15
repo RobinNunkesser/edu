@@ -1,15 +1,18 @@
 @page "/lehre"
 @page "/study"
+@page "/en/teaching"
+@inject NavigationManager NavigationManager
 @inject SiteContentService ContentService
 
 <PageTitle>Lehre</PageTitle>
 
 <section class="page-intro">
-	<p class="section-label">Lehre</p>
-	<h1>Lehrveranstaltungen mit direktem Zugriff auf Uebungen und Materialien</h1>
+	<p class="section-label">@(CurrentLanguage == SiteLanguage.En ? "Teaching" : "Lehre")</p>
+	<h1>@(CurrentLanguage == SiteLanguage.En ? "Courses with direct access to exercises and materials" : "Lehrveranstaltungen mit direktem Zugriff auf Uebungen und Materialien")</h1>
 	<p>
-		Der erste Ausbau uebernimmt Struktur und Inhalte aus dem lectures-Wiki. Kursseiten sollen nicht nur auflisten,
-		sondern die wichtigsten Arbeitsmaterialien direkt in Reichweite bringen.
+		@(CurrentLanguage == SiteLanguage.En
+			? "The first iteration adopts structure and content from the lectures wiki. Course pages should not just list links, but keep the most relevant working materials within immediate reach."
+			: "Der erste Ausbau uebernimmt Struktur und Inhalte aus dem lectures-Wiki. Kursseiten sollen nicht nur auflisten, sondern die wichtigsten Arbeitsmaterialien direkt in Reichweite bringen.")
 	</p>
 </section>
 
@@ -33,10 +36,12 @@
 </section>
 
 @code {
+	private SiteLanguage CurrentLanguage;
 	private IReadOnlyList<LectureOverviewViewModel> Lectures = [];
 
-	protected override void OnInitialized()
+	protected override void OnParametersSet()
 	{
-		Lectures = ContentService.GetTeachingLectures();
+		CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+		Lectures = ContentService.GetTeachingLectures(CurrentLanguage);
 	}
 }
