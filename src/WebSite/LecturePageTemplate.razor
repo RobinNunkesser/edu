@@ -280,11 +280,16 @@ else
                         <div class="resource-table resource-table-compact">
                             @foreach (var link in linkedEntries)
                             {
-                                <div class="resource-table-row resource-table-row-compact">
+                                var hasCompactMeta = HasCompactMeta(link);
+
+                                <div class="resource-table-row resource-table-row-compact @(hasCompactMeta ? string.Empty : "resource-table-row-compact-no-meta")">
                                     <div class="resource-table-label resource-table-label-compact">@link.Title</div>
-                                    <div class="resource-table-value">
-                                        <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
-                                    </div>
+                                    @if (hasCompactMeta)
+                                    {
+                                        <div class="resource-table-value">
+                                            <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
+                                        </div>
+                                    }
                                     <div class="resource-table-action">
                                         @if (IsExternalLink(link.Url))
                                         {

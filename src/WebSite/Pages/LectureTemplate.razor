@@ -2,6 +2,9 @@
 @page "/en/teaching/template"
 @inject NavigationManager NavigationManager
 @inject SiteContentService ContentService
+@inject HttpClient HttpClient
+
+@using System.Net.Http.Json
 
 <PageTitle>@PageTitleText</PageTitle>
 
@@ -20,95 +23,31 @@
         LandingLabel = CurrentLanguage == SiteLanguage.En ? "Teaching" : "Lehre";
         PageTitleText = CurrentLanguage == SiteLanguage.En ? "Course Template" : "Veranstaltungsvorlage";
         UiText = await ContentService.GetUiTextAsync(CurrentLanguage);
-        TemplateLecture = BuildTemplateLecture(CurrentLanguage);
+        TemplateLecture = await LoadTemplateLectureAsync(CurrentLanguage);
     }
 
-    private static LectureDetailViewModel BuildTemplateLecture(SiteLanguage language)
+    private async Task<LectureDetailViewModel> LoadTemplateLectureAsync(SiteLanguage language)
     {
-        var isEnglish = language == SiteLanguage.En;
+        var fileName = language == SiteLanguage.En ? "lecture-template.en.json" : "lecture-template.de.json";
+        var content = await HttpClient.GetFromJsonAsync<TemplateLectureContent>($"content/site/{fileName}")
+            ?? throw new InvalidOperationException($"Could not load template lecture content from {fileName}.");
 
         return new LectureDetailViewModel(
-            Slug: "template",
-            Title: isEnglish ? "Course Template with Dummy Data" : "Veranstaltungsvorlage mit Dummydaten",
-            Semester: isEnglish ? "Example semester" : "Beispielsemester",
-            Summary: string.Empty,
-            SourceUrl: isEnglish
-                ? "https://github.com/isd-nunkesser/lectures.wiki/wiki/TemplateCourse"
-                : "https://github.com/isd-nunkesser/lectures.wiki/wiki/TemplateCourse",
-            HighlightTags: [],
-            Sections:
-            [
-                new LectureSectionViewModel(
-                    isEnglish ? "Course logistics" : "Organisatorisches",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Lecture" : "Vorlesung", string.Empty, isEnglish ? "Tue 09:30 - 11:00, Room H4.1-E00-110" : "Di 09:30 - 11:00, Raum H4.1-E00-110"),
-                        new ResourceLinkViewModel(isEnglish ? "Lab" : "Übung", string.Empty, isEnglish ? "Tue 11:15 - 12:45, Room H4.2-E00-140" : "Di 11:15 - 12:45, Raum H4.2-E00-140")
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Assessment Variant Exam" : "Prüfungsvariante Klausur",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Duration" : "Dauer", string.Empty, isEnglish ? "90 minutes" : "90 Minuten")
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Assessment Variant Project" : "Prüfungsvariante Projekt",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(
-                            isEnglish ? "GitHub Assignment" : "GitHub Assignment",
-                            "https://classroom.github.com/a/template-assignment",
-                            isEnglish ? "Central assignment link" : "Zentraler Assignment-Link"),
-                        new ResourceLinkViewModel(
-                            isEnglish ? "Project explanation" : "Projekterläuterungen",
-                            isEnglish ? $"/en{StudyRoutes.Topic("minimaler-spannbaum")}" : StudyRoutes.Topic("minimaler-spannbaum"),
-                            isEnglish ? "Internal project notes" : "Interne Projekt-Hinweise")
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Exercise Sheets" : "Übungsblätter",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Exercise sheet 01" : "Übungsblatt 01", "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateExercise01.pdf", isEnglish ? "2026-04-10" : "10.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Exercise sheet 02" : "Übungsblatt 02", "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateExercise02.pdf", isEnglish ? "2026-04-17" : "17.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Exercise sheet 03" : "Übungsblatt 03", "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateExercise03.pdf", isEnglish ? "2026-04-24" : "24.04.2026")
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Mock Exams" : "Probeklausuren",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Mock exam 01" : "Probeklausur 01", "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateMockExam01.pdf", isEnglish ? "2026-06-20" : "20.06.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Mock exam 02" : "Probeklausur 02", "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateMockExam02.pdf", isEnglish ? "2026-07-04" : "04.07.2026")
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Interactive Exercises / Demonstrators" : "Interaktive Übungen / Demonstratoren",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum", isEnglish ? $"/en{StudyRoutes.Topic("minimaler-spannbaum")}" : StudyRoutes.Topic("minimaler-spannbaum"), string.Empty),
-                        new ResourceLinkViewModel("ISD Companion", "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", string.Empty),
-                        new ResourceLinkViewModel(isEnglish ? "Boolean algebra demonstrator" : "Boolesche-Algebra-Demonstrator", "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", string.Empty)
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Slides" : "Folien",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Slides 01" : "Folien 01", "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides01.pdf", isEnglish ? "2026-04-08" : "08.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Slides 02" : "Folien 02", "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides02.pdf", isEnglish ? "2026-04-15" : "15.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Slides 03" : "Folien 03", "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides03.pdf", isEnglish ? "2026-04-22" : "22.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Slides 04" : "Folien 04", "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides04.pdf", isEnglish ? "2026-04-29" : "29.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Slides 05" : "Folien 05", "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides05.pdf", isEnglish ? "2026-05-06" : "06.05.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Slides 06" : "Folien 06", "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides06.pdf", isEnglish ? "2026-05-13" : "13.05.2026")
-                    ]),
-                new LectureSectionViewModel(
-                    isEnglish ? "Recordings" : "Aufzeichnungen",
-                    string.Empty,
-                    [
-                        new ResourceLinkViewModel(isEnglish ? "Lecture recording 01" : "Vorlesungsaufzeichnung 01", "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-01", isEnglish ? "2026-04-08" : "08.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Lecture recording 02" : "Vorlesungsaufzeichnung 02", "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-02", isEnglish ? "2026-04-15" : "15.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Lecture recording 03" : "Vorlesungsaufzeichnung 03", "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-03", isEnglish ? "2026-04-22" : "22.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Lecture recording 04" : "Vorlesungsaufzeichnung 04", "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-04", isEnglish ? "2026-04-29" : "29.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Lecture recording 05" : "Vorlesungsaufzeichnung 05", "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-05", isEnglish ? "2026-05-06" : "06.05.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Lecture recording 06" : "Vorlesungsaufzeichnung 06", "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-06", isEnglish ? "2026-05-13" : "13.05.2026")
-                    ])
-            ]);
+            content.Slug,
+            content.Title,
+            content.Semester,
+            content.Summary,
+            content.SourceUrl,
+            content.HighlightTags,
+            content.Sections);
     }
+
+    private sealed record TemplateLectureContent(
+        string Slug,
+        string Title,
+        string Semester,
+        string Summary,
+        string SourceUrl,
+        IReadOnlyList<string> HighlightTags,
+        IReadOnlyList<LectureSectionViewModel> Sections);
 }

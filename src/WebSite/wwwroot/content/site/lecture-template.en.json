@@ -1,0 +1,83 @@
+{
+  "slug": "template",
+  "title": "Course Template with Dummy Data",
+  "semester": "Example semester",
+  "summary": "",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/TemplateCourse",
+  "highlightTags": [],
+  "sections": [
+    {
+      "title": "Course logistics",
+      "intro": "",
+      "links": [
+        { "title": "Lecture", "url": "", "description": "Tue 09:30 - 11:00, Room H4.1-E00-110" },
+        { "title": "Lab", "url": "", "description": "Tue 11:15 - 12:45, Room H4.2-E00-140" }
+      ]
+    },
+    {
+      "title": "Assessment Variant Exam",
+      "intro": "",
+      "links": [
+        { "title": "Duration", "url": "", "description": "90 minutes" }
+      ]
+    },
+    {
+      "title": "Assessment Variant Project",
+      "intro": "",
+      "links": [
+        { "title": "GitHub Assignment", "url": "https://classroom.github.com/a/template-assignment", "description": "Central assignment link" },
+        { "title": "Project explanation", "url": "/en/study/minimaler-spannbaum", "description": "Internal project notes" }
+      ]
+    },
+    {
+      "title": "Exercise Sheets",
+      "intro": "",
+      "links": [
+        { "title": "Exercise sheet 01", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateExercise01.pdf", "description": "2026-04-10" },
+        { "title": "Exercise sheet 02", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateExercise02.pdf", "description": "2026-04-17" },
+        { "title": "Exercise sheet 03", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateExercise03.pdf", "description": "2026-04-24" }
+      ]
+    },
+    {
+      "title": "Mock Exams",
+      "intro": "",
+      "links": [
+        { "title": "Mock exam 01", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateMockExam01.pdf", "description": "2026-06-20" },
+        { "title": "Mock exam 02", "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/template/TemplateMockExam02.pdf", "description": "2026-07-04" }
+      ]
+    },
+    {
+      "title": "Interactive Exercises / Demonstrators",
+      "intro": "",
+      "links": [
+        { "title": "Minimum spanning tree", "url": "/en/study/minimaler-spannbaum", "description": "" },
+        { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "" },
+        { "title": "Boolean algebra demonstrator", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "" }
+      ]
+    },
+    {
+      "title": "Slides",
+      "intro": "",
+      "links": [
+        { "title": "Slides 01", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides01.pdf", "description": "2026-04-08" },
+        { "title": "Slides 02", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides02.pdf", "description": "2026-04-15" },
+        { "title": "Slides 03", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides03.pdf", "description": "2026-04-22" },
+        { "title": "Slides 04", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides04.pdf", "description": "2026-04-29" },
+        { "title": "Slides 05", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides05.pdf", "description": "2026-05-06" },
+        { "title": "Slides 06", "url": "https://mymoodle.hshl.de/pluginfile.php/2056914/mod_folder/content/0/TemplateSlides06.pdf", "description": "2026-05-13" }
+      ]
+    },
+    {
+      "title": "Recordings",
+      "intro": "",
+      "links": [
+        { "title": "Lecture recording 01", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-01", "description": "2026-04-08" },
+        { "title": "Lecture recording 02", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-02", "description": "2026-04-15" },
+        { "title": "Lecture recording 03", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-03", "description": "2026-04-22" },
+        { "title": "Lecture recording 04", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-04", "description": "2026-04-29" },
+        { "title": "Lecture recording 05", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-05", "description": "2026-05-06" },
+        { "title": "Lecture recording 06", "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=template-recording-06", "description": "2026-05-13" }
+      ]
+    }
+  ]
+}
