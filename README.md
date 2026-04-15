@@ -41,6 +41,22 @@ docs/
 dotnet build edu.sln
 ```
 
+Alternativ ueber `make`:
+
+```bash
+make build
+```
+
+## Browser
+
+Die lokale Vorschau startet ueber den WebSite-Host mit dem `http`-Launch-Profil:
+
+```bash
+make browser
+```
+
+Das Kommando startet den Dev-Server fuer [src/WebSite/WebSite.csproj](src/WebSite/WebSite.csproj). Auf macOS oeffnet `dotnet watch` dabei in der Regel den Browser ueber das konfigurierte Launch-Profil auf `http://localhost:5155`.
+
 ## Naechste Schritte
 
 1. Companion-Importer auf echte Quellstruktur zuschneiden.
