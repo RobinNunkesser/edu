@@ -133,14 +133,10 @@ public sealed class SiteContentService
     }
 
     private static IReadOnlyList<string> GetTeachingLectureIndexCandidates(SiteLanguage language)
-        => language == SiteLanguage.En
-            ? ["teaching-lectures.en.json", "teaching-lectures.de.json"]
-            : ["teaching-lectures.de.json"];
+        => ["teaching-lectures.de.json"];
 
     private static IReadOnlyList<string> GetTeachingLectureDetailCandidates(SiteLanguage language, string slug)
-        => language == SiteLanguage.En
-            ? [$"lecture-template.{slug}.en.json", $"lecture-template.{slug}.de.json"]
-            : [$"lecture-template.{slug}.de.json"];
+        => [$"lecture-template.{slug}.de.json"];
 
     private async Task<SiteContentDocument> GetDocumentAsync(SiteLanguage language)
     {
