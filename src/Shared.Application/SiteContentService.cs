@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Net.Http.Json;
 using System.Text.Json;
 using Shared.Domain;
 
@@ -6,13 +7,20 @@ namespace Shared.Application;
 
 public sealed class SiteContentService
 {
-    private const string LecturesWikiRepository = "https://github.com/isd-nunkesser/lectures.wiki/wiki";
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true
     };
 
+    private readonly HttpClient _httpClient;
     private readonly Dictionary<SiteLanguage, SiteContentDocument> _cache = new();
+    private readonly Dictionary<SiteLanguage, IReadOnlyList<TeachingLectureIndexItem>> _teachingLectureIndexCache = new();
+    private readonly Dictionary<string, LectureDetailViewModel> _teachingLectureCache = new();
+
+    public SiteContentService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
 
     public async Task<UiTextViewModel> GetUiTextAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Ui;
 
@@ -43,9 +51,9 @@ public sealed class SiteContentService
 
     public async Task<IReadOnlyList<LectureOverviewViewModel>> GetTeachingLecturesAsync(SiteLanguage language)
     {
-        var document = await GetDocumentAsync(language);
+        var lectures = await GetTeachingLectureIndexAsync(language);
 
-        return document.Lectures
+        return lectures
             .Select(lecture => new LectureOverviewViewModel(
                 lecture.Slug,
                 lecture.Title,
@@ -58,20 +66,83 @@ public sealed class SiteContentService
 
     public async Task<LectureDetailViewModel?> GetLectureBySlugAsync(SiteLanguage language, string slug)
     {
-        var document = await GetDocumentAsync(language);
-        var lecture = document.Lectures.FirstOrDefault(item => string.Equals(item.Slug, slug, StringComparison.OrdinalIgnoreCase));
+        var index = await GetTeachingLectureIndexAsync(language);
+        if (!index.Any(item => string.Equals(item.Slug, slug, StringComparison.OrdinalIgnoreCase)))
+        {
+            return null;
+        }
 
-        return lecture is null
-            ? null
-            : new LectureDetailViewModel(
-                lecture.Slug,
-                lecture.Title,
-                lecture.Semester,
-                lecture.Summary,
-                $"{LecturesWikiRepository}/{lecture.WikiPath}",
-                lecture.HighlightTags,
-                lecture.Sections);
+        var cacheKey = $"{language}:{slug.ToLowerInvariant()}";
+        if (_teachingLectureCache.TryGetValue(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        var lecture = await LoadTeachingLectureDetailAsync(language, slug);
+        if (lecture is null)
+        {
+            return null;
+        }
+
+        _teachingLectureCache[cacheKey] = lecture;
+        return lecture;
     }
+
+    private async Task<IReadOnlyList<TeachingLectureIndexItem>> GetTeachingLectureIndexAsync(SiteLanguage language)
+    {
+        if (_teachingLectureIndexCache.TryGetValue(language, out var cached))
+        {
+            return cached;
+        }
+
+        foreach (var fileName in GetTeachingLectureIndexCandidates(language))
+        {
+            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            if (!response.IsSuccessStatusCode)
+            {
+                continue;
+            }
+
+            var lectures = await response.Content.ReadFromJsonAsync<IReadOnlyList<TeachingLectureIndexItem>>(JsonOptions);
+            if (lectures is not null)
+            {
+                _teachingLectureIndexCache[language] = lectures;
+                return lectures;
+            }
+        }
+
+        throw new InvalidOperationException("Could not load teaching lecture index.");
+    }
+
+    private async Task<LectureDetailViewModel?> LoadTeachingLectureDetailAsync(SiteLanguage language, string slug)
+    {
+        foreach (var fileName in GetTeachingLectureDetailCandidates(language, slug))
+        {
+            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            if (!response.IsSuccessStatusCode)
+            {
+                continue;
+            }
+
+            var lecture = await response.Content.ReadFromJsonAsync<LectureDetailViewModel>(JsonOptions);
+            if (lecture is not null)
+            {
+                return lecture;
+            }
+        }
+
+        return null;
+    }
+
+    private static IReadOnlyList<string> GetTeachingLectureIndexCandidates(SiteLanguage language)
+        => language == SiteLanguage.En
+            ? ["teaching-lectures.en.json", "teaching-lectures.de.json"]
+            : ["teaching-lectures.de.json"];
+
+    private static IReadOnlyList<string> GetTeachingLectureDetailCandidates(SiteLanguage language, string slug)
+        => language == SiteLanguage.En
+            ? [$"lecture-template.{slug}.en.json", $"lecture-template.{slug}.de.json"]
+            : [$"lecture-template.{slug}.de.json"];
 
     private async Task<SiteContentDocument> GetDocumentAsync(SiteLanguage language)
     {
@@ -102,4 +173,11 @@ public sealed class SiteContentService
         "software" => SiteRoutes.Software(language),
         _ => SiteRoutes.Home(language)
     };
+
+    private sealed record TeachingLectureIndexItem(
+        string Slug,
+        string Title,
+        string Semester,
+        string Summary,
+        IReadOnlyList<string> HighlightTags);
 }

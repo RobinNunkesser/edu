@@ -1,0 +1,200 @@
+{
+  "slug": "ios-development",
+  "title": "iOS Development",
+  "semester": "Vorlesung aus lectures.wiki",
+  "summary": "Projektorientierte Veranstaltungsseite mit Aufzeichnungen.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/iOSDevelopment",
+  "highlightTags": [
+    "Projekt",
+    "Videos"
+  ],
+  "sections": [
+    {
+      "title": "Prüfungsvariante Projekt",
+      "intro": "",
+      "links": [
+        {
+          "title": "Teamgröße",
+          "url": "",
+          "description": "Teams bis 3 Personen möglich"
+        },
+        {
+          "title": "GitHub Assignment",
+          "url": "https://classroom.github.com/a/sZO-vhzU",
+          "description": ""
+        },
+        {
+          "title": "Abgabekriterien",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/Abgabekriterien",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Aufzeichnungen",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=3ca18635-e864-4ae3-9f0d-afcc00f95f09",
+          "description": "21.03.2023"
+        },
+        {
+          "title": "Vorlesung 2 - Unvollständig wegen Absturz",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6aee70a2-cef8-46e4-a743-afdb008fa108",
+          "description": "28.03.2023"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6c10fe5c-390b-4f83-b25f-afdb00987522",
+          "description": "04.04.2023"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=36b941f0-7c80-4933-b1eb-ae6000b98f88",
+          "description": "22.03.2022"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=1f462034-cd86-4cdd-adf6-ae6700e8be68",
+          "description": "29.03.2022"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=3e6fe807-70ef-4644-9f21-ae6e009b45ee",
+          "description": "05.04.2022"
+        },
+        {
+          "title": "Quiz - Aufgabenstellung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe6e3a84-ec95-4f12-8ac1-ad0a00b5657c",
+          "description": "12.04.2022"
+        },
+        {
+          "title": "Quiz - Musterlösung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4f2e56c9-656c-4db5-8c58-ad0a00b5653d",
+          "description": "12.04.2022"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8fd02c05-c213-4f03-a113-ae8300a760f6",
+          "description": "26.04.2022"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=638ef7aa-c90c-43b2-88a3-ae8a008f7e63",
+          "description": "03.05.2022"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe572079-b0b2-49e0-bd0c-ae91008b4fad",
+          "description": "10.05.2022"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6cbaf6dd-d63f-48ae-b1d8-ae9900ec1242",
+          "description": "17.05.2022"
+        },
+        {
+          "title": "Einleitung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=73160810-db02-47a7-bfa5-acfb00eab806",
+          "description": "31.03.2021"
+        },
+        {
+          "title": "Grundlagen - iOS",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0adbc43f-e456-4b35-90d2-acfb00eac655",
+          "description": "31.03.2021"
+        },
+        {
+          "title": "Grundlagen - Swift",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7ffabbc5-b55d-4010-bbba-acfb00eac633",
+          "description": "31.03.2021"
+        },
+        {
+          "title": "Grundlagen - Hello World",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7abb9860-51f2-456d-a170-ad0300cf0b0b",
+          "description": "14.04.2021"
+        },
+        {
+          "title": "Grundlagen - Basic Interaction",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4c4f2a3e-3294-4dbb-b5e6-ad0300d06a6f",
+          "description": "14.04.2021"
+        },
+        {
+          "title": "Grundlagen - MVX",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a02ec63a-6b90-4bb5-b56f-ad0300d0bb1c",
+          "description": "14.04.2021"
+        },
+        {
+          "title": "Grundlagen - Navigation",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=aaff355f-a463-476a-8bbc-ad0300d0f6a3",
+          "description": "14.04.2021"
+        },
+        {
+          "title": "Quiz - Aufgabenstellung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe6e3a84-ec95-4f12-8ac1-ad0a00b5657c",
+          "description": "21.04.2021"
+        },
+        {
+          "title": "Quiz - Musterlösung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4f2e56c9-656c-4db5-8c58-ad0a00b5653d",
+          "description": "21.04.2021"
+        },
+        {
+          "title": "Informationsquellen",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=79935848-610e-40e0-8cd5-ad0f00ad7b7a",
+          "description": "28.04.2021"
+        },
+        {
+          "title": "TuneSearch - Aufgabenstellung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=1c7ebd1b-e30d-4868-afdf-ad17008a6db0",
+          "description": "28.04.2021"
+        },
+        {
+          "title": "Rezepte - Listen",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=1e10c633-94b2-4bed-847a-ad0f00ad7b4c",
+          "description": "28.04.2021"
+        },
+        {
+          "title": "TuneSearch - Inkrement 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=df1a1552-7cf1-41cf-b0f9-ad1700a9854a",
+          "description": "05.05.2021"
+        },
+        {
+          "title": "Explicit Architecture",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=569f173f-6975-427b-9547-ad1700b65f43",
+          "description": "05.05.2021"
+        },
+        {
+          "title": "Explicit Architecture - Minimalbeispiel",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=56ec96cd-888b-43f2-901d-ad2100e64d9f",
+          "description": "12.05.2021"
+        },
+        {
+          "title": "Rezepte - Asynchrone Aufrufe",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=dd881f1d-890e-49da-9035-acf900a130ca",
+          "description": "12.05.2021"
+        },
+        {
+          "title": "Rezepte - REST/JSON",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9b862837-a546-4f26-a38a-ad25009d0db3",
+          "description": "19.05.2021"
+        },
+        {
+          "title": "TuneSearch - Inkrement 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fef228dd-4553-4e63-9ab5-ad2500cfaf63",
+          "description": "26.05.2021"
+        },
+        {
+          "title": "Rezepte - Darstellung von Webinhalten",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=54fc2a22-25ad-4188-86a0-ad2f00f972b2",
+          "description": "02.06.2021"
+        },
+        {
+          "title": "Rezepte - Collection Views",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=32d9f162-b415-4616-8e11-ad40008a12ba",
+          "description": "09.06.2021"
+        }
+      ]
+    }
+  ]
+}

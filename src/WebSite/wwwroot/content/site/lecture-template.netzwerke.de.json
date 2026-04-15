@@ -1,0 +1,471 @@
+{
+  "slug": "netzwerke",
+  "title": "Netzwerke",
+  "semester": "Wintersemester 2025/2026",
+  "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Folien und Aufzeichnungen.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/Netzwerke",
+  "highlightTags": [
+    "Klausur",
+    "Uebungen",
+    "Folien",
+    "Videos"
+  ],
+  "sections": [
+    {
+      "title": "Organisatorisches",
+      "intro": "",
+      "links": [
+        {
+          "title": "Termin",
+          "url": "",
+          "description": "Do 11:00 - 12:30, Raum H1.1-E01-150"
+        }
+      ]
+    },
+    {
+      "title": "Prüfungsvariante Klausur",
+      "intro": "",
+      "links": [
+        {
+          "title": "Dauer",
+          "url": "",
+          "description": "Anteil 1 Stunde"
+        }
+      ]
+    },
+    {
+      "title": "Übungsblätter",
+      "intro": "",
+      "links": [
+        {
+          "title": "Grundlagen",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN01Grundlagen.pdf",
+          "description": ""
+        },
+        {
+          "title": "Grundlagen - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN01Grundlagen_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Bitübertragungsschicht",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN02Bituebertragungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Bitübertragungsschicht - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN02Bituebertragungsschicht_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Sicherungsschicht",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN03Sicherungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Sicherungsschicht - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN03Sicherungsschicht_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Vermittlungsschicht",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN04Vermittlungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Vermittlungsschicht - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN04Vermittlungsschicht_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Transportschicht",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN05Transportschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Transportschicht - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN05Transportschicht_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Anwendungsschicht",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN06Anwendungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Anwendungsschicht - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN06Anwendungsschicht_Loesung.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Probeklausuren",
+      "intro": "",
+      "links": [
+        {
+          "title": "Probeklausur",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN07Probeklausur.pdf",
+          "description": ""
+        },
+        {
+          "title": "Probeklausur - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN07Probeklausur_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Zweite Probeklausur",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN07Probeklausur02.pdf",
+          "description": ""
+        },
+        {
+          "title": "Zweite Probeklausur - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/cn/CN07Probeklausur02_Loesung.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Folien",
+      "intro": "",
+      "links": [
+        {
+          "title": "Grundlagen der Informationstechnik",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN01GrundlagenInformationstechnik.pdf",
+          "description": ""
+        },
+        {
+          "title": "Grundlagen der Computervernetzung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN02NetzwerkeGrundlagen.pdf",
+          "description": ""
+        },
+        {
+          "title": "Protokolle und Protokollschichten",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN03Protokolle.pdf",
+          "description": ""
+        },
+        {
+          "title": "Bitübertragungsschicht",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN04Bituebertragungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Sicherungsschicht",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN05Sicherungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Vermittlungsschicht",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN06Vermittlungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Transportschicht",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN07Transportschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Anwendungsschicht",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN08Anwendungsschicht.pdf",
+          "description": ""
+        },
+        {
+          "title": "Netzwerkvirtualisierung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN09Netzwerkvirtualisierung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Kommandozeilenwerkzeuge",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2037415/mod_folder/content/0/CN10Kommandozeilenwerkzeuge.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Aufzeichnungen",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=729fab63-51ff-4472-a319-b36400c16574",
+          "description": "25.09.2025"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a37a2e9e-ac16-4c19-b59f-b36a00c99808",
+          "description": "02.10.2025"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=61fa4c1d-153b-4291-9b60-b372006bfc21",
+          "description": "09.10.2025"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=09caf1ff-06e9-4052-8c12-b37800b8ea30",
+          "description": "16.10.2025"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9ac5b1d0-b588-4193-85bf-b38700933da8",
+          "description": "30.10.2025"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=cd81902d-1a6f-4a39-800e-b38d00dc29b9",
+          "description": "06.11.2025"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=286a126b-c8a6-4599-9287-b39700c0361f",
+          "description": "13.11.2025"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f8f25719-d94a-4e63-a89b-b39c00b7287a",
+          "description": "20.11.2025"
+        },
+        {
+          "title": "Vorlesung 9",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=eb5dca05-4f73-4508-8413-b3aa00a5935e",
+          "description": "04.12.2025"
+        },
+        {
+          "title": "Vorlesung 10",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b952177e-dd25-4617-813a-b3b400a44c92",
+          "description": "11.12.2025"
+        },
+        {
+          "title": "Vorlesung 11",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=efc4a729-010b-474b-9e55-b3cc00d3e1be",
+          "description": "08.01.2026"
+        },
+        {
+          "title": "Vorlesung 12",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e6f665c2-7d43-48ac-a839-b3d300b132b2",
+          "description": "15.01.2026"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c8f08375-7743-43dd-bf52-b1f500ce8f58",
+          "description": "24.09.2024"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=72764f4d-bb20-41a8-961c-b1fc00ee3cab",
+          "description": "01.10.2024"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=57a7cc89-8edc-4a55-8d28-b20301532bce",
+          "description": "08.10.2024"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c533243a-1aca-4776-9c48-b20a00e87e95",
+          "description": "15.10.2024"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=de77d9b5-d1ff-4611-8db9-b21100e533fd",
+          "description": "22.10.2024"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=27ca47c3-df61-4960-8eb7-b2180100f51a",
+          "description": "29.10.2024"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=411a68ba-26cd-4f49-8204-b21f00fb08c3",
+          "description": "05.11.2024"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e82c83f9-5a8e-459d-a6ec-b2260109bfa0",
+          "description": "12.11.2024"
+        },
+        {
+          "title": "Vorlesung 9",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fd64dfeb-5a91-49e7-80e8-b23400f8a678",
+          "description": "26.11.2024"
+        },
+        {
+          "title": "Vorlesung 10",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4459b12f-d75a-43f0-a867-b25e0167daa2",
+          "description": "07.01.2025"
+        },
+        {
+          "title": "Vorlesung 11",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4a878267-4c68-479d-88e9-b26500d92938",
+          "description": "14.01.2025"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6da21228-a02c-4569-9d18-b08c0095bd65",
+          "description": "28.09.2023"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b45b6c33-d7e3-42df-9f7a-b0920154a5f3",
+          "description": "05.10.2023"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=07392f02-e3b1-4d3b-b0d9-b09900dd338b",
+          "description": "12.10.2023"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c137dd6d-f821-418c-9b7d-b0a001135632",
+          "description": "19.10.2023"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fb064327-e174-49c1-8ab2-b0a700d33ef7",
+          "description": "26.10.2023"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f77ce0b5-0dbb-4ef4-b213-b0af005b5fe8",
+          "description": "02.11.2023"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=00c3a08a-0e59-4c82-b2e8-b0b5012817d4",
+          "description": "09.11.2023"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b265acaf-a568-4043-a5c5-b0ca011a6099",
+          "description": "30.11.2023"
+        },
+        {
+          "title": "Vorlesung 9",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ef79d414-dfda-47ba-b32b-b0d101172efa",
+          "description": "07.12.2023"
+        },
+        {
+          "title": "Probeklausur Teil 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8c522bd9-0410-4e6a-a8f5-b0ed00eec7ab",
+          "description": "04.01.2024"
+        },
+        {
+          "title": "Probeklausur Teil 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e31b5f7a-f245-43c8-93b1-b0fb01138e46",
+          "description": "18.01.2024"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=75cf03dd-6163-4a58-952a-af1700dc9abf",
+          "description": "21.09.2022"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=590cfb46-f882-4b2e-98c6-af2000756785",
+          "description": "28.09.2022"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=cbca7f19-80aa-4a30-b4eb-af250110f340",
+          "description": "05.10.2022"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=06edc370-b529-479a-80fb-af2c00f4070a",
+          "description": "12.10.2022"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a40e7cd5-36ab-4bf6-90ba-af340064592a",
+          "description": "19.10.2022"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b9294e51-c962-4b96-a588-af3b008603f6",
+          "description": "26.10.2022"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=919c6c14-cd04-480b-8132-af45007b9774",
+          "description": "02.11.2022"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=cd54c37f-94d9-466d-81ce-af4800ff1d01",
+          "description": "09.11.2022"
+        },
+        {
+          "title": "Probeklausur 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=5611b1a4-4afb-4cb8-ad98-af800101c1bd",
+          "description": "04.01.2023"
+        },
+        {
+          "title": "Probeklausur 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=5c439d30-714c-4f9e-b687-af880075dd44",
+          "description": "11.01.2023"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=80c02e59-e850-4285-a95e-adab00b07f04",
+          "description": "22.09.2021"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=94eb04e0-7e79-4f2a-9e6f-adb200d1eb30",
+          "description": "29.09.2021"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b16276eb-0c28-4b01-a4d8-adb900973a45",
+          "description": "06.10.2021"
+        },
+        {
+          "title": "Vorlesung 4 (Aufnahme unvollständig)",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=98be37c8-8388-49c3-892a-adc700abeb14",
+          "description": "20.10.2021"
+        },
+        {
+          "title": "Sicherungsschicht",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4fae3070-5c71-4aef-b40e-ac59008f4d98",
+          "description": "20.10.2021"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9ad66d2a-649c-465b-b1e2-adce00d97ef2",
+          "description": "27.10.2021"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a699851c-2811-4019-a6a1-add500dc229b",
+          "description": "03.11.2021"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=edfad2c8-cccb-4fc0-a600-ade300e608aa",
+          "description": "17.11.2021"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ea9986c0-6230-4000-ab7b-adea00efe646",
+          "description": "24.11.2021"
+        },
+        {
+          "title": "Vorlesung 9",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=83228736-6ebc-4990-9728-adf1009e8f14",
+          "description": "01.12.2021"
+        },
+        {
+          "title": "Probeklausur",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9ad17921-0d9c-45f5-92fc-adf8009bbd8f",
+          "description": "08.12.2021"
+        },
+        {
+          "title": "Zweite Probeklausur",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=63bad56e-715a-4105-8120-ae1b011533b3",
+          "description": "12.01.2022"
+        }
+      ]
+    }
+  ]
+}

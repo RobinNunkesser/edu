@@ -1,0 +1,100 @@
+{
+  "slug": "istp",
+  "title": "ISTP",
+  "semester": "Wintersemester 2024/2025",
+  "summary": "Projektorientierte Veranstaltungsseite mit Aufzeichnungen.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISTP",
+  "highlightTags": [
+    "Projekt",
+    "Videos"
+  ],
+  "sections": [
+    {
+      "title": "Organisatorisches",
+      "intro": "",
+      "links": [
+        {
+          "title": "Termin",
+          "url": "",
+          "description": "Fr 10:00 - 11:30, Raum H4.1-E00-110"
+        }
+      ]
+    },
+    {
+      "title": "Prüfungsvariante Projekt",
+      "intro": "",
+      "links": []
+    },
+    {
+      "title": "Aufzeichnungen",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d1dc6b4a-5a38-4d91-b2bc-b1f800aeeda7",
+          "description": "27.09.2024"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0e19a611-0bfe-4574-994a-b08a00918e07",
+          "description": "27.09.2023"
+        },
+        {
+          "title": "IoT - Foundations and Vision",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=28338905-9771-480c-bef5-b0bb0163aeb5",
+          "description": "15.11.2023"
+        },
+        {
+          "title": "Smart Mobility",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=67e54843-7477-49fa-a75c-b0bb01684544",
+          "description": "15.11.2023"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b16cea31-6da9-4eb6-9e11-af1800e6196f",
+          "description": "22.09.2022"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d321ef26-71de-4846-976c-af2000bb518a",
+          "description": "29.09.2022"
+        },
+        {
+          "title": "Begrüßung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a1c55844-8b49-4774-8a0a-ad9d00e775ac",
+          "description": "22.09.2021"
+        },
+        {
+          "title": "Einführung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=04fbabce-8df7-4a57-a8da-ada20089ec86",
+          "description": "22.09.2021"
+        },
+        {
+          "title": "IoT - Foundations and Vision",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=48601da2-8686-4057-9aad-ac6b00a9243f",
+          "description": "29.09.2021"
+        },
+        {
+          "title": "Node-RED und IBM Watson IoT",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=efaf9068-3e2b-487f-ba07-adb7009a41ed",
+          "description": "06.10.2021"
+        },
+        {
+          "title": "Einführung",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=26fc067b-0653-4dc6-8a17-ac3700a52d14",
+          "description": "Robin Nunkesser"
+        },
+        {
+          "title": "IoT - Foundations and Vision",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=48601da2-8686-4057-9aad-ac6b00a9243f",
+          "description": "Robin Nunkesser"
+        },
+        {
+          "title": "Smart Cities in Theory and Practice",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9e803903-f035-4940-840f-ac7600df6140",
+          "description": "Fabian Vistorin"
+        }
+      ]
+    }
+  ]
+}

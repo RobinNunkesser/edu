@@ -1,0 +1,186 @@
+[
+  {
+    "slug": "aad",
+    "title": "AAD",
+    "semester": "Wintersemester 2024/2025",
+    "summary": "Klausurorientierte Veranstaltungsseite mit Aufzeichnungen.",
+    "highlightTags": [
+      "Klausur",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "ai",
+    "title": "AI",
+    "semester": "Sommersemester 2026",
+    "summary": "Projektorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "aki",
+    "title": "AKI",
+    "semester": "Wintersemester 2025/2026",
+    "summary": "Klausurorientierte Veranstaltungsseite aus lectures.wiki.",
+    "highlightTags": [
+      "Klausur"
+    ]
+  },
+  {
+    "slug": "android-development",
+    "title": "Android Development",
+    "semester": "Vorlesung aus lectures.wiki",
+    "summary": "Projektorientierte Veranstaltungsseite mit Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "app-development",
+    "title": "App Development",
+    "semester": "Sommersemester 2026",
+    "summary": "Projektorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "app-frontends",
+    "title": "App Frontends",
+    "semester": "Sommersemester 2026",
+    "summary": "Projektorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "betriebssysteme",
+    "title": "Betriebssysteme",
+    "semester": "Wintersemester 2025/2026",
+    "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Klausur",
+      "Uebungen",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "cpd",
+    "title": "CPD",
+    "semester": "Vorlesung aus lectures.wiki",
+    "summary": "Projektorientierte Veranstaltungsseite mit Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "gdi",
+    "title": "GDI",
+    "semester": "Wintersemester 2025/2026",
+    "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Demonstratoren, Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Klausur",
+      "Uebungen",
+      "Demonstratoren",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "iga",
+    "title": "IGA",
+    "semester": "Wintersemester 2025/2026",
+    "summary": "Projektorientierte Veranstaltungsseite aus lectures.wiki.",
+    "highlightTags": [
+      "Projekt"
+    ]
+  },
+  {
+    "slug": "ios-development",
+    "title": "iOS Development",
+    "semester": "Vorlesung aus lectures.wiki",
+    "summary": "Projektorientierte Veranstaltungsseite mit Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "istp",
+    "title": "ISTP",
+    "semester": "Wintersemester 2024/2025",
+    "summary": "Projektorientierte Veranstaltungsseite mit Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "it-consulting",
+    "title": "IT Consulting",
+    "semester": "Wintersemester 2025/2026",
+    "summary": "Klausurorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Klausur",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "it-projektmanagement",
+    "title": "IT Projektmanagement",
+    "semester": "Sommersemester 2025",
+    "summary": "Projektorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "netzwerke",
+    "title": "Netzwerke",
+    "semester": "Wintersemester 2025/2026",
+    "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Klausur",
+      "Uebungen",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "softwaretechnik",
+    "title": "Softwaretechnik",
+    "semester": "Sommersemester 2026",
+    "summary": "Projektorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Projekt",
+      "Folien",
+      "Videos"
+    ]
+  },
+  {
+    "slug": "technische-informatik",
+    "title": "Technische Informatik",
+    "semester": "Wintersemester 2024/2025",
+    "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Demonstratoren, Folien und Aufzeichnungen.",
+    "highlightTags": [
+      "Klausur",
+      "Uebungen",
+      "Demonstratoren",
+      "Folien",
+      "Videos"
+    ]
+  }
+]

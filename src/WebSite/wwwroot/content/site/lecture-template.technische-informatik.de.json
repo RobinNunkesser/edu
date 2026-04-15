@@ -2,9 +2,15 @@
   "slug": "technische-informatik",
   "title": "Technische Informatik",
   "semester": "Wintersemester 2024/2025",
-  "summary": "",
+  "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Demonstratoren, Folien und Aufzeichnungen.",
   "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/TechnischeInformatik",
-  "highlightTags": [],
+  "highlightTags": [
+    "Klausur",
+    "Uebungen",
+    "Demonstratoren",
+    "Folien",
+    "Videos"
+  ],
   "sections": [
     {
       "title": "Organisatorisches",

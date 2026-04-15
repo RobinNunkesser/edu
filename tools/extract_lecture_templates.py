@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -13,39 +12,75 @@ LECTURES_WIKI = ROOT.parent.parent.parent.parent / "wikis" / "lectures"
 OUTPUT_DIR = ROOT / "src" / "WebSite" / "wwwroot" / "content" / "site"
 WIKI_BASE_URL = "https://github.com/isd-nunkesser/lectures.wiki/wiki"
 BLOB_BASE_URL = "https://github.com/isd-nunkesser/lectures.wiki/blob/master"
+INDEX_FILE_NAME = "teaching-lectures.de.json"
 
-
-@dataclass(frozen=True)
-class LectureDefinition:
-    source_name: str
-    output_key: str
-    title: str
-
-
-LECTURES = [
-    LectureDefinition("AppDevelopment", "app-development", "App Development"),
-    LectureDefinition("AI", "ai", "AI"),
-    LectureDefinition("TechnischeInformatik", "technische-informatik", "Technische Informatik"),
-]
 
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
+CAMEL_CASE_RE = re.compile(r"(?<=[a-z0-9])(?=[A-Z])")
+
+INTERNAL_DEMONSTRATORS = {
+    "TechnischeInformatik": [("Minimaler Spannbaum (MST)", "/study/minimaler-spannbaum")],
+}
+
+TITLE_OVERRIDES = {
+    "iOSDevelopment": "iOS Development",
+    "ITConsulting": "IT Consulting",
+    "ITProjektmanagement": "IT Projektmanagement",
+}
+
+SLUG_OVERRIDES = {
+    "iOSDevelopment": "ios-development",
+    "ITConsulting": "it-consulting",
+    "ITProjektmanagement": "it-projektmanagement",
+}
 
 
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    lectures = discover_lectures()
+    index_items = []
 
-    for lecture in LECTURES:
-        source_path = LECTURES_WIKI / f"{lecture.source_name}.md"
-        output_path = OUTPUT_DIR / f"lecture-template.{lecture.output_key}.de.json"
-        content = build_template_content(lecture, source_path.read_text(encoding="utf-8"))
+    for source_name in lectures:
+        source_path = LECTURES_WIKI / f"{source_name}.md"
+        content = build_template_content(source_name, source_path.read_text(encoding="utf-8"))
+        output_path = OUTPUT_DIR / f"lecture-template.{content['slug']}.de.json"
         output_path.write_text(json.dumps(content, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        index_items.append(
+            {
+                "slug": content["slug"],
+                "title": content["title"],
+                "semester": content["semester"],
+                "summary": content["summary"],
+                "highlightTags": content["highlightTags"],
+            }
+        )
         print(f"Wrote {output_path.relative_to(ROOT)}")
 
+    index_path = OUTPUT_DIR / INDEX_FILE_NAME
+    index_items.sort(key=lambda item: item["title"].lower())
+    index_path.write_text(json.dumps(index_items, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {index_path.relative_to(ROOT)}")
 
-def build_template_content(lecture: LectureDefinition, markdown: str) -> dict:
+
+def discover_lectures() -> list[str]:
+    lectures = []
+    for path in sorted(LECTURES_WIKI.glob("*.md")):
+        if path.name.startswith("_"):
+            continue
+
+        content = path.read_text(encoding="utf-8")
+        if content.startswith("# Organisatorisches"):
+            lectures.append(path.stem)
+
+    return lectures
+
+
+def build_template_content(source_name: str, markdown: str) -> dict:
     blocks = parse_blocks(markdown)
     sections = []
+    slug = slugify_source_name(source_name)
+    title = humanize_source_name(source_name)
 
     organizational_links = parse_organizational_links(blocks)
     if organizational_links:
@@ -55,11 +90,11 @@ def build_template_content(lecture: LectureDefinition, markdown: str) -> dict:
     if assessment_section is not None:
         sections.append(assessment_section)
 
-    demo_links = parse_demonstrator_links(blocks)
+    demo_links = parse_demonstrator_links(source_name, blocks)
     if demo_links:
         sections.append(make_section("Interaktive Übungen / Demonstratoren", demo_links))
 
-    exercise_links, mock_exam_links = parse_exercise_links(blocks.get(("Übungen",), []))
+    exercise_links, mock_exam_links = parse_exercise_links(blocks)
     if exercise_links:
         sections.append(make_section("Übungsblätter", exercise_links))
     if mock_exam_links:
@@ -73,15 +108,35 @@ def build_template_content(lecture: LectureDefinition, markdown: str) -> dict:
     if recording_links:
         sections.append(make_section("Aufzeichnungen", recording_links, ""))
 
+    summary = build_summary(sections)
+    highlight_tags = build_highlight_tags(sections)
+
     return {
-        "slug": lecture.output_key,
-        "title": lecture.title,
+        "slug": slug,
+        "title": title,
         "semester": parse_semester(blocks) or "Vorlesung aus lectures.wiki",
-        "summary": "",
-        "sourceUrl": f"{WIKI_BASE_URL}/{lecture.source_name}",
-        "highlightTags": [],
+        "summary": summary,
+        "sourceUrl": f"{WIKI_BASE_URL}/{source_name}",
+        "highlightTags": highlight_tags,
         "sections": sections,
     }
+
+
+def humanize_source_name(source_name: str) -> str:
+    if source_name in TITLE_OVERRIDES:
+        return TITLE_OVERRIDES[source_name]
+
+    if source_name.isupper():
+        return source_name
+
+    return CAMEL_CASE_RE.sub(" ", source_name).replace("  ", " ").strip()
+
+
+def slugify_source_name(source_name: str) -> str:
+    if source_name in SLUG_OVERRIDES:
+        return SLUG_OVERRIDES[source_name]
+
+    return humanize_source_name(source_name).lower().replace(" ", "-")
 
 
 def parse_blocks(markdown: str) -> dict[tuple[str, ...], list[str]]:
@@ -119,17 +174,29 @@ def parse_organizational_links(blocks: dict[tuple[str, ...], list[str]]) -> list
     links = []
 
     for row in rows:
-        day = row[0].strip() if len(row) > 0 else ""
-        kind = row[1].strip() if len(row) > 1 else ""
-        time = row[2].strip() if len(row) > 2 else ""
-        room = row[3].strip() if len(row) > 3 else ""
-        if not (day and kind and time and room):
+        if len(row) >= 4:
+            day = row[0].strip()
+            kind = row[1].strip()
+            time = row[2].strip()
+            room = row[3].strip()
+            if not (day and kind and time and room):
+                continue
+
+            label = {
+                "VL": "Vorlesung",
+                "ÜB": "Übung",
+            }.get(kind, kind)
+        elif len(row) >= 3:
+            day = row[0].strip()
+            time = row[1].strip()
+            room = row[2].strip()
+            if not (day and time and room):
+                continue
+
+            label = "Termin"
+        else:
             continue
 
-        label = {
-            "VL": "Vorlesung",
-            "ÜB": "Übung",
-        }.get(kind, kind)
         links.append(
             {
                 "title": label,
@@ -170,24 +237,39 @@ def parse_assessment_section(blocks: dict[tuple[str, ...], list[str]]) -> dict |
     )
 
 
-def parse_demonstrator_links(blocks: dict[tuple[str, ...], list[str]]) -> list[dict]:
+def parse_demonstrator_links(source_name: str, blocks: dict[tuple[str, ...], list[str]]) -> list[dict]:
     lines = blocks.get(("Organisatorisches", "ISD Companion App"), [])
-    return [
+    links = [
         {"title": title, "url": resolve_url(url), "description": ""}
         for title, url in parse_links_from_lines(lines)
         if "<img" not in title.lower() and not url.startswith("./images/")
     ]
 
+    for title, url in INTERNAL_DEMONSTRATORS.get(source_name, []):
+        links.insert(0, {"title": title, "url": url, "description": ""})
 
-def parse_exercise_links(lines: list[str]) -> tuple[list[dict], list[dict]]:
+    return links
+
+
+def parse_exercise_links(blocks: dict[tuple[str, ...], list[str]]) -> tuple[list[dict], list[dict]]:
     exercise_links = []
     mock_exam_links = []
 
-    for title, url in parse_links_from_lines(lines):
+    exercise_lines: list[str] = []
+    for path, lines in blocks.items():
+        if len(path) == 1 and is_exercise_section(path[0]):
+            exercise_lines.extend(lines)
+
+    for title, url in parse_links_from_lines(exercise_lines):
         target = mock_exam_links if "Probeklausur" in title else exercise_links
         target.append({"title": title, "url": resolve_url(url), "description": ""})
 
     return exercise_links, mock_exam_links
+
+
+def is_exercise_section(title: str) -> bool:
+    normalized = title.lower()
+    return "übung" in normalized or "uebung" in normalized or "exercise" in normalized
 
 
 def parse_simple_bullet_section(lines: list[str]) -> list[dict]:
@@ -262,6 +344,52 @@ def resolve_url(url: str) -> str:
 def extract_duration(text: str) -> str | None:
     match = re.search(r"(\d+\s*Minuten)", text)
     return match.group(1) if match else None
+
+
+def build_highlight_tags(sections: list[dict]) -> list[str]:
+    titles = {section["title"] for section in sections}
+    tags = []
+
+    if "Prüfungsvariante Projekt" in titles:
+        tags.append("Projekt")
+    elif "Prüfungsvariante Klausur" in titles:
+        tags.append("Klausur")
+
+    if "Übungsblätter" in titles or "Probeklausuren" in titles:
+        tags.append("Uebungen")
+    if "Interaktive Übungen / Demonstratoren" in titles:
+        tags.append("Demonstratoren")
+    if "Folien" in titles:
+        tags.append("Folien")
+    if "Aufzeichnungen" in titles:
+        tags.append("Videos")
+
+    return tags
+
+
+def build_summary(sections: list[dict]) -> str:
+    titles = {section["title"] for section in sections}
+    prefix = "Projektorientierte" if "Prüfungsvariante Projekt" in titles else "Klausurorientierte"
+
+    parts = []
+    if "Übungsblätter" in titles or "Probeklausuren" in titles:
+        parts.append("Uebungsmaterial")
+    if "Interaktive Übungen / Demonstratoren" in titles:
+        parts.append("Demonstratoren")
+    if "Folien" in titles:
+        parts.append("Folien")
+    if "Aufzeichnungen" in titles:
+        parts.append("Aufzeichnungen")
+
+    if not parts:
+        return f"{prefix} Veranstaltungsseite aus lectures.wiki."
+
+    if len(parts) == 1:
+        details = parts[0]
+    else:
+        details = ", ".join(parts[:-1]) + f" und {parts[-1]}"
+
+    return f"{prefix} Veranstaltungsseite mit {details}."
 
 
 def make_section(title: str, links: list[dict], intro: str = "") -> dict:

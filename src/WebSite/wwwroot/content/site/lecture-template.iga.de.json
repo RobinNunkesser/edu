@@ -1,0 +1,44 @@
+{
+  "slug": "iga",
+  "title": "IGA",
+  "semester": "Wintersemester 2025/2026",
+  "summary": "Projektorientierte Veranstaltungsseite aus lectures.wiki.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/IGA",
+  "highlightTags": [
+    "Projekt"
+  ],
+  "sections": [
+    {
+      "title": "Organisatorisches",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung",
+          "url": "",
+          "description": "Mi 09:30 - 11:00, Raum H7.2-E00-020"
+        },
+        {
+          "title": "Übung",
+          "url": "",
+          "description": "Fr 09:30 - 11:00, Raum H4.2-E00-140"
+        }
+      ]
+    },
+    {
+      "title": "Prüfungsvariante Projekt",
+      "intro": "",
+      "links": [
+        {
+          "title": "Teamgröße",
+          "url": "",
+          "description": "Teams bis 3 Personen möglich"
+        },
+        {
+          "title": "GitHub Assignment",
+          "url": "https://classroom.github.com/a/RLW3u5-N",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

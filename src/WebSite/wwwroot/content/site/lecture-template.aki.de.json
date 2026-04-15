@@ -1,0 +1,39 @@
+{
+  "slug": "aki",
+  "title": "AKI",
+  "semester": "Wintersemester 2025/2026",
+  "summary": "Klausurorientierte Veranstaltungsseite aus lectures.wiki.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/AKI",
+  "highlightTags": [
+    "Klausur"
+  ],
+  "sections": [
+    {
+      "title": "Organisatorisches",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung",
+          "url": "",
+          "description": "Fr 11:00 - 12:30, Raum H7.2-E00-020"
+        },
+        {
+          "title": "Übung",
+          "url": "",
+          "description": "Mi 11:00 - 11:45, Raum H3.3-E01-220"
+        }
+      ]
+    },
+    {
+      "title": "Prüfungsvariante Klausur",
+      "intro": "",
+      "links": [
+        {
+          "title": "Dauer",
+          "url": "",
+          "description": "Möglichst schnelle Themenwahl"
+        }
+      ]
+    }
+  ]
+}

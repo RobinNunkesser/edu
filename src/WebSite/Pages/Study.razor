@@ -5,7 +5,6 @@
 @page "/en/teaching"
 @inject NavigationManager NavigationManager
 @inject SiteContentService ContentService
-@inject StudyTopicService TopicService
 
 <PageTitle>Lehre</PageTitle>
 
@@ -35,155 +34,17 @@
 			}
 		</div>
 	</section>
-
-	@if (FeaturedTopic is not null)
-	{
-		<section class="page-section page-section-muted">
-			<div class="section-heading">
-				<h2>@FeaturedSectionTitle</h2>
-				<p>@FeaturedSectionIntro</p>
-			</div>
-
-			<div class="feature-grid">
-				<a class="feature-card" href="@FeaturedTopic.Route">
-					<p class="feature-card-kicker">@FeaturedTopic.Kicker</p>
-					<h3>@FeaturedTopic.Title</h3>
-					<p>@FeaturedTopic.Summary</p>
-					<div class="tag-row">
-						@foreach (var tag in FeaturedTopic.Tags)
-						{
-							<span class="tag">@tag</span>
-						}
-					</div>
-				</a>
-			</div>
-		</section>
-	}
-
-	<section class="page-section page-section-muted">
-		<div class="section-heading">
-			<h2>@TemplateSectionTitle</h2>
-			<p>@TemplateSectionIntro</p>
-		</div>
-
-		<div class="feature-grid">
-			<a class="feature-card" href="@SiteRoutes.TeachingTemplate(CurrentLanguage)">
-				<p class="feature-card-kicker">@TemplateCardKicker</p>
-				<h3>@TemplateCardTitle</h3>
-				<p>@TemplateCardSummary</p>
-				<div class="tag-row">
-					@foreach (var tag in TemplateCardTags)
-					{
-						<span class="tag">@tag</span>
-					}
-				</div>
-			</a>
-
-			@foreach (var example in TemplateExamples)
-			{
-				<a class="feature-card" href="@SiteRoutes.TeachingTemplate(CurrentLanguage, example.Key)">
-					<p class="feature-card-kicker">@example.Kicker</p>
-					<h3>@example.Title</h3>
-					<p>@example.Summary</p>
-					<div class="tag-row">
-						@foreach (var tag in example.Tags)
-						{
-							<span class="tag">@tag</span>
-						}
-					</div>
-				</a>
-			}
-		</div>
-	</section>
 }
 
 @code {
 	private SiteLanguage CurrentLanguage;
 	private SectionLandingViewModel? Landing;
 	private IReadOnlyList<LectureOverviewViewModel> Lectures = [];
-	private StudyTopicCardViewModel? FeaturedTopic;
-	private string FeaturedSectionTitle = string.Empty;
-	private string FeaturedSectionIntro = string.Empty;
-	private string TemplateSectionTitle = string.Empty;
-	private string TemplateSectionIntro = string.Empty;
-	private string TemplateCardKicker = string.Empty;
-	private string TemplateCardTitle = string.Empty;
-	private string TemplateCardSummary = string.Empty;
-	private IReadOnlyList<string> TemplateCardTags = [];
-	private IReadOnlyList<TemplateExampleCard> TemplateExamples = [];
 
 	protected override async Task OnParametersSetAsync()
 	{
 		CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
 		Landing = await ContentService.GetTeachingLandingAsync(CurrentLanguage);
 		Lectures = await ContentService.GetTeachingLecturesAsync(CurrentLanguage);
-		FeaturedTopic = TopicService.GetFeaturedTopic(CurrentLanguage);
-		FeaturedSectionTitle = CurrentLanguage == SiteLanguage.En ? "Technical slices" : "Technische Durchstiche";
-		FeaturedSectionIntro = CurrentLanguage == SiteLanguage.En
-			? "The first topic page brings algorithmic package logic from the companion into a dedicated web view."
-			: "Die erste Themenseite bringt algorithmische Paketlogik aus dem Companion in eine eigene Web-Ansicht.";
-		TemplateSectionTitle = CurrentLanguage == SiteLanguage.En ? "Layout template" : "Layoutvorlage";
-		TemplateSectionIntro = CurrentLanguage == SiteLanguage.En
-			? "This dummy page collects all content patterns currently used on course pages and serves as the starting point for a shared future template."
-			: "Diese Dummy-Seite sammelt alle Inhaltsmuster, die aktuell auf Veranstaltungsseiten vorkommen, und dient als Ausgangspunkt fuer eine gemeinsame kuenftige Vorlage.";
-		TemplateCardKicker = CurrentLanguage == SiteLanguage.En ? "Template" : "Vorlage";
-		TemplateCardTitle = CurrentLanguage == SiteLanguage.En ? "Course page with dummy data" : "Veranstaltungsseite mit Dummydaten";
-		TemplateCardSummary = CurrentLanguage == SiteLanguage.En
-			? "Includes logistics, exercises, project work, textbooks, companion links, internal routes, slides, videos, and inline notes without links."
-			: "Enthaelt Organisatorisches, Uebungen, Projektarbeit, Lehrbuecher, Companion-Links, interne Routen, Folien, Videos und Inline-Hinweise ohne Links.";
-		TemplateCardTags = CurrentLanguage == SiteLanguage.En
-			? ["Template", "Dummy data", "Videos", "Project", "Internal link"]
-			: ["Vorlage", "Dummydaten", "Videos", "Projekt", "Interner Link"];
-		TemplateExamples = BuildTemplateExamples(CurrentLanguage);
 	}
-
-	private static IReadOnlyList<TemplateExampleCard> BuildTemplateExamples(SiteLanguage language)
-		=> language == SiteLanguage.En
-			? [
-				new(
-					"app-development",
-					"Extracted lecture",
-					"App Development from lectures.wiki",
-					"Project-based course page extracted from the local lectures wiki with GitHub Assignment, slides, and recordings.",
-					["Extraction", "Project", "Wiki", "Recordings"]),
-				new(
-					"ai",
-					"Extracted lecture",
-					"AI from lectures.wiki",
-					"Course page with project assessment, dataset links, code repositories, slides, and recordings derived from the wiki source.",
-					["Extraction", "AI", "Datasets", "Wiki"]),
-				new(
-					"technische-informatik",
-					"Extracted lecture",
-					"Technische Informatik from lectures.wiki",
-					"Exam-focused course page with exercise sheets, mock exams, demonstrators, slides, and recordings generated from the wiki page.",
-					["Extraction", "Exam", "Exercises", "Wiki"])
-			]
-			: [
-				new(
-					"app-development",
-					"Extrahierte Vorlesung",
-					"App Development aus lectures.wiki",
-					"Projektorientierte Veranstaltungsseite aus dem lokalen lectures-Wiki mit GitHub Assignment, Folien und Aufzeichnungen.",
-					["Extraktion", "Projekt", "Wiki", "Aufzeichnungen"]),
-				new(
-					"ai",
-					"Extrahierte Vorlesung",
-					"AI aus lectures.wiki",
-					"Veranstaltungsseite mit Projektpruefung, Datensatz-Links, Code-Repositories, Folien und Aufzeichnungen aus der Wiki-Quelle.",
-					["Extraktion", "KI", "Datensaetze", "Wiki"]),
-				new(
-					"technische-informatik",
-					"Extrahierte Vorlesung",
-					"Technische Informatik aus lectures.wiki",
-					"Klausurorientierte Veranstaltungsseite mit Uebungsblaettern, Probeklausuren, Demonstratoren, Folien und Aufzeichnungen aus der Wiki-Seite.",
-					["Extraktion", "Klausur", "Uebungen", "Wiki"])
-			];
-
-	private sealed record TemplateExampleCard(
-		string Key,
-		string Kicker,
-		string Title,
-		string Summary,
-		IReadOnlyList<string> Tags);
 }
