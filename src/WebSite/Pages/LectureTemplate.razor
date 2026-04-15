@@ -58,7 +58,11 @@
                         new ResourceLinkViewModel(
                             isEnglish ? "GitHub Assignment" : "GitHub Assignment",
                             "https://classroom.github.com/a/template-assignment",
-                            isEnglish ? "Central assignment link" : "Zentraler Assignment-Link")
+                            isEnglish ? "Central assignment link" : "Zentraler Assignment-Link"),
+                        new ResourceLinkViewModel(
+                            isEnglish ? "Project explanation" : "Projekterläuterungen",
+                            isEnglish ? $"/en{StudyRoutes.Topic("minimaler-spannbaum")}" : StudyRoutes.Topic("minimaler-spannbaum"),
+                            isEnglish ? "Internal project notes" : "Interne Projekt-Hinweise")
                     ]),
                 new LectureSectionViewModel(
                     isEnglish ? "Exercise Sheets" : "Übungsblätter",
@@ -79,9 +83,9 @@
                     isEnglish ? "Interactive Exercises / Demonstrators" : "Interaktive Übungen / Demonstratoren",
                     string.Empty,
                     [
-                        new ResourceLinkViewModel(isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum", isEnglish ? $"/en{StudyRoutes.Topic("minimaler-spannbaum")}" : StudyRoutes.Topic("minimaler-spannbaum"), isEnglish ? "2026-04-15" : "15.04.2026"),
-                        new ResourceLinkViewModel("ISD Companion", "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", isEnglish ? "2026-04-22" : "22.04.2026"),
-                        new ResourceLinkViewModel(isEnglish ? "Boolean algebra demonstrator" : "Boolesche-Algebra-Demonstrator", "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", isEnglish ? "2026-04-29" : "29.04.2026")
+                        new ResourceLinkViewModel(isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum", isEnglish ? $"/en{StudyRoutes.Topic("minimaler-spannbaum")}" : StudyRoutes.Topic("minimaler-spannbaum"), string.Empty),
+                        new ResourceLinkViewModel("ISD Companion", "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", string.Empty),
+                        new ResourceLinkViewModel(isEnglish ? "Boolean algebra demonstrator" : "Boolesche-Algebra-Demonstrator", "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", string.Empty)
                     ]),
                 new LectureSectionViewModel(
                     isEnglish ? "Slides" : "Folien",

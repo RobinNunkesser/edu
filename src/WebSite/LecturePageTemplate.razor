@@ -92,11 +92,16 @@ else
                         <div class="resource-table resource-table-compact">
                             @foreach (var link in linkedEntries)
                             {
-                                <div class="resource-table-row resource-table-row-compact">
+                                var hasCompactMeta = HasCompactMeta(link);
+
+                                <div class="resource-table-row resource-table-row-compact @(hasCompactMeta ? string.Empty : "resource-table-row-compact-no-meta")">
                                     <div class="resource-table-label resource-table-label-compact">@link.Title</div>
-                                    <div class="resource-table-value">
-                                        <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
-                                    </div>
+                                    @if (hasCompactMeta)
+                                    {
+                                        <div class="resource-table-value">
+                                            <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
+                                        </div>
+                                    }
                                     <div class="resource-table-action">
                                         @if (IsExternalLink(link.Url))
                                         {
@@ -146,7 +151,8 @@ else
                 {
                     var isProjectAssessment = IsProjectAssessmentSection(lectureSection.Title);
                     var dynamicValue = GetAssessmentDynamicValue(lectureSection);
-                    var dynamicUrl = GetAssessmentDynamicUrl(lectureSection);
+                    var assignmentUrl = GetAssessmentAssignmentUrl(lectureSection);
+                    var explanationUrl = GetAssessmentExplanationUrl(lectureSection);
 
                     <article class="resource-card assessment-template-card">
                         <p class="feature-card-kicker">@GetAssessmentShowcaseTitle(lectureSection.Title)</p>
@@ -184,16 +190,26 @@ else
                             }
                         </div>
 
-                        @if (isProjectAssessment && !string.IsNullOrWhiteSpace(dynamicUrl))
+                        @if (isProjectAssessment && (!string.IsNullOrWhiteSpace(assignmentUrl) || !string.IsNullOrWhiteSpace(explanationUrl)))
                         {
-                            @if (IsExternalLink(dynamicUrl))
-                            {
-                                <a class="inline-link assessment-template-link" href="@dynamicUrl" target="_blank" rel="noreferrer">@GetAssessmentAssignmentActionLabel()</a>
-                            }
-                            else
-                            {
-                                <a class="inline-link assessment-template-link" href="@dynamicUrl">@GetAssessmentAssignmentActionLabel()</a>
-                            }
+                            <div class="assessment-template-actions">
+                                @if (!string.IsNullOrWhiteSpace(assignmentUrl))
+                                {
+                                    @if (IsExternalLink(assignmentUrl))
+                                    {
+                                        <a class="inline-link assessment-template-link" href="@assignmentUrl" target="_blank" rel="noreferrer">@GetAssessmentAssignmentActionLabel()</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="inline-link assessment-template-link" href="@assignmentUrl">@GetAssessmentAssignmentActionLabel()</a>
+                                    }
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(explanationUrl))
+                                {
+                                    <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@explanationUrl">@GetAssessmentExplanationActionLabel()</a>
+                                }
+                            </div>
                         }
                     </article>
                 }
@@ -218,11 +234,16 @@ else
                         <div class="resource-table resource-table-compact">
                             @foreach (var link in linkedEntries)
                             {
-                                <div class="resource-table-row resource-table-row-compact">
+                                var hasCompactMeta = HasCompactMeta(link);
+
+                                <div class="resource-table-row resource-table-row-compact @(hasCompactMeta ? string.Empty : "resource-table-row-compact-no-meta")">
                                     <div class="resource-table-label resource-table-label-compact">@link.Title</div>
-                                    <div class="resource-table-value">
-                                        <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
-                                    </div>
+                                    @if (hasCompactMeta)
+                                    {
+                                        <div class="resource-table-value">
+                                            <div class="resource-table-secondary resource-table-secondary-strong">@link.Description</div>
+                                        </div>
+                                    }
                                     <div class="resource-table-action">
                                         @if (IsExternalLink(link.Url))
                                         {
@@ -397,13 +418,22 @@ else
     private string GetAssessmentAssignmentActionLabel()
         => LandingLabel == "Lehre" ? "GitHub Assignment öffnen" : "Open GitHub assignment";
 
+    private string GetAssessmentExplanationActionLabel()
+        => LandingLabel == "Lehre" ? "Erläuterungen öffnen" : "Open explanation page";
+
     private static string GetAssessmentDynamicValue(LectureSectionViewModel section)
         => section.Links.FirstOrDefault(link => string.IsNullOrWhiteSpace(link.Url))?.Description
            ?? section.Links.FirstOrDefault()?.Description
            ?? string.Empty;
 
-    private static string? GetAssessmentDynamicUrl(LectureSectionViewModel section)
-        => section.Links.FirstOrDefault(link => !string.IsNullOrWhiteSpace(link.Url))?.Url;
+    private static string? GetAssessmentAssignmentUrl(LectureSectionViewModel section)
+        => section.Links.FirstOrDefault(link => IsExternalLink(link.Url))?.Url;
+
+    private static string? GetAssessmentExplanationUrl(LectureSectionViewModel section)
+        => section.Links.FirstOrDefault(link => !string.IsNullOrWhiteSpace(link.Url) && !IsExternalLink(link.Url))?.Url;
+
+    private static bool HasCompactMeta(ResourceLinkViewModel link)
+        => !string.IsNullOrWhiteSpace(link.Description);
 
     private static (string Primary, string? Secondary) SplitDescription(string description)
     {

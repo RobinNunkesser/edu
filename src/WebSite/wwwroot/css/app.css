@@ -181,12 +181,54 @@ a {
 
 .assessment-template-card {
     align-content: start;
-    background: linear-gradient(135deg, rgba(240, 249, 255, 0.96), rgba(230, 244, 255, 0.88));
+    background: linear-gradient(180deg, rgba(247, 251, 255, 0.98), rgba(239, 247, 255, 0.92));
+    border: 1px solid rgba(140, 173, 202, 0.22);
+    box-shadow: 0 10px 24px rgba(24, 49, 79, 0.05);
+}
+
+.assessment-template-card .feature-card-kicker {
+    margin-bottom: 0.85rem;
+    color: #58799a;
+}
+
+.assessment-template-card .resource-table-row {
+    grid-template-columns: minmax(120px, 160px) minmax(0, 1fr);
+    padding: 0.75rem 0;
+    border-bottom-color: rgba(140, 173, 202, 0.18);
+}
+
+.assessment-template-card .resource-table-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: #6a86a3;
+}
+
+.assessment-template-card .resource-table-primary {
+    font-size: 0.96rem;
+    font-weight: 500;
+    color: #29486a;
+}
+
+.assessment-template-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 1rem;
 }
 
 .assessment-template-link {
     display: inline-flex;
     margin-top: 1rem;
+    font-size: 0.92rem;
+    color: #335b84;
+}
+
+.assessment-template-actions .assessment-template-link {
+    margin-top: 0;
+}
+
+.assessment-template-link-secondary {
+    color: #5c7691;
 }
 
 .resource-table {
@@ -255,6 +297,10 @@ a {
     gap: 1rem;
     padding: 0.8rem 0;
     align-items: center;
+}
+
+.resource-table-row-compact-no-meta {
+    grid-template-columns: minmax(220px, 1fr) auto;
 }
 
 .resource-table-label-compact {
