@@ -1,31 +1,53 @@
 .hero {
-    margin-bottom: 1.75rem;
-    padding: 1.5rem;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
-    border: 1px solid #dbeafe;
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
 }
 
-.eyebrow {
-    margin: 0 0 0.5rem;
-    font-size: 0.85rem;
+.hero-copy,
+.hero-panel {
+    padding: 2rem;
+    border-radius: 24px;
+    color: #f8fbff;
+    box-shadow: 0 1.5rem 3rem rgba(10, 37, 64, 0.14);
+}
+
+.hero-copy {
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 35%),
+        linear-gradient(160deg, rgba(9, 50, 112, 0.96), rgba(22, 111, 197, 0.88));
+}
+
+.hero-panel {
+    background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 30%),
+        linear-gradient(160deg, rgba(0, 119, 86, 0.92), rgba(37, 166, 154, 0.84));
+}
+
+.hero-kicker,
+.hero-panel-label {
+    margin: 0 0 0.75rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #0f4c81;
+    opacity: 0.8;
 }
 
-.hero h1 {
+.hero-copy h1,
+.hero-panel h2 {
     margin: 0;
 }
 
-.lead {
-    margin: 0.75rem 0 1rem;
-    max-width: 52rem;
-    color: #526071;
+.hero-lead {
+    margin: 1rem 0 0;
+    max-width: 42rem;
+    line-height: 1.7;
 }
 
-.hero-link {
-    color: #0f4c81;
-    font-weight: 600;
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
 }

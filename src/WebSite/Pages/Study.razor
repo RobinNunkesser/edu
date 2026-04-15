@@ -1,10 +1,42 @@
+@page "/lehre"
 @page "/study"
-@inject StudyCatalogService CatalogService
+@inject SiteContentService ContentService
 
-<PageTitle>Study Catalog</PageTitle>
+<PageTitle>Lehre</PageTitle>
 
-<h1>Study Catalog</h1>
+<section class="page-intro">
+	<p class="section-label">Lehre</p>
+	<h1>Lehrveranstaltungen mit direktem Zugriff auf Uebungen und Materialien</h1>
+	<p>
+		Der erste Ausbau uebernimmt Struktur und Inhalte aus dem lectures-Wiki. Kursseiten sollen nicht nur auflisten,
+		sondern die wichtigsten Arbeitsmaterialien direkt in Reichweite bringen.
+	</p>
+</section>
 
-<p>Diese Seite ist der erste Sammelpunkt fuer importierte Themen, Aufgabenkataloge und spaetere Detailseiten.</p>
+<section class="page-section">
+	<div class="feature-grid">
+		@foreach (var lecture in Lectures)
+		{
+			<a class="feature-card" href="@lecture.Route">
+				<p class="feature-card-kicker">@lecture.Semester</p>
+				<h3>@lecture.Title</h3>
+				<p>@lecture.Summary</p>
+				<div class="tag-row">
+					@foreach (var tag in lecture.HighlightTags)
+					{
+						<span class="tag">@tag</span>
+					}
+				</div>
+			</a>
+		}
+	</div>
+</section>
 
-<CatalogOverview Sections="@CatalogService.GetSections()" />
+@code {
+	private IReadOnlyList<LectureOverviewViewModel> Lectures = [];
+
+	protected override void OnInitialized()
+	{
+		Lectures = ContentService.GetTeachingLectures();
+	}
+}

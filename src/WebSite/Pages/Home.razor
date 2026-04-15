@@ -1,23 +1,64 @@
 ﻿@page "/"
 
-@inject StudyCatalogService CatalogService
+@inject SiteContentService ContentService
 
 <PageTitle>edu</PageTitle>
 
 <section class="hero">
-	<p class="eyebrow">GitHub Pages first</p>
-	<h1>@Snapshot.Title</h1>
-	<p class="lead">@Snapshot.Intro</p>
-	<p><a class="hero-link" href="@Snapshot.CatalogRoute">Zum Katalog</a></p>
+	<div class="hero-copy">
+		<p class="hero-kicker">edu</p>
+		<h1>Lehre, Forschung und Software an einem Ort</h1>
+		<p class="hero-lead">
+			Die Seite wird von einer Companion-Demo zu einer klar gegliederten Arbeitsoberflaeche umgebaut: Lehrveranstaltungen
+			mit Unterseiten, Forschungsschwerpunkte und Software-Artefakte bekommen jeweils ihren eigenen Einstieg.
+		</p>
+	</div>
+
+	<div class="hero-panel">
+		<p class="hero-panel-label">Aktuelle Ausrichtung</p>
+		<h2>Lehrveranstaltungen zuerst</h2>
+		<p>
+			Die erste Ausbaustufe uebernimmt Struktur und Inhalte aus dem lectures-Wiki und stellt insbesondere Uebungen,
+			Folien, Videos und projektbezogene Materialien direkt auf den Kursseiten bereit.
+		</p>
+	</div>
 </section>
 
-<CatalogOverview Sections="@Snapshot.Sections" />
+<section class="page-section">
+	<div class="section-heading">
+		<p class="section-label">Navigation</p>
+		<h2>Drei klare Einstiege</h2>
+		<p>Statt eines allgemeinen Study-Hubs fuehrt die Startseite jetzt direkt in die drei Hauptbereiche.</p>
+	</div>
+
+	<div class="feature-grid">
+		@foreach (var area in Areas)
+		{
+			<a class="feature-card" href="@area.Route">
+				<p class="feature-card-kicker">@string.Join(" / ", area.Highlights)</p>
+				<h3>@area.Title</h3>
+				<p>@area.Summary</p>
+			</a>
+		}
+	</div>
+</section>
+
+<section class="page-section page-section-muted">
+	<div class="section-heading">
+		<p class="section-label">Naechster Ausbau</p>
+		<h2>Lehre bekommt zuerst Tiefe</h2>
+		<p>
+			App Development, Technische Informatik und Kuenstliche Intelligenz sind als erste Lehrveranstaltungen direkt
+			aus dem vorhandenen Wiki uebernommen und werden im naechsten Schritt weiter mit importierten Inhalten verknuepft.
+		</p>
+	</div>
+</section>
 
 @code {
-	private CatalogLandingSnapshot Snapshot = default!;
+	private IReadOnlyList<HomeAreaViewModel> Areas = [];
 
 	protected override void OnInitialized()
 	{
-		Snapshot = CatalogService.GetLandingSnapshot();
+		Areas = ContentService.GetAreas();
 	}
 }
