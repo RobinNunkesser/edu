@@ -55,7 +55,7 @@ Die lokale Vorschau startet ueber den WebSite-Host mit dem `http`-Launch-Profil:
 make browser
 ```
 
-Das Kommando startet den Dev-Server fuer [src/WebSite/WebSite.csproj](src/WebSite/WebSite.csproj). Auf macOS oeffnet `dotnet watch` dabei in der Regel den Browser ueber das konfigurierte Launch-Profil auf `http://localhost:5155`.
+Wenn bereits ein lokaler Dev-Server auf `http://localhost:5155` laeuft, verwendet das Target die vorhandene Instanz und oeffnet nur den Browser. Andernfalls startet es `dotnet watch` fuer [src/WebSite/WebSite.csproj](src/WebSite/WebSite.csproj).
 
 ## Naechste Schritte
 
