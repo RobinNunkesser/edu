@@ -3,18 +3,20 @@ namespace Shared.Application;
 public sealed record SiteContentDocument(
     UiTextViewModel Ui,
     HomePageViewModel Home,
+    SectionLandingViewModel Book,
     SectionLandingViewModel Teaching,
     SectionLandingViewModel Research,
     SectionLandingViewModel Software,
     IReadOnlyList<HomeAreaDocument> Areas,
+    IReadOnlyList<ResourceLinkViewModel> BookLinks,
     IReadOnlyList<InfoCardViewModel> ResearchCards,
     IReadOnlyList<InfoCardViewModel> SoftwareCards,
     IReadOnlyList<LectureDocument> Lectures);
 
 public sealed record UiTextViewModel(
-    string NavHome,
     string NavTeaching,
     string NavResearch,
+    string NavBook,
     string NavSoftware,
     string HeaderPrototype,
     string LectureMetaLabel,

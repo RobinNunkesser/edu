@@ -18,6 +18,10 @@ public sealed class SiteContentService
 
     public async Task<HomePageViewModel> GetHomePageAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Home;
 
+    public async Task<SectionLandingViewModel> GetBookLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Book;
+
+    public async Task<IReadOnlyList<ResourceLinkViewModel>> GetBookLinksAsync(SiteLanguage language) => (await GetDocumentAsync(language)).BookLinks;
+
     public async Task<SectionLandingViewModel> GetTeachingLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Teaching;
 
     public async Task<SectionLandingViewModel> GetResearchLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Research;
@@ -94,6 +98,7 @@ public sealed class SiteContentService
     {
         "teaching" => SiteRoutes.Teaching(language),
         "research" => SiteRoutes.Research(language),
+        "book" => SiteRoutes.Book(language),
         "software" => SiteRoutes.Software(language),
         _ => SiteRoutes.Home(language)
     };

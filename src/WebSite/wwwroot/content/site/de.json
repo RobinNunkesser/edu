@@ -1,8 +1,8 @@
 {
   "ui": {
-    "navHome": "Home",
     "navTeaching": "Lehre",
     "navResearch": "Forschung",
+    "navBook": "Buch",
     "navSoftware": "Software",
     "headerPrototype": "Zweisprachiger Prototyp",
     "lectureMetaLabel": "Rahmen",
@@ -22,12 +22,24 @@
     "focusTitle": "Lehrveranstaltungen zuerst",
     "focusText": "Die erste Ausbaustufe uebernimmt Struktur und Inhalte aus dem lectures-Wiki und stellt insbesondere Uebungen, Folien, Videos und projektbezogene Materialien direkt auf den Kursseiten bereit.",
     "navigationLabel": "Navigation",
-    "navigationTitle": "Drei klare Einstiege",
-    "navigationText": "Statt eines allgemeinen Study-Hubs fuehrt die Startseite jetzt direkt in die drei Hauptbereiche.",
+    "navigationTitle": "Vier klare Einstiege",
+    "navigationText": "Der bisherige Home-Einstieg tritt in den Hintergrund. Perspektivisch fuehrt der Start direkt in die vier Hauptbereiche Lehre, Forschung, Buch und Software.",
     "nextLabel": "Naechster Ausbau",
     "nextTitle": "Mehr Veranstaltungen, weniger Hardcode",
     "nextText": "Die Inhalte werden schrittweise aus Sprachdateien und importierbaren Quelldaten gespeist. Damit koennen weitere Lehrveranstaltungen schneller uebernommen werden."
   },
+  "book": {
+    "label": "Lehrbuch",
+    "title": "App Engineering als eigener Bereich",
+    "intro": "Das Buch bekommt eine eigene Seite auf derselben Ebene wie Lehre, Forschung und Software. Damit bleibt der Verweis dauerhaft sichtbar und kann spaeter um Materialien, Hinweise und Einsatzkontexte erweitert werden."
+  },
+  "bookLinks": [
+    {
+      "title": "App Engineering",
+      "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5",
+      "description": "SpringerLink-Eintrag zum Lehrbuch"
+    }
+  ],
   "teaching": {
     "label": "Lehre",
     "title": "Lehrveranstaltungen mit direktem Zugriff auf Uebungen und Materialien",
@@ -55,6 +67,12 @@
       "title": "Forschung",
       "summary": "Schwerpunkte, Themenfelder und Anknuepfungspunkte fuer Projekt- und Abschlussarbeiten.",
       "highlights": ["Schwerpunkte", "Projekte", "Arbeiten"]
+    },
+    {
+      "key": "book",
+      "title": "Buch",
+      "summary": "Das Lehrbuch App Engineering als dauerhafter Referenzpunkt mit direktem Zugriff auf den Springer-Eintrag.",
+      "highlights": ["App Engineering", "Springer", "Referenz"]
     },
     {
       "key": "software",

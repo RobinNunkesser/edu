@@ -22,11 +22,13 @@ public static class SiteRoutes
             : SiteLanguage.De;
     }
 
-    public static string Home(SiteLanguage language) => language == SiteLanguage.En ? "/en" : "/";
+    public static string Home(SiteLanguage language) => Teaching(language);
 
     public static string Teaching(SiteLanguage language) => language == SiteLanguage.En ? "/en/teaching" : "/lehre";
 
     public static string Research(SiteLanguage language) => language == SiteLanguage.En ? "/en/research" : "/forschung";
+
+    public static string Book(SiteLanguage language) => language == SiteLanguage.En ? "/en/book" : "/buch";
 
     public static string Software(SiteLanguage language) => language == SiteLanguage.En ? "/en/software" : "/software";
 
@@ -65,6 +67,7 @@ public static class SiteRoutes
         {
             "lehre" or "teaching" or "study" => Teaching(targetLanguage),
             "forschung" or "research" => Research(targetLanguage),
+            "buch" or "book" => Book(targetLanguage),
             "software" => Software(targetLanguage),
             _ => Home(targetLanguage)
         };

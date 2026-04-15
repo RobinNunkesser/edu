@@ -14,11 +14,6 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@SiteRoutes.Home(CurrentLanguage)" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @UiText.NavHome
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
             <NavLink class="nav-link" href="@SiteRoutes.Teaching(CurrentLanguage)">
                 <span class="bi bi-journal-richtext" aria-hidden="true"></span> @UiText.NavTeaching
             </NavLink>
@@ -26,6 +21,11 @@
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="@SiteRoutes.Research(CurrentLanguage)">
                 <span class="bi bi-diagram-3" aria-hidden="true"></span> @UiText.NavResearch
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="@SiteRoutes.Book(CurrentLanguage)">
+                <span class="bi bi-book" aria-hidden="true"></span> @UiText.NavBook
             </NavLink>
         </div>
         <div class="nav-item px-3">
@@ -39,7 +39,7 @@
 @code {
     private bool collapseNavMenu = true;
     private SiteLanguage CurrentLanguage;
-    private UiTextViewModel UiText = new("Home", "Lehre", "Forschung", "Software", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+    private UiTextViewModel UiText = new("Lehre", "Forschung", "Buch", "Software", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

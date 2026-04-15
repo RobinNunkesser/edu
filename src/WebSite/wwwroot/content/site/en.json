@@ -1,8 +1,8 @@
 {
   "ui": {
-    "navHome": "Home",
     "navTeaching": "Teaching",
     "navResearch": "Research",
+    "navBook": "Book",
     "navSoftware": "Software",
     "headerPrototype": "Bilingual prototype",
     "lectureMetaLabel": "Overview",
@@ -22,12 +22,24 @@
     "focusTitle": "Courses first",
     "focusText": "The first iteration adopts structure and material from the lectures wiki and puts exercises, slides, videos, and project-related resources directly onto the course pages.",
     "navigationLabel": "Navigation",
-    "navigationTitle": "Three clear entry points",
-    "navigationText": "Instead of a generic study hub, the home page now leads directly into the three main areas.",
+    "navigationTitle": "Four clear entry points",
+    "navigationText": "The previous home entry fades into the background. In the target structure, the start leads directly into the four main areas Teaching, Research, Book, and Software.",
     "nextLabel": "Next iteration",
     "nextTitle": "More courses, less hardcode",
     "nextText": "Content is gradually moving into language files and importable source data. That makes it easier to add more courses without expanding code-bound translations."
   },
+  "book": {
+    "label": "Textbook",
+    "title": "App Engineering as its own top-level area",
+    "intro": "The book now gets its own page on the same level as Teaching, Research, and Software. That keeps the reference permanently visible and leaves room for later material, notes, and context."
+  },
+  "bookLinks": [
+    {
+      "title": "App Engineering",
+      "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5",
+      "description": "SpringerLink entry for the textbook"
+    }
+  ],
   "teaching": {
     "label": "Teaching",
     "title": "Courses with direct access to exercises and materials",
@@ -55,6 +67,12 @@
       "title": "Research",
       "summary": "Focus areas, research themes, and entry points for projects and theses.",
       "highlights": ["Topics", "Projects", "Theses"]
+    },
+    {
+      "key": "book",
+      "title": "Book",
+      "summary": "The App Engineering textbook as a durable reference point with direct access to the Springer entry.",
+      "highlights": ["App Engineering", "Springer", "Reference"]
     },
     {
       "key": "software",
