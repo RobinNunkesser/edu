@@ -3,6 +3,7 @@
 @page "/en/teaching"
 @inject NavigationManager NavigationManager
 @inject SiteContentService ContentService
+@inject StudyTopicService TopicService
 
 <PageTitle>Lehre</PageTitle>
 
@@ -32,17 +33,49 @@
 			}
 		</div>
 	</section>
+
+	@if (FeaturedTopic is not null)
+	{
+		<section class="page-section page-section-muted">
+			<div class="section-heading">
+				<h2>@FeaturedSectionTitle</h2>
+				<p>@FeaturedSectionIntro</p>
+			</div>
+
+			<div class="feature-grid">
+				<a class="feature-card" href="@FeaturedTopic.Route">
+					<p class="feature-card-kicker">@FeaturedTopic.Kicker</p>
+					<h3>@FeaturedTopic.Title</h3>
+					<p>@FeaturedTopic.Summary</p>
+					<div class="tag-row">
+						@foreach (var tag in FeaturedTopic.Tags)
+						{
+							<span class="tag">@tag</span>
+						}
+					</div>
+				</a>
+			</div>
+		</section>
+	}
 }
 
 @code {
 	private SiteLanguage CurrentLanguage;
 	private SectionLandingViewModel? Landing;
 	private IReadOnlyList<LectureOverviewViewModel> Lectures = [];
+	private StudyTopicCardViewModel? FeaturedTopic;
+	private string FeaturedSectionTitle = string.Empty;
+	private string FeaturedSectionIntro = string.Empty;
 
 	protected override async Task OnParametersSetAsync()
 	{
 		CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
 		Landing = await ContentService.GetTeachingLandingAsync(CurrentLanguage);
 		Lectures = await ContentService.GetTeachingLecturesAsync(CurrentLanguage);
+		FeaturedTopic = TopicService.GetFeaturedTopic(CurrentLanguage);
+		FeaturedSectionTitle = CurrentLanguage == SiteLanguage.En ? "Technical slices" : "Technische Durchstiche";
+		FeaturedSectionIntro = CurrentLanguage == SiteLanguage.En
+			? "The first topic page brings algorithmic package logic from the companion into a dedicated web view."
+			: "Die erste Themenseite bringt algorithmische Paketlogik aus dem Companion in eine eigene Web-Ansicht.";
 	}
 }

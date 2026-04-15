@@ -1,0 +1,106 @@
+.mst-hero {
+    align-items: stretch;
+}
+
+.mst-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 1rem;
+}
+
+.mst-card {
+    align-content: start;
+}
+
+.mst-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.mst-progress-card {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.9), rgba(224, 242, 254, 0.85));
+    border: 1px solid rgba(96, 165, 250, 0.25);
+}
+
+.mst-progress-card h3,
+.mst-progress-card p {
+    margin: 0;
+}
+
+.mst-step-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.mst-step-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.95rem 1rem;
+    border-radius: 16px;
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.mst-step-item p,
+.mst-step-item strong {
+    margin: 0;
+}
+
+.mst-step-item-current {
+    background: rgba(224, 242, 254, 0.85);
+    border-color: rgba(14, 116, 144, 0.35);
+}
+
+.mst-step-item-complete {
+    background: rgba(220, 252, 231, 0.72);
+    border-color: rgba(22, 163, 74, 0.22);
+}
+
+.mst-edge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.85rem;
+}
+
+.mst-edge-card {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.mst-edge-card h3,
+.mst-edge-card p {
+    margin: 0;
+}
+
+.mst-edge-card-active {
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.96), rgba(191, 219, 254, 0.92));
+    border-color: rgba(37, 99, 235, 0.35);
+    box-shadow: 0 1rem 2rem rgba(59, 130, 246, 0.14);
+}
+
+.mst-edge-card-solution {
+    background: rgba(239, 246, 255, 0.85);
+}
+
+.mst-result-card {
+    background: linear-gradient(135deg, rgba(240, 253, 244, 0.92), rgba(220, 252, 231, 0.9));
+}
+
+@media (max-width: 900px) {
+    .mst-layout {
+        grid-template-columns: 1fr;
+    }
+}

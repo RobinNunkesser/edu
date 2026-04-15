@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared.Domain\Shared.Domain.csproj" />
     <ProjectReference Include="..\Content.Schema\Content.Schema.csproj" />
+    <ProjectReference Include="..\..\..\..\..\packages\dotnet\nuget-graph\src\Italbytz.Graph\Italbytz.Graph.csproj" />
   </ItemGroup>
 
   <ItemGroup>

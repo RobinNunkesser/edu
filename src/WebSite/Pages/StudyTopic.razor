@@ -1,0 +1,217 @@
+@page "/study/{Slug}"
+@page "/en/study/{Slug}"
+@inject NavigationManager NavigationManager
+@inject StudyTopicService TopicService
+
+<PageTitle>@(_topic?.Title ?? NotFoundTitle)</PageTitle>
+
+@if (_topic is null)
+{
+    <section class="page-intro">
+        <p class="section-label">@NotFoundLabel</p>
+        <h1>@NotFoundTitle</h1>
+        <p>@NotFoundText</p>
+    </section>
+}
+else
+{
+    <section class="page-intro lecture-hero mst-hero">
+        <div>
+            <p class="section-label">@_topic.SectionLabel</p>
+            <h1>@_topic.Title</h1>
+            <p>@_topic.Intro</p>
+        </div>
+
+        <div class="lecture-meta-card">
+            <p class="feature-card-kicker">@_topic.MetaLabel</p>
+            <h2>@_topic.MetaValue</h2>
+            <a class="inline-link" href="@_topic.BackRoute">@_topic.BackLabel</a>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="tag-row">
+            <span class="tag">@_topic.VerticesLabel: @_topic.VertexCount</span>
+            <span class="tag">@_topic.EdgesLabel: @_topic.EdgeCount</span>
+            <span class="tag">@_topic.TotalWeightLabel: @_topic.TotalWeight</span>
+            <span class="tag">@_topic.SourceSystemLabel: @_topic.SourceSystemValue</span>
+        </div>
+    </section>
+
+    <section class="page-section mst-layout">
+        <article class="resource-card mst-card">
+            <div class="section-heading">
+                <h2>@_topic.StepSectionTitle</h2>
+                <p>@_topic.StepSectionIntro</p>
+            </div>
+
+            <div class="mst-controls">
+                <button class="btn btn-outline-primary" @onclick="PreviousStep" disabled="@(CurrentStep == 0)">@_topic.PreviousStepLabel</button>
+                <button class="btn btn-primary" @onclick="NextStep" disabled="@(CurrentStep >= _topic.Steps.Count)">@_topic.NextStepLabel</button>
+                <button class="btn btn-outline-primary" @onclick="ShowCompleteSolution" disabled="@(CurrentStep >= _topic.Steps.Count)">@_topic.CompleteSolutionLabel</button>
+                <button class="btn btn-link" @onclick="Reset">@_topic.ResetLabel</button>
+            </div>
+
+            <div class="mst-progress-card">
+                <p class="feature-card-kicker">@_topic.ProgressLabel</p>
+                <h3>@ProgressText</h3>
+                <p>@CurrentStepDescription</p>
+            </div>
+
+            <ol class="mst-step-list">
+                @foreach (var step in _topic.Steps)
+                {
+                    <li class="@GetStepClass(step.Number)">
+                        <div>
+                            <strong>@step.Number. @step.EdgeLabel</strong>
+                            <p>@step.Description</p>
+                        </div>
+                        <span class="tag">@step.Weight</span>
+                    </li>
+                }
+            </ol>
+        </article>
+
+        <article class="resource-card mst-card">
+            <div class="section-heading">
+                <h2>@_topic.GraphSectionTitle</h2>
+                <p>@_topic.GraphSectionIntro</p>
+            </div>
+
+            <div class="mst-edge-grid">
+                @foreach (var edge in _topic.GraphEdges)
+                {
+                    <article class="@GetEdgeClass(edge)">
+                        <div>
+                            <p class="feature-card-kicker">@edge.Source - @edge.Target</p>
+                            <h3>@edge.Weight</h3>
+                        </div>
+                        <p>@GetEdgeStatus(edge)</p>
+                    </article>
+                }
+            </div>
+        </article>
+    </section>
+
+    <section class="page-section">
+        <div class="section-heading">
+            <h2>@_topic.ResultSectionTitle</h2>
+            <p>@_topic.ResultSectionIntro</p>
+        </div>
+
+        <div class="resource-grid">
+            @foreach (var edge in IncludedEdges)
+            {
+                <article class="resource-card mst-result-card">
+                    <p class="feature-card-kicker">@_topic.SolutionEdgeLabel</p>
+                    <h3>@edge.Source - @edge.Target</h3>
+                    <p>@_topic.TotalWeightLabel: @edge.Weight</p>
+                </article>
+            }
+        </div>
+    </section>
+}
+
+@code {
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private SiteLanguage CurrentLanguage;
+    private StudyTopicDetailViewModel? _topic;
+    private int CurrentStep;
+    private string NotFoundLabel = string.Empty;
+    private string NotFoundTitle = string.Empty;
+    private string NotFoundText = string.Empty;
+
+    private string ProgressText => _topic is null
+        ? string.Empty
+        : $"{CurrentStep}/{_topic.Steps.Count}";
+
+    private string CurrentStepDescription => _topic is null
+        ? string.Empty
+        : CurrentStep == 0
+            ? _topic.InitialStepDescription
+            : _topic.Steps[CurrentStep - 1].Description;
+
+    private IReadOnlyList<StudyEdgeViewModel> IncludedEdges => _topic is null
+        ? []
+        : _topic.GraphEdges.Where(edge => IsIncluded(edge.EdgeKey)).ToArray();
+
+    protected override void OnParametersSet()
+    {
+        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        _topic = TopicService.GetTopicDetail(CurrentLanguage, Slug);
+        CurrentStep = 0;
+
+        NotFoundLabel = CurrentLanguage == SiteLanguage.En ? "Study topic" : "Studienthema";
+        NotFoundTitle = CurrentLanguage == SiteLanguage.En ? "Topic not found" : "Thema nicht gefunden";
+        NotFoundText = CurrentLanguage == SiteLanguage.En
+            ? "There is no technical slice for this slug yet."
+            : "Zu diesem Slug gibt es noch keinen technischen Durchstich.";
+    }
+
+    private void PreviousStep()
+    {
+        if (CurrentStep > 0)
+        {
+            CurrentStep--;
+        }
+    }
+
+    private void NextStep()
+    {
+        if (_topic is not null && CurrentStep < _topic.Steps.Count)
+        {
+            CurrentStep++;
+        }
+    }
+
+    private void ShowCompleteSolution()
+    {
+        if (_topic is not null)
+        {
+            CurrentStep = _topic.Steps.Count;
+        }
+    }
+
+    private void Reset() => CurrentStep = 0;
+
+    private string GetStepClass(int stepNumber)
+    {
+        if (stepNumber <= CurrentStep)
+        {
+            return stepNumber == CurrentStep ? "mst-step-item mst-step-item-current" : "mst-step-item mst-step-item-complete";
+        }
+
+        return "mst-step-item";
+    }
+
+    private string GetEdgeClass(StudyEdgeViewModel edge)
+    {
+        if (IsIncluded(edge.EdgeKey))
+        {
+            return "mst-edge-card mst-edge-card-active";
+        }
+
+        return edge.IsPartOfSolution ? "mst-edge-card mst-edge-card-solution" : "mst-edge-card";
+    }
+
+    private string GetEdgeStatus(StudyEdgeViewModel edge)
+    {
+        var isEnglish = CurrentLanguage == SiteLanguage.En;
+
+        if (IsIncluded(edge.EdgeKey))
+        {
+            return isEnglish ? "Currently selected" : "Aktuell ausgewaehlt";
+        }
+
+        if (edge.IsPartOfSolution)
+        {
+            return isEnglish ? "Part of final tree" : "Teil der finalen Loesung";
+        }
+
+        return isEnglish ? "Alternative edge" : "Alternative Kante";
+    }
+
+    private bool IsIncluded(string edgeKey) => _topic is not null && _topic.Steps.Take(CurrentStep).Any(step => step.EdgeKey == edgeKey);
+}
