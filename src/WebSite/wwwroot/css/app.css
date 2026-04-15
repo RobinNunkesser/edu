@@ -173,6 +173,22 @@ a {
     max-width: 58ch;
 }
 
+.assessment-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.assessment-template-card {
+    align-content: start;
+    background: linear-gradient(135deg, rgba(240, 249, 255, 0.96), rgba(230, 244, 255, 0.88));
+}
+
+.assessment-template-link {
+    display: inline-flex;
+    margin-top: 1rem;
+}
+
 .resource-table {
     display: grid;
     gap: 0;
@@ -254,6 +270,10 @@ a {
 }
 
 @media (max-width: 900px) {
+    .assessment-showcase-grid {
+        grid-template-columns: 1fr;
+    }
+
     .resource-table-row-compact {
         grid-template-columns: 1fr;
         gap: 0.35rem;

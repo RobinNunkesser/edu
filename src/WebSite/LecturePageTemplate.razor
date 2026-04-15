@@ -7,6 +7,7 @@
 }
 else
 {
+    var assessmentShowcaseSections = GetAssessmentShowcaseSections(Lecture.Sections);
     var exerciseDemoSections = GetExerciseDemoSections(Lecture.Sections);
     var mediaSections = GetMediaSections(Lecture.Sections);
     var remainingSections = GetRemainingSections(Lecture.Sections);
@@ -133,6 +134,73 @@ else
         </section>
     }
 
+    @if (assessmentShowcaseSections.Count > 0)
+    {
+        <section class="page-section">
+            <div class="section-heading">
+                <h2>@GetAssessmentShowcaseGroupTitle()</h2>
+            </div>
+
+            <div class="assessment-showcase-grid">
+                @foreach (var lectureSection in assessmentShowcaseSections)
+                {
+                    var isProjectAssessment = IsProjectAssessmentSection(lectureSection.Title);
+                    var dynamicValue = GetAssessmentDynamicValue(lectureSection);
+                    var dynamicUrl = GetAssessmentDynamicUrl(lectureSection);
+
+                    <article class="resource-card assessment-template-card">
+                        <p class="feature-card-kicker">@GetAssessmentShowcaseTitle(lectureSection.Title)</p>
+                        <div class="resource-table">
+                            <div class="resource-table-row">
+                                <div class="resource-table-label">@GetAssessmentFormatLabel()</div>
+                                <div class="resource-table-value">
+                                    <div class="resource-table-primary">@GetAssessmentFormatValue(isProjectAssessment)</div>
+                                </div>
+                            </div>
+
+                            @if (isProjectAssessment)
+                            {
+                                <div class="resource-table-row">
+                                    <div class="resource-table-label">@GetAssessmentTeamLabel()</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-primary">@GetProjectAssessmentTeamValue()</div>
+                                    </div>
+                                </div>
+                                <div class="resource-table-row">
+                                    <div class="resource-table-label">@GetAssessmentSubmissionLabel()</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-primary">@GetAssessmentSubmissionValue()</div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="resource-table-row">
+                                    <div class="resource-table-label">@GetAssessmentDurationLabel()</div>
+                                    <div class="resource-table-value">
+                                        <div class="resource-table-primary">@dynamicValue</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (isProjectAssessment && !string.IsNullOrWhiteSpace(dynamicUrl))
+                        {
+                            @if (IsExternalLink(dynamicUrl))
+                            {
+                                <a class="inline-link assessment-template-link" href="@dynamicUrl" target="_blank" rel="noreferrer">@GetAssessmentAssignmentActionLabel()</a>
+                            }
+                            else
+                            {
+                                <a class="inline-link assessment-template-link" href="@dynamicUrl">@GetAssessmentAssignmentActionLabel()</a>
+                            }
+                        }
+                    </article>
+                }
+            </div>
+        </section>
+    }
+
     @if (exerciseDemoSections.Count > 0)
     {
         <section class="page-section">
@@ -238,11 +306,14 @@ else
     private static IReadOnlyList<LectureSectionViewModel> GetExerciseDemoSections(IReadOnlyList<LectureSectionViewModel> sections)
         => sections.Where(section => IsExerciseDemoSection(section.Title)).ToArray();
 
+    private static IReadOnlyList<LectureSectionViewModel> GetAssessmentShowcaseSections(IReadOnlyList<LectureSectionViewModel> sections)
+        => sections.Where(section => IsAssessmentShowcaseSection(section.Title)).ToArray();
+
     private static IReadOnlyList<LectureSectionViewModel> GetMediaSections(IReadOnlyList<LectureSectionViewModel> sections)
         => sections.Where(section => IsMediaSection(section.Title)).ToArray();
 
     private static IReadOnlyList<LectureSectionViewModel> GetRemainingSections(IReadOnlyList<LectureSectionViewModel> sections)
-        => sections.Where(section => !IsExerciseDemoSection(section.Title) && !IsMediaSection(section.Title)).ToArray();
+        => sections.Where(section => !IsAssessmentShowcaseSection(section.Title) && !IsExerciseDemoSection(section.Title) && !IsMediaSection(section.Title)).ToArray();
 
     private static bool ShouldUseCompactLinkedLayout(LectureSectionViewModel section, IReadOnlyList<ResourceLinkViewModel> linkedEntries)
         => linkedEntries.Count >= 6 || UsesCompactLayoutByTitle(section.Title);
@@ -254,6 +325,17 @@ else
            || title.Equals("Mock Exams", StringComparison.OrdinalIgnoreCase)
            || title.Equals("Interaktive Übungen / Demonstratoren", StringComparison.OrdinalIgnoreCase)
            || title.Equals("Interactive Exercises / Demonstrators", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsAssessmentShowcaseSection(string title)
+        => IsExamAssessmentSection(title) || IsProjectAssessmentSection(title);
+
+    private static bool IsExamAssessmentSection(string title)
+        => title.Equals("Prüfungsvariante Klausur", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Assessment Variant Exam", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsProjectAssessmentSection(string title)
+        => title.Equals("Prüfungsvariante Projekt", StringComparison.OrdinalIgnoreCase)
+           || title.Equals("Assessment Variant Project", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsMediaSection(string title)
         => title.Equals("Folien", StringComparison.OrdinalIgnoreCase)
@@ -278,8 +360,50 @@ else
     private string GetExerciseDemoGroupTitle()
         => LandingLabel == "Lehre" ? "Übungen und Demonstratoren" : "Exercises and Demonstrators";
 
+    private string GetAssessmentShowcaseGroupTitle()
+        => LandingLabel == "Lehre" ? "Prüfungsform" : "Assessment";
+
+    private string GetAssessmentShowcaseTitle(string title)
+        => IsProjectAssessmentSection(title)
+            ? (LandingLabel == "Lehre" ? "Projekt" : "Project")
+            : (LandingLabel == "Lehre" ? "Klausur" : "Exam");
+
     private string GetMediaGroupTitle()
         => LandingLabel == "Lehre" ? "Folien und Aufzeichnungen" : "Slides and Recordings";
+
+    private string GetAssessmentFormatLabel()
+        => LandingLabel == "Lehre" ? "Format" : "Format";
+
+    private string GetAssessmentDurationLabel()
+        => LandingLabel == "Lehre" ? "Dauer" : "Duration";
+
+    private string GetAssessmentSubmissionLabel()
+        => LandingLabel == "Lehre" ? "Abgabe" : "Submission";
+
+    private string GetAssessmentTeamLabel()
+        => LandingLabel == "Lehre" ? "Teams" : "Teams";
+
+    private string GetAssessmentFormatValue(bool isProjectAssessment)
+        => isProjectAssessment
+            ? (LandingLabel == "Lehre" ? "Semesterbegleitende Projektarbeit" : "Project work across the semester")
+            : (LandingLabel == "Lehre" ? "Schriftliche Präsenzklausur" : "Written on-site exam");
+
+    private string GetAssessmentSubmissionValue()
+        => LandingLabel == "Lehre" ? "Abgabe über ein zentrales GitHub Assignment" : "Submission through a central GitHub assignment";
+
+    private string GetProjectAssessmentTeamValue()
+        => LandingLabel == "Lehre" ? "Teams mit bis zu 4 Personen" : "Teams of up to 4 students";
+
+    private string GetAssessmentAssignmentActionLabel()
+        => LandingLabel == "Lehre" ? "GitHub Assignment öffnen" : "Open GitHub assignment";
+
+    private static string GetAssessmentDynamicValue(LectureSectionViewModel section)
+        => section.Links.FirstOrDefault(link => string.IsNullOrWhiteSpace(link.Url))?.Description
+           ?? section.Links.FirstOrDefault()?.Description
+           ?? string.Empty;
+
+    private static string? GetAssessmentDynamicUrl(LectureSectionViewModel section)
+        => section.Links.FirstOrDefault(link => !string.IsNullOrWhiteSpace(link.Url))?.Url;
 
     private static (string Primary, string? Secondary) SplitDescription(string description)
     {

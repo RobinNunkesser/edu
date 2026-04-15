@@ -43,13 +43,22 @@
                     string.Empty,
                     [
                         new ResourceLinkViewModel(isEnglish ? "Lecture" : "Vorlesung", string.Empty, isEnglish ? "Tue 09:30 - 11:00, Room H4.1-E00-110" : "Di 09:30 - 11:00, Raum H4.1-E00-110"),
-                        new ResourceLinkViewModel(isEnglish ? "Lab" : "Übung", string.Empty, isEnglish ? "Tue 11:15 - 12:45, Room H4.2-E00-140" : "Di 11:15 - 12:45, Raum H4.2-E00-140"),
+                        new ResourceLinkViewModel(isEnglish ? "Lab" : "Übung", string.Empty, isEnglish ? "Tue 11:15 - 12:45, Room H4.2-E00-140" : "Di 11:15 - 12:45, Raum H4.2-E00-140")
+                    ]),
+                new LectureSectionViewModel(
+                    isEnglish ? "Assessment Variant Exam" : "Prüfungsvariante Klausur",
+                    string.Empty,
+                    [
+                        new ResourceLinkViewModel(isEnglish ? "Duration" : "Dauer", string.Empty, isEnglish ? "90 minutes" : "90 Minuten")
+                    ]),
+                new LectureSectionViewModel(
+                    isEnglish ? "Assessment Variant Project" : "Prüfungsvariante Projekt",
+                    string.Empty,
+                    [
                         new ResourceLinkViewModel(
-                            isEnglish ? "Assessment" : "Prüfungsform",
-                            string.Empty,
-                            isEnglish
-                                ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                                : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
+                            isEnglish ? "GitHub Assignment" : "GitHub Assignment",
+                            "https://classroom.github.com/a/template-assignment",
+                            isEnglish ? "Central assignment link" : "Zentraler Assignment-Link")
                     ]),
                 new LectureSectionViewModel(
                     isEnglish ? "Exercise Sheets" : "Übungsblätter",
