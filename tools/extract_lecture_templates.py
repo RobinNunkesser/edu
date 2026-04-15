@@ -13,6 +13,7 @@ OUTPUT_DIR = ROOT / "src" / "WebSite" / "wwwroot" / "content" / "site"
 WIKI_BASE_URL = "https://github.com/isd-nunkesser/lectures.wiki/wiki"
 BLOB_BASE_URL = "https://github.com/isd-nunkesser/lectures.wiki/blob/master"
 INDEX_FILE_NAME = "teaching-lectures.de.json"
+EN_INDEX_FILE_NAME = "teaching-lectures.en.json"
 
 
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
@@ -35,32 +36,63 @@ SLUG_OVERRIDES = {
     "ITProjektmanagement": "it-projektmanagement",
 }
 
+EN_TITLE_OVERRIDES = {
+    "Betriebssysteme": "Operating Systems",
+    "Netzwerke": "Networks",
+    "Softwaretechnik": "Software Engineering",
+    "Technische Informatik": "Technical Computer Science",
+    "IT Projektmanagement": "IT Project Management",
+}
+
+SECTION_TITLE_TRANSLATIONS = {
+    "Organisatorisches": "Course logistics",
+    "Prüfungsvariante Klausur": "Assessment Variant Exam",
+    "Prüfungsvariante Projekt": "Assessment Variant Project",
+    "Übungsblätter": "Exercise Sheets",
+    "Probeklausuren": "Mock Exams",
+    "Interaktive Übungen / Demonstratoren": "Interactive Exercises / Demonstrators",
+    "Folien": "Slides",
+    "Aufzeichnungen": "Recordings",
+}
+
+LINK_TITLE_TRANSLATIONS = {
+    "Vorlesung": "Lecture",
+    "Übung": "Exercise",
+    "Termin": "Schedule",
+    "Dauer": "Duration",
+    "Teamgröße": "Team Size",
+    "Abgabekriterien": "Submission Criteria",
+}
+
 
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     lectures = discover_lectures()
-    index_items = []
+    de_index_items = []
+    en_index_items = []
 
     for source_name in lectures:
         source_path = LECTURES_WIKI / f"{source_name}.md"
-        content = build_template_content(source_name, source_path.read_text(encoding="utf-8"))
-        output_path = OUTPUT_DIR / f"lecture-template.{content['slug']}.de.json"
-        output_path.write_text(json.dumps(content, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        index_items.append(
-            {
-                "slug": content["slug"],
-                "title": content["title"],
-                "semester": content["semester"],
-                "summary": content["summary"],
-                "highlightTags": content["highlightTags"],
-            }
-        )
-        print(f"Wrote {output_path.relative_to(ROOT)}")
+        de_content = build_template_content(source_name, source_path.read_text(encoding="utf-8"))
+        en_content = translate_content_to_english(de_content)
 
-    index_path = OUTPUT_DIR / INDEX_FILE_NAME
-    index_items.sort(key=lambda item: item["title"].lower())
-    index_path.write_text(json.dumps(index_items, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {index_path.relative_to(ROOT)}")
+        for language, content, index_items in [("de", de_content, de_index_items), ("en", en_content, en_index_items)]:
+            output_path = OUTPUT_DIR / f"lecture-template.{content['slug']}.{language}.json"
+            output_path.write_text(json.dumps(content, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            index_items.append(
+                {
+                    "slug": content["slug"],
+                    "title": content["title"],
+                    "semester": content["semester"],
+                }
+            )
+            print(f"Wrote {output_path.relative_to(ROOT)}")
+
+    for file_name, index_items in [(INDEX_FILE_NAME, de_index_items), (EN_INDEX_FILE_NAME, en_index_items)]:
+        index_path = OUTPUT_DIR / file_name
+        index_items.sort(key=lambda item: item["title"].lower())
+        index_path.write_text(json.dumps(index_items, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Wrote {index_path.relative_to(ROOT)}")
 
 
 def discover_lectures() -> list[str]:
@@ -108,8 +140,8 @@ def build_template_content(source_name: str, markdown: str) -> dict:
     if recording_links:
         sections.append(make_section("Aufzeichnungen", recording_links, ""))
 
-    summary = build_summary(sections)
-    highlight_tags = build_highlight_tags(sections)
+    summary = build_summary(sections, "de")
+    highlight_tags = build_highlight_tags(sections, "de")
 
     return {
         "slug": slug,
@@ -120,6 +152,47 @@ def build_template_content(source_name: str, markdown: str) -> dict:
         "highlightTags": highlight_tags,
         "sections": sections,
     }
+
+
+def translate_content_to_english(content: dict) -> dict:
+    sections = [translate_section_to_english(section) for section in content["sections"]]
+    translated_title = EN_TITLE_OVERRIDES.get(content["title"], content["title"])
+
+    return {
+        "slug": content["slug"],
+        "title": translated_title,
+        "semester": translate_semester_to_english(content["semester"]),
+        "summary": build_summary(sections, "en"),
+        "sourceUrl": content["sourceUrl"],
+        "highlightTags": build_highlight_tags(sections, "en"),
+        "sections": sections,
+    }
+
+
+def translate_section_to_english(section: dict) -> dict:
+    return {
+        "title": SECTION_TITLE_TRANSLATIONS.get(section["title"], section["title"]),
+        "intro": section["intro"],
+        "links": [translate_link_to_english(link) for link in section["links"]],
+    }
+
+
+def translate_link_to_english(link: dict) -> dict:
+    description = link["description"]
+    description = description.replace("Raum ", "Room ")
+    description = description.replace("Teams bis ", "Teams of up to ")
+    description = description.replace(" Personen möglich", " students")
+    description = description.replace(" Minuten", " minutes")
+
+    return {
+        "title": LINK_TITLE_TRANSLATIONS.get(link["title"], link["title"]),
+        "url": link["url"],
+        "description": description,
+    }
+
+
+def translate_semester_to_english(semester: str) -> str:
+    return semester.replace("Wintersemester", "Winter semester").replace("Sommersemester", "Summer semester").replace("Vorlesung aus lectures.wiki", "Lecture from lectures.wiki")
 
 
 def humanize_source_name(source_name: str) -> str:
@@ -346,50 +419,51 @@ def extract_duration(text: str) -> str | None:
     return match.group(1) if match else None
 
 
-def build_highlight_tags(sections: list[dict]) -> list[str]:
+def build_highlight_tags(sections: list[dict], language: str) -> list[str]:
     titles = {section["title"] for section in sections}
     tags = []
 
-    if "Prüfungsvariante Projekt" in titles:
-        tags.append("Projekt")
-    elif "Prüfungsvariante Klausur" in titles:
-        tags.append("Klausur")
+    if "Prüfungsvariante Projekt" in titles or "Assessment Variant Project" in titles:
+        tags.append("Project" if language == "en" else "Projekt")
+    elif "Prüfungsvariante Klausur" in titles or "Assessment Variant Exam" in titles:
+        tags.append("Exam" if language == "en" else "Klausur")
 
-    if "Übungsblätter" in titles or "Probeklausuren" in titles:
-        tags.append("Uebungen")
-    if "Interaktive Übungen / Demonstratoren" in titles:
-        tags.append("Demonstratoren")
-    if "Folien" in titles:
-        tags.append("Folien")
-    if "Aufzeichnungen" in titles:
+    if "Übungsblätter" in titles or "Probeklausuren" in titles or "Exercise Sheets" in titles or "Mock Exams" in titles:
+        tags.append("Exercises" if language == "en" else "Uebungen")
+    if "Interaktive Übungen / Demonstratoren" in titles or "Interactive Exercises / Demonstrators" in titles:
+        tags.append("Demonstrators" if language == "en" else "Demonstratoren")
+    if "Folien" in titles or "Slides" in titles:
+        tags.append("Slides" if language == "en" else "Folien")
+    if "Aufzeichnungen" in titles or "Recordings" in titles:
         tags.append("Videos")
 
     return tags
 
 
-def build_summary(sections: list[dict]) -> str:
+def build_summary(sections: list[dict], language: str) -> str:
     titles = {section["title"] for section in sections}
-    prefix = "Projektorientierte" if "Prüfungsvariante Projekt" in titles else "Klausurorientierte"
+    is_project = "Prüfungsvariante Projekt" in titles or "Assessment Variant Project" in titles
+    prefix = "Project-based" if language == "en" and is_project else "Exam-focused" if language == "en" else "Projektorientierte" if is_project else "Klausurorientierte"
 
     parts = []
-    if "Übungsblätter" in titles or "Probeklausuren" in titles:
-        parts.append("Uebungsmaterial")
-    if "Interaktive Übungen / Demonstratoren" in titles:
-        parts.append("Demonstratoren")
-    if "Folien" in titles:
-        parts.append("Folien")
-    if "Aufzeichnungen" in titles:
-        parts.append("Aufzeichnungen")
+    if "Übungsblätter" in titles or "Probeklausuren" in titles or "Exercise Sheets" in titles or "Mock Exams" in titles:
+        parts.append("exercise material" if language == "en" else "Uebungsmaterial")
+    if "Interaktive Übungen / Demonstratoren" in titles or "Interactive Exercises / Demonstrators" in titles:
+        parts.append("demonstrators" if language == "en" else "Demonstratoren")
+    if "Folien" in titles or "Slides" in titles:
+        parts.append("slides" if language == "en" else "Folien")
+    if "Aufzeichnungen" in titles or "Recordings" in titles:
+        parts.append("recordings" if language == "en" else "Aufzeichnungen")
 
     if not parts:
-        return f"{prefix} Veranstaltungsseite aus lectures.wiki."
+        return f"{prefix} course page from lectures.wiki." if language == "en" else f"{prefix} Veranstaltungsseite aus lectures.wiki."
 
     if len(parts) == 1:
         details = parts[0]
     else:
-        details = ", ".join(parts[:-1]) + f" und {parts[-1]}"
+        details = ", ".join(parts[:-1]) + (f" and {parts[-1]}" if language == "en" else f" und {parts[-1]}")
 
-    return f"{prefix} Veranstaltungsseite mit {details}."
+    return f"{prefix} course page with {details}." if language == "en" else f"{prefix} Veranstaltungsseite mit {details}."
 
 
 def make_section(title: str, links: list[dict], intro: str = "") -> dict:

@@ -1,0 +1,87 @@
+[
+  {
+    "slug": "aad",
+    "title": "AAD",
+    "semester": "Winter semester 2024/2025"
+  },
+  {
+    "slug": "ai",
+    "title": "AI",
+    "semester": "Summer semester 2026"
+  },
+  {
+    "slug": "aki",
+    "title": "AKI",
+    "semester": "Winter semester 2025/2026"
+  },
+  {
+    "slug": "android-development",
+    "title": "Android Development",
+    "semester": "Lecture from lectures.wiki"
+  },
+  {
+    "slug": "app-development",
+    "title": "App Development",
+    "semester": "Summer semester 2026"
+  },
+  {
+    "slug": "app-frontends",
+    "title": "App Frontends",
+    "semester": "Summer semester 2026"
+  },
+  {
+    "slug": "cpd",
+    "title": "CPD",
+    "semester": "Lecture from lectures.wiki"
+  },
+  {
+    "slug": "gdi",
+    "title": "GDI",
+    "semester": "Winter semester 2025/2026"
+  },
+  {
+    "slug": "iga",
+    "title": "IGA",
+    "semester": "Winter semester 2025/2026"
+  },
+  {
+    "slug": "ios-development",
+    "title": "iOS Development",
+    "semester": "Lecture from lectures.wiki"
+  },
+  {
+    "slug": "istp",
+    "title": "ISTP",
+    "semester": "Winter semester 2024/2025"
+  },
+  {
+    "slug": "it-consulting",
+    "title": "IT Consulting",
+    "semester": "Winter semester 2025/2026"
+  },
+  {
+    "slug": "it-projektmanagement",
+    "title": "IT Project Management",
+    "semester": "Summer semester 2025"
+  },
+  {
+    "slug": "netzwerke",
+    "title": "Networks",
+    "semester": "Winter semester 2025/2026"
+  },
+  {
+    "slug": "betriebssysteme",
+    "title": "Operating Systems",
+    "semester": "Winter semester 2025/2026"
+  },
+  {
+    "slug": "softwaretechnik",
+    "title": "Software Engineering",
+    "semester": "Summer semester 2026"
+  },
+  {
+    "slug": "technische-informatik",
+    "title": "Technical Computer Science",
+    "semester": "Winter semester 2024/2025"
+  }
+]

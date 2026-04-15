@@ -1,0 +1,73 @@
+{
+  "slug": "it-projektmanagement",
+  "title": "IT Project Management",
+  "semester": "Summer semester 2025",
+  "summary": "Project-based course page with slides and recordings.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ITProjektmanagement",
+  "highlightTags": [
+    "Project",
+    "Slides",
+    "Videos"
+  ],
+  "sections": [
+    {
+      "title": "Course logistics",
+      "intro": "",
+      "links": [
+        {
+          "title": "Lecture",
+          "url": "",
+          "description": "Mi 10:00 - 13:00, Room H3.3-E01-160"
+        },
+        {
+          "title": "Exercise",
+          "url": "",
+          "description": "Fr 10:00 - 13:00, Room H3.3-E01-160"
+        }
+      ]
+    },
+    {
+      "title": "Assessment Variant Project",
+      "intro": "",
+      "links": [
+        {
+          "title": "Team Size",
+          "url": "",
+          "description": "Teams of up to 4 students"
+        },
+        {
+          "title": "GitHub Assignment",
+          "url": "https://classroom.github.com/a/AqJoqJqb",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Slides",
+      "intro": "",
+      "links": [
+        {
+          "title": "Einführung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2056580/mod_folder/content/0/Einfuehrung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Vorgehensmodelle",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2056580/mod_folder/content/0/Vorgehensmodelle.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Recordings",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=43291244-8cee-4885-a6ab-b42600dace35",
+          "description": "08.04.2026"
+        }
+      ]
+    }
+  ]
+}

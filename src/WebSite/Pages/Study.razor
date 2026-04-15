@@ -23,13 +23,6 @@
 				<a class="feature-card" href="@lecture.Route">
 					<p class="feature-card-kicker">@lecture.Semester</p>
 					<h3>@lecture.Title</h3>
-					<p>@lecture.Summary</p>
-					<div class="tag-row">
-						@foreach (var tag in lecture.HighlightTags)
-						{
-							<span class="tag">@tag</span>
-						}
-					</div>
 				</a>
 			}
 		</div>

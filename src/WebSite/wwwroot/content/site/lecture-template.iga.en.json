@@ -1,0 +1,44 @@
+{
+  "slug": "iga",
+  "title": "IGA",
+  "semester": "Winter semester 2025/2026",
+  "summary": "Project-based course page from lectures.wiki.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/IGA",
+  "highlightTags": [
+    "Project"
+  ],
+  "sections": [
+    {
+      "title": "Course logistics",
+      "intro": "",
+      "links": [
+        {
+          "title": "Lecture",
+          "url": "",
+          "description": "Mi 09:30 - 11:00, Room H7.2-E00-020"
+        },
+        {
+          "title": "Exercise",
+          "url": "",
+          "description": "Fr 09:30 - 11:00, Room H4.2-E00-140"
+        }
+      ]
+    },
+    {
+      "title": "Assessment Variant Project",
+      "intro": "",
+      "links": [
+        {
+          "title": "Team Size",
+          "url": "",
+          "description": "Teams of up to 3 students"
+        },
+        {
+          "title": "GitHub Assignment",
+          "url": "https://classroom.github.com/a/RLW3u5-N",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

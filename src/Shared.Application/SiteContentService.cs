@@ -58,9 +58,7 @@ public sealed class SiteContentService
                 lecture.Slug,
                 lecture.Title,
                 lecture.Semester,
-                lecture.Summary,
-                SiteRoutes.Lecture(language, lecture.Slug),
-                lecture.HighlightTags))
+                SiteRoutes.Lecture(language, lecture.Slug)))
             .ToArray();
     }
 
@@ -177,7 +175,5 @@ public sealed class SiteContentService
     private sealed record TeachingLectureIndexItem(
         string Slug,
         string Title,
-        string Semester,
-        string Summary,
-        IReadOnlyList<string> HighlightTags);
+        string Semester);
 }

@@ -1,0 +1,218 @@
+{
+  "slug": "app-frontends",
+  "title": "App Frontends",
+  "semester": "Summer semester 2026",
+  "summary": "Project-based course page with slides and recordings.",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/AppFrontends",
+  "highlightTags": [
+    "Project",
+    "Slides",
+    "Videos"
+  ],
+  "sections": [
+    {
+      "title": "Course logistics",
+      "intro": "",
+      "links": [
+        {
+          "title": "Lecture",
+          "url": "",
+          "description": "Do 09:30 - 11:00, Room H4.2-E00-140"
+        },
+        {
+          "title": "Exercise",
+          "url": "",
+          "description": "Di 13:00 - 14:30, Room H3.3-E01-160"
+        }
+      ]
+    },
+    {
+      "title": "Assessment Variant Project",
+      "intro": "",
+      "links": [
+        {
+          "title": "Team Size",
+          "url": "",
+          "description": "Teams of up to 4 students"
+        },
+        {
+          "title": "GitHub Assignment",
+          "url": "https://classroom.github.com/a/oCsGJD3p",
+          "description": ""
+        },
+        {
+          "title": "Submission Criteria",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/Abgabekriterien",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Slides",
+      "intro": "",
+      "links": [
+        {
+          "title": "KI-gestützte Entwicklung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/2056579/mod_folder/content/0/KIgestuetzteEntwicklung.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Recordings",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7093dd45-098b-41bf-845f-b427012c45ad",
+          "description": "09.04.2026"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d2cf8912-4e9f-4931-87dd-b2ad00a7780f",
+          "description": "25.03.2025"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7934d1a0-b86f-43e5-b756-b2b400945529",
+          "description": "01.04.2025"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f3f6e1e8-f043-421e-a65f-b2ba00bfa5fc",
+          "description": "08.04.2025"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a5d54b2d-8b04-4161-a9c5-b2c100766e04",
+          "description": "15.04.2025"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=36fca44b-957d-4a6a-923e-b2d100960273",
+          "description": "29.04.2025"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f3c5d9fc-b17b-48d9-ba57-b2d60087ab2a",
+          "description": "06.05.2025"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=16e1cc6b-fe2e-4e4a-b38d-b2dd0086164b",
+          "description": "13.05.2025"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8dcfb1e8-5ef9-4fb2-979e-b2e400cd156c",
+          "description": "20.05.2025"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=129dca20-0610-4489-bb18-b150010200ae",
+          "description": "12.04.2024"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=2143da56-3a6f-4e44-9cab-b15500a9fe1a",
+          "description": "17.04.2024"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=df4ffe96-f542-4ba5-ac79-b178008ee2b5",
+          "description": "26.04.2024"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ed90a403-b3e2-4d55-bfe4-b17300bc6a58",
+          "description": "17.05.2024"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=bef49122-434c-4ffe-a0ea-b17a00bb0e0a",
+          "description": "24.05.2024"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d01614cf-4ee0-4c64-98f5-b18100a38b66",
+          "description": "31.05.2024"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fd117d87-51c1-43df-aeb3-b18800e09b2b",
+          "description": "07.06.2024"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4fd520a1-d665-474d-9a13-b18f00cbf30d",
+          "description": "14.06.2024"
+        },
+        {
+          "title": "Vorlesung 10",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=de5dcad0-0181-45d6-9b79-b19d009cb36c",
+          "description": "28.06.2024"
+        },
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c5609b79-5892-4ac8-aa53-afcd00eef207",
+          "description": "22.03.2023"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=493982da-d851-448f-a8cd-afd400f62d3b",
+          "description": "29.03.2023"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9d8003a3-b5bc-49ba-a9d6-afdb00c89790",
+          "description": "05.04.2023"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=637b3e67-dae8-4d69-ae07-afe9011442dc",
+          "description": "19.04.2023"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=713feea0-676d-4832-ab29-aff1006ee4c7",
+          "description": "26.04.2023"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ce2ea63a-fb37-4f35-9e15-aff9007ec141",
+          "description": "03.05.2023"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c4e4719f-e2fd-48e8-940b-afff00496f1a",
+          "description": "10.05.2023"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=11c58097-0841-49e2-840b-b00500da3366",
+          "description": "17.05.2023"
+        },
+        {
+          "title": "Vorlesung 9",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0b989fe6-6d92-4f0e-b233-b00e0079d7c9",
+          "description": "24.05.2023"
+        },
+        {
+          "title": "Vorlesung 10",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9ec4e621-0ef8-4061-9f5a-b01301160522",
+          "description": "31.05.2023"
+        },
+        {
+          "title": "Vorlesung 11",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=b973b02f-5537-4d31-8479-b01a00cbda18",
+          "description": "07.06.2023"
+        },
+        {
+          "title": "Vorlesung 12",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9b361af7-ac6d-49df-a967-b02100f52345",
+          "description": "14.06.2023"
+        }
+      ]
+    }
+  ]
+}

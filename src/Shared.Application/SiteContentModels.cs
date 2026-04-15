@@ -70,9 +70,7 @@ public sealed record LectureOverviewViewModel(
     string Slug,
     string Title,
     string Semester,
-    string Summary,
-    string Route,
-    IReadOnlyList<string> HighlightTags);
+    string Route);
 
 public sealed record LectureDetailViewModel(
     string Slug,
