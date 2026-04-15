@@ -57,6 +57,15 @@ make browser
 
 Wenn bereits ein lokaler Dev-Server auf `http://localhost:5155` laeuft, verwendet das Target die vorhandene Instanz und oeffnet nur den Browser. Andernfalls startet es `dotnet watch` fuer [src/WebSite/WebSite.csproj](src/WebSite/WebSite.csproj).
 
+Fuer die explizite Verwaltung lokaler Instanzen gibt es zusaetzlich:
+
+```bash
+make serve-stop
+make browser-clean
+```
+
+`make serve-stop` beendet eine laufende Instanz auf Port `5155`. `make browser-clean` stoppt zuerst eine vorhandene Instanz und startet den Dev-Server danach neu.
+
 ## Naechste Schritte
 
 1. Companion-Importer auf echte Quellstruktur zuschneiden.
