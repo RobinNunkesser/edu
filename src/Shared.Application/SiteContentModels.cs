@@ -5,10 +5,11 @@ public sealed record SiteContentDocument(
     SectionLandingViewModel Book,
     SectionLandingViewModel Teaching,
     SectionLandingViewModel Research,
+    SectionLandingViewModel ResearchPublicationsSection,
     SectionLandingViewModel Software,
     IReadOnlyList<HomeAreaDocument> Areas,
     IReadOnlyList<ResourceLinkViewModel> BookLinks,
-    IReadOnlyList<InfoCardViewModel> ResearchCards,
+    IReadOnlyList<ResearchPublicationViewModel> ResearchPublications,
     IReadOnlyList<InfoCardViewModel> SoftwareCards,
     IReadOnlyList<LectureDocument> Lectures);
 
@@ -48,6 +49,13 @@ public sealed record InfoCardViewModel(
     string Kicker,
     string Title,
     string Text);
+
+public sealed record ResearchPublicationViewModel(
+    string Category,
+    int Year,
+    string Title,
+    string Meta,
+    string Url);
 
 public sealed record LectureDocument(
     string Slug,

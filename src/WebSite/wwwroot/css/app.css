@@ -154,6 +154,24 @@ a {
     font-size: 0.95rem;
 }
 
+.publication-meta {
+    color: #526071;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.publication-group + .publication-group {
+    margin-top: 1.5rem;
+}
+
+.publication-group-heading {
+    margin-bottom: 0.85rem;
+}
+
+.publication-group-heading h3 {
+    margin: 0;
+}
+
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }

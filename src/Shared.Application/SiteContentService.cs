@@ -24,6 +24,10 @@ public sealed class SiteContentService
 
     public async Task<SectionLandingViewModel> GetResearchLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Research;
 
+    public async Task<SectionLandingViewModel> GetResearchPublicationsSectionAsync(SiteLanguage language) => (await GetDocumentAsync(language)).ResearchPublicationsSection;
+
+    public async Task<IReadOnlyList<ResearchPublicationViewModel>> GetResearchPublicationsAsync(SiteLanguage language) => (await GetDocumentAsync(language)).ResearchPublications;
+
     public async Task<SectionLandingViewModel> GetSoftwareLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Software;
 
     public async Task<IReadOnlyList<HomeAreaViewModel>> GetAreasAsync(SiteLanguage language)
@@ -34,8 +38,6 @@ public sealed class SiteContentService
             .Select(area => new HomeAreaViewModel(area.Title, area.Summary, GetAreaRoute(language, area.Key), area.Highlights))
             .ToArray();
     }
-
-    public async Task<IReadOnlyList<InfoCardViewModel>> GetResearchCardsAsync(SiteLanguage language) => (await GetDocumentAsync(language)).ResearchCards;
 
     public async Task<IReadOnlyList<InfoCardViewModel>> GetSoftwareCardsAsync(SiteLanguage language) => (await GetDocumentAsync(language)).SoftwareCards;
 

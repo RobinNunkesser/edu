@@ -13,29 +13,62 @@
         <p>@Landing.Intro</p>
     </section>
 
-    <section class="page-section">
-        <div class="feature-grid">
-            @foreach (var card in Cards)
+    @if (PublicationsSection is not null && Publications.Count > 0)
+    {
+        <section class="page-section page-section-muted">
+            <div class="section-heading">
+                <p class="section-label">@PublicationsSection.Label</p>
+                <h2>@PublicationsSection.Title</h2>
+                <p>@PublicationsSection.Intro</p>
+            </div>
+
+            @foreach (var group in Publications.GroupBy(publication => publication.Category))
             {
-                <article class="feature-card feature-card-static">
-                    <p class="feature-card-kicker">@card.Kicker</p>
-                    <h3>@card.Title</h3>
-                    <p>@card.Text</p>
-                </article>
+                <div class="publication-group">
+                    <div class="section-heading publication-group-heading">
+                        <p class="section-label">@PublicationsSection.Label</p>
+                        <h3>@group.Key</h3>
+                    </div>
+
+                    <div class="feature-grid">
+                        @foreach (var publication in group.OrderByDescending(item => item.Year).ThenBy(item => item.Title))
+                        {
+                            <a class="feature-card" href="@NormalizeUrl(publication.Url)" target="_blank" rel="noreferrer">
+                                <p class="feature-card-kicker">@publication.Year</p>
+                                <h3>@publication.Title</h3>
+                                <p class="publication-meta">@publication.Meta</p>
+                            </a>
+                        }
+                    </div>
+                </div>
             }
-        </div>
-    </section>
+        </section>
+    }
 }
 
 @code {
     private SiteLanguage CurrentLanguage;
     private SectionLandingViewModel? Landing;
-    private IReadOnlyList<InfoCardViewModel> Cards = [];
+    private SectionLandingViewModel? PublicationsSection;
+    private IReadOnlyList<ResearchPublicationViewModel> Publications = [];
+
+    private static string NormalizeUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return "#";
+        }
+
+        return Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri)
+            ? absoluteUri.ToString()
+            : url;
+    }
 
     protected override async Task OnParametersSetAsync()
     {
         CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
         Landing = await ContentService.GetResearchLandingAsync(CurrentLanguage);
-        Cards = await ContentService.GetResearchCardsAsync(CurrentLanguage);
+        PublicationsSection = await ContentService.GetResearchPublicationsSectionAsync(CurrentLanguage);
+        Publications = await ContentService.GetResearchPublicationsAsync(CurrentLanguage);
     }
 }
