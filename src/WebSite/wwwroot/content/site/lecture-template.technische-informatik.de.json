@@ -1,0 +1,287 @@
+{
+  "slug": "technische-informatik",
+  "title": "Technische Informatik",
+  "semester": "Wintersemester 2024/2025",
+  "summary": "",
+  "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/TechnischeInformatik",
+  "highlightTags": [],
+  "sections": [
+    {
+      "title": "Organisatorisches",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung",
+          "url": "",
+          "description": "Do 9:30 - 11:00, Raum H4.3-E00-110"
+        },
+        {
+          "title": "Übung",
+          "url": "",
+          "description": "Do 11:00 - 12:30, Raum H4.2-E00-140"
+        }
+      ]
+    },
+    {
+      "title": "Prüfungsvariante Klausur",
+      "intro": "",
+      "links": [
+        {
+          "title": "Dauer",
+          "url": "",
+          "description": "90 Minuten"
+        }
+      ]
+    },
+    {
+      "title": "Interaktive Übungen / Demonstratoren",
+      "intro": "",
+      "links": [
+        {
+          "title": "Minimaler Spannbaum (MST)",
+          "url": "/study/minimaler-spannbaum",
+          "description": ""
+        },
+        {
+          "title": "Disjunctive Normal Form (DNF) and Conjunctive Normal Form (CNF)",
+          "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html",
+          "description": ""
+        },
+        {
+          "title": "Karnaugh-Veitch Map",
+          "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/karnaughmap/index.html",
+          "description": ""
+        },
+        {
+          "title": "Quine–McCluskey algorithm",
+          "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/qmc/index.html",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Übungsblätter",
+      "intro": "",
+      "links": [
+        {
+          "title": "Übung Informationsdarstellung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung01Informationsdarstellung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Informationsdarstellung - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung01InformationsdarstellungLoesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Boolesche Algebra",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung02BoolescheAlgebra.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Boolesche Algebra - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung02BoolescheAlgebraLoesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Boolesche Minimierung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung03BoolescheMinimierung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Boolesche Minimierung - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung03BoolescheMinimierungLoesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Logische Schaltungen",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung04LogischeSchaltungen.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Logische Schaltungen - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung04LogischeSchaltungenLoesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Endliche Automaten",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung05EndlicheAutomaten.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Endliche Automaten - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung05EndlicheAutomatenLoesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Zeitverhalten und Hazards",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung06ZeitverhaltenUndHazards.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Zeitverhalten und Hazards - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung06ZeitverhaltenUndHazardsLoesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Software",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung07Software.pdf",
+          "description": ""
+        },
+        {
+          "title": "Übung Software - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIUebung07SoftwareLoesung.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Probeklausuren",
+      "intro": "",
+      "links": [
+        {
+          "title": "Probeklausur Teil 1",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil01.pdf",
+          "description": ""
+        },
+        {
+          "title": "Probeklausur Teil 1 - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil01_Loesung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Probeklausur Teil 2",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil02.pdf",
+          "description": ""
+        },
+        {
+          "title": "Probeklausur Teil 2 - Lösung",
+          "url": "https://github.com/isd-nunkesser/lectures.wiki/blob/master/artifacts/ti/TIProbeklausurTeil02_Loesung.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Folien",
+      "intro": "",
+      "links": [
+        {
+          "title": "Einführung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI01Einfuehrung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Computersysteme",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI02Computersysteme.pdf",
+          "description": ""
+        },
+        {
+          "title": "Informationsdarstellung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI03Informationsdarstellung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Boolesche Algebra",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI04BoolescheAlgebra.pdf",
+          "description": ""
+        },
+        {
+          "title": "Boolesche Minimierung",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI05BoolescheMinimierung.pdf",
+          "description": ""
+        },
+        {
+          "title": "Logische Schaltungen",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI06LogischeSchaltungen.pdf",
+          "description": ""
+        },
+        {
+          "title": "Endliche Automaten",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI07EndlicheAutomaten.pdf",
+          "description": ""
+        },
+        {
+          "title": "Zeitverhalten und Hazards",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI08ZeitverhaltenUndHazards.pdf",
+          "description": ""
+        },
+        {
+          "title": "Software",
+          "url": "https://mymoodle.hshl.de/pluginfile.php/1999141/mod_folder/content/0/TI09Software.pdf",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Aufzeichnungen",
+      "intro": "",
+      "links": [
+        {
+          "title": "Vorlesung 1",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9978ed30-f8b1-4767-9b1b-b1f7008fea49",
+          "description": "26.09.2024"
+        },
+        {
+          "title": "Vorlesung 2",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=1e51846a-5929-405c-81d2-b205009be239",
+          "description": "10.10.2024"
+        },
+        {
+          "title": "Vorlesung 3",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=2e330945-5d8a-4bb5-be1e-b20c00997e4f",
+          "description": "17.10.2024"
+        },
+        {
+          "title": "Vorlesung 4",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=23e7399a-c741-48fd-8e85-b21300a42d31",
+          "description": "24.10.2024"
+        },
+        {
+          "title": "Vorlesung 5",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7dabfb7e-0b59-42d5-98cb-b21a00a66645",
+          "description": "31.10.2024"
+        },
+        {
+          "title": "Vorlesung 6",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=419d1ea5-3e30-4519-b575-b22100a6801b",
+          "description": "07.11.2024"
+        },
+        {
+          "title": "Vorlesung 7",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a4410a32-32da-4f24-8c4b-b22800a8b3ac",
+          "description": "14.11.2024"
+        },
+        {
+          "title": "Vorlesung 8",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c8bf71f4-e08e-4137-8b66-b22f00c68f02",
+          "description": "21.11.2024"
+        },
+        {
+          "title": "Vorlesung 9",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e5565ec5-cd3f-4b02-9e35-b23d00aa9018",
+          "description": "05.12.2024"
+        },
+        {
+          "title": "Vorlesung 10",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=615c46ef-25f2-42b9-8596-b24400a729c0",
+          "description": "12.12.2024"
+        },
+        {
+          "title": "Vorlesung 11",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=33292ca0-7a2a-48da-ada0-b24b00ac9b59",
+          "description": "19.12.2024"
+        },
+        {
+          "title": "Vorlesung 12",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8d5f282e-00cf-4eb0-bd96-b26000ac26a3",
+          "description": "09.01.2025"
+        },
+        {
+          "title": "Vorlesung 13",
+          "url": "https://hshl.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a01a73d4-4d45-4108-bd4d-b267009cf3aa",
+          "description": "16.01.2025"
+        }
+      ]
+    }
+  ]
+}

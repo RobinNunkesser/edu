@@ -78,6 +78,21 @@
 					}
 				</div>
 			</a>
+
+			@foreach (var example in TemplateExamples)
+			{
+				<a class="feature-card" href="@SiteRoutes.TeachingTemplate(CurrentLanguage, example.Key)">
+					<p class="feature-card-kicker">@example.Kicker</p>
+					<h3>@example.Title</h3>
+					<p>@example.Summary</p>
+					<div class="tag-row">
+						@foreach (var tag in example.Tags)
+						{
+							<span class="tag">@tag</span>
+						}
+					</div>
+				</a>
+			}
 		</div>
 	</section>
 }
@@ -95,6 +110,7 @@
 	private string TemplateCardTitle = string.Empty;
 	private string TemplateCardSummary = string.Empty;
 	private IReadOnlyList<string> TemplateCardTags = [];
+	private IReadOnlyList<TemplateExampleCard> TemplateExamples = [];
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -118,5 +134,56 @@
 		TemplateCardTags = CurrentLanguage == SiteLanguage.En
 			? ["Template", "Dummy data", "Videos", "Project", "Internal link"]
 			: ["Vorlage", "Dummydaten", "Videos", "Projekt", "Interner Link"];
+		TemplateExamples = BuildTemplateExamples(CurrentLanguage);
 	}
+
+	private static IReadOnlyList<TemplateExampleCard> BuildTemplateExamples(SiteLanguage language)
+		=> language == SiteLanguage.En
+			? [
+				new(
+					"app-development",
+					"Extracted lecture",
+					"App Development from lectures.wiki",
+					"Project-based course page extracted from the local lectures wiki with GitHub Assignment, slides, and recordings.",
+					["Extraction", "Project", "Wiki", "Recordings"]),
+				new(
+					"ai",
+					"Extracted lecture",
+					"AI from lectures.wiki",
+					"Course page with project assessment, dataset links, code repositories, slides, and recordings derived from the wiki source.",
+					["Extraction", "AI", "Datasets", "Wiki"]),
+				new(
+					"technische-informatik",
+					"Extracted lecture",
+					"Technische Informatik from lectures.wiki",
+					"Exam-focused course page with exercise sheets, mock exams, demonstrators, slides, and recordings generated from the wiki page.",
+					["Extraction", "Exam", "Exercises", "Wiki"])
+			]
+			: [
+				new(
+					"app-development",
+					"Extrahierte Vorlesung",
+					"App Development aus lectures.wiki",
+					"Projektorientierte Veranstaltungsseite aus dem lokalen lectures-Wiki mit GitHub Assignment, Folien und Aufzeichnungen.",
+					["Extraktion", "Projekt", "Wiki", "Aufzeichnungen"]),
+				new(
+					"ai",
+					"Extrahierte Vorlesung",
+					"AI aus lectures.wiki",
+					"Veranstaltungsseite mit Projektpruefung, Datensatz-Links, Code-Repositories, Folien und Aufzeichnungen aus der Wiki-Quelle.",
+					["Extraktion", "KI", "Datensaetze", "Wiki"]),
+				new(
+					"technische-informatik",
+					"Extrahierte Vorlesung",
+					"Technische Informatik aus lectures.wiki",
+					"Klausurorientierte Veranstaltungsseite mit Uebungsblaettern, Probeklausuren, Demonstratoren, Folien und Aufzeichnungen aus der Wiki-Seite.",
+					["Extraktion", "Klausur", "Uebungen", "Wiki"])
+			];
+
+	private sealed record TemplateExampleCard(
+		string Key,
+		string Kicker,
+		string Title,
+		string Summary,
+		IReadOnlyList<string> Tags);
 }

@@ -1,5 +1,7 @@
 @page "/lehre/template"
+@page "/lehre/template/{TemplateKey}"
 @page "/en/teaching/template"
+@page "/en/teaching/template/{TemplateKey}"
 @inject NavigationManager NavigationManager
 @inject SiteContentService ContentService
 @inject HttpClient HttpClient
@@ -17,20 +19,22 @@
     private UiTextViewModel? UiText;
     private LectureDetailViewModel? TemplateLecture;
 
+    [Parameter]
+    public string? TemplateKey { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
         CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
         LandingLabel = CurrentLanguage == SiteLanguage.En ? "Teaching" : "Lehre";
-        PageTitleText = CurrentLanguage == SiteLanguage.En ? "Course Template" : "Veranstaltungsvorlage";
         UiText = await ContentService.GetUiTextAsync(CurrentLanguage);
         TemplateLecture = await LoadTemplateLectureAsync(CurrentLanguage);
+        PageTitleText = TemplateLecture.Title;
     }
 
     private async Task<LectureDetailViewModel> LoadTemplateLectureAsync(SiteLanguage language)
     {
-        var fileName = language == SiteLanguage.En ? "lecture-template.en.json" : "lecture-template.de.json";
-        var content = await HttpClient.GetFromJsonAsync<TemplateLectureContent>($"content/site/{fileName}")
-            ?? throw new InvalidOperationException($"Could not load template lecture content from {fileName}.");
+        var content = await LoadTemplateLectureContentAsync(language)
+            ?? throw new InvalidOperationException("Could not load template lecture content.");
 
         return new LectureDetailViewModel(
             content.Slug,
@@ -39,8 +43,78 @@
             content.Summary,
             content.SourceUrl,
             content.HighlightTags,
-            content.Sections);
+            FilterToSupportedTemplateSections(content.Sections));
     }
+
+    private async Task<TemplateLectureContent?> LoadTemplateLectureContentAsync(SiteLanguage language)
+    {
+        var fileCandidates = GetCandidateFileNames(language);
+
+        foreach (var fileName in fileCandidates)
+        {
+            var response = await HttpClient.GetAsync($"content/site/{fileName}");
+            if (!response.IsSuccessStatusCode)
+            {
+                continue;
+            }
+
+            var content = await response.Content.ReadFromJsonAsync<TemplateLectureContent>();
+            if (content is not null)
+            {
+                return content;
+            }
+        }
+
+        return null;
+    }
+
+    private IReadOnlyList<string> GetCandidateFileNames(SiteLanguage language)
+    {
+        var normalizedKey = NormalizeTemplateKey(TemplateKey);
+        var fileNames = new List<string>();
+        var languageSuffix = language == SiteLanguage.En ? "en" : "de";
+
+        if (!string.IsNullOrWhiteSpace(normalizedKey))
+        {
+            fileNames.Add($"lecture-template.{normalizedKey}.{languageSuffix}.json");
+
+            if (language == SiteLanguage.En)
+            {
+                fileNames.Add($"lecture-template.{normalizedKey}.de.json");
+            }
+        }
+
+        fileNames.Add(language == SiteLanguage.En ? "lecture-template.en.json" : "lecture-template.de.json");
+        return fileNames;
+    }
+
+    private static string? NormalizeTemplateKey(string? templateKey)
+        => string.IsNullOrWhiteSpace(templateKey)
+            ? null
+            : templateKey.Trim().ToLowerInvariant();
+
+    private static IReadOnlyList<LectureSectionViewModel> FilterToSupportedTemplateSections(IReadOnlyList<LectureSectionViewModel> sections)
+        => sections.Where(section => SupportedTemplateSections.Contains(section.Title, StringComparer.OrdinalIgnoreCase)).ToArray();
+
+    private static readonly string[] SupportedTemplateSections =
+    [
+        "Organisatorisches",
+        "Course logistics",
+        "Prüfungsvariante Klausur",
+        "Assessment Variant Exam",
+        "Prüfungsvariante Projekt",
+        "Assessment Variant Project",
+        "Übungsblätter",
+        "Exercise Sheets",
+        "Probeklausuren",
+        "Mock Exams",
+        "Interaktive Übungen / Demonstratoren",
+        "Interactive Exercises / Demonstrators",
+        "Folien",
+        "Slides",
+        "Aufzeichnungen",
+        "Recordings"
+    ];
 
     private sealed record TemplateLectureContent(
         string Slug,

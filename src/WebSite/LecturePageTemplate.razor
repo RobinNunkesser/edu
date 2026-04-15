@@ -153,6 +153,7 @@ else
                     var dynamicValue = GetAssessmentDynamicValue(lectureSection);
                     var assignmentUrl = GetAssessmentAssignmentUrl(lectureSection);
                     var explanationUrl = GetAssessmentExplanationUrl(lectureSection);
+                    var projectTeamValue = GetProjectAssessmentTeamValue(lectureSection);
 
                     <article class="resource-card assessment-template-card">
                         <p class="feature-card-kicker">@GetAssessmentShowcaseTitle(lectureSection.Title)</p>
@@ -169,7 +170,7 @@ else
                                 <div class="resource-table-row">
                                     <div class="resource-table-label">@GetAssessmentTeamLabel()</div>
                                     <div class="resource-table-value">
-                                        <div class="resource-table-primary">@GetProjectAssessmentTeamValue()</div>
+                                        <div class="resource-table-primary">@projectTeamValue</div>
                                     </div>
                                 </div>
                                 <div class="resource-table-row">
@@ -207,7 +208,14 @@ else
 
                                 @if (!string.IsNullOrWhiteSpace(explanationUrl))
                                 {
-                                    <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@explanationUrl">@GetAssessmentExplanationActionLabel()</a>
+                                    @if (IsExternalLink(explanationUrl))
+                                    {
+                                        <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@explanationUrl" target="_blank" rel="noreferrer">@GetAssessmentExplanationActionLabel()</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@explanationUrl">@GetAssessmentExplanationActionLabel()</a>
+                                    }
                                 }
                             </div>
                         }
@@ -417,8 +425,9 @@ else
     private string GetAssessmentSubmissionValue()
         => LandingLabel == "Lehre" ? "Abgabe über ein zentrales GitHub Assignment" : "Submission through a central GitHub assignment";
 
-    private string GetProjectAssessmentTeamValue()
-        => LandingLabel == "Lehre" ? "Teams mit bis zu 4 Personen" : "Teams of up to 4 students";
+    private string GetProjectAssessmentTeamValue(LectureSectionViewModel section)
+        => section.Links.FirstOrDefault(IsAssessmentTeamEntry)?.Description
+           ?? (LandingLabel == "Lehre" ? "Teams mit bis zu 4 Personen" : "Teams of up to 4 students");
 
     private string GetAssessmentAssignmentActionLabel()
         => LandingLabel == "Lehre" ? "GitHub Assignment öffnen" : "Open GitHub assignment";
@@ -432,10 +441,12 @@ else
            ?? string.Empty;
 
     private static string? GetAssessmentAssignmentUrl(LectureSectionViewModel section)
-        => section.Links.FirstOrDefault(link => IsExternalLink(link.Url))?.Url;
+        => section.Links.FirstOrDefault(IsAssessmentAssignmentEntry)?.Url;
 
     private static string? GetAssessmentExplanationUrl(LectureSectionViewModel section)
-        => section.Links.FirstOrDefault(link => !string.IsNullOrWhiteSpace(link.Url) && !IsExternalLink(link.Url))?.Url;
+        => section.Links.FirstOrDefault(link => !string.IsNullOrWhiteSpace(link.Url)
+            && !IsAssessmentAssignmentEntry(link)
+            && !IsAssessmentTeamEntry(link))?.Url;
 
     private static bool HasCompactMeta(ResourceLinkViewModel link)
         => !string.IsNullOrWhiteSpace(link.Description);
@@ -451,6 +462,13 @@ else
     private static bool IsAssessmentEntry(ResourceLinkViewModel link)
         => string.Equals(link.Title, "Prüfungsform", StringComparison.OrdinalIgnoreCase)
            || string.Equals(link.Title, "Assessment", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsAssessmentAssignmentEntry(ResourceLinkViewModel link)
+        => string.Equals(link.Title, "GitHub Assignment", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsAssessmentTeamEntry(ResourceLinkViewModel link)
+        => string.Equals(link.Title, "Teamgröße", StringComparison.OrdinalIgnoreCase)
+           || string.Equals(link.Title, "Team Size", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsExternalLink(string url)
         => Uri.TryCreate(url, UriKind.Absolute, out var uri)
