@@ -14,20 +14,6 @@
     "notFoundTitle": "Nicht gefunden",
     "notFoundText": "Unter dieser Adresse ist kein Inhalt hinterlegt."
   },
-  "home": {
-    "heroKicker": "edu",
-    "heroTitle": "Lehre, Forschung und Software an einem Ort",
-    "heroLead": "Die Seite wird von einer Companion-Demo zu einer klar gegliederten Arbeitsoberflaeche umgebaut: Lehrveranstaltungen mit Unterseiten, Forschungsschwerpunkte und Software-Artefakte bekommen jeweils ihren eigenen Einstieg.",
-    "focusLabel": "Aktuelle Ausrichtung",
-    "focusTitle": "Lehrveranstaltungen zuerst",
-    "focusText": "Die erste Ausbaustufe uebernimmt Struktur und Inhalte aus dem lectures-Wiki und stellt insbesondere Uebungen, Folien, Videos und projektbezogene Materialien direkt auf den Kursseiten bereit.",
-    "navigationLabel": "Navigation",
-    "navigationTitle": "Vier klare Einstiege",
-    "navigationText": "Der bisherige Home-Einstieg tritt in den Hintergrund. Perspektivisch fuehrt der Start direkt in die vier Hauptbereiche Lehre, Forschung, Buch und Software.",
-    "nextLabel": "Naechster Ausbau",
-    "nextTitle": "Mehr Veranstaltungen, weniger Hardcode",
-    "nextText": "Die Inhalte werden schrittweise aus Sprachdateien und importierbaren Quelldaten gespeist. Damit koennen weitere Lehrveranstaltungen schneller uebernommen werden."
-  },
   "book": {
     "label": "Lehrbuch",
     "title": "App Engineering als eigener Bereich",

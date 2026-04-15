@@ -14,20 +14,6 @@
     "notFoundTitle": "Not found",
     "notFoundText": "There is no content at this address."
   },
-  "home": {
-    "heroKicker": "edu",
-    "heroTitle": "Teaching, research, and software in one place",
-    "heroLead": "The site is moving from a companion demo to a clearly structured workspace: courses, research topics, and software artifacts each get their own entry point.",
-    "focusLabel": "Current focus",
-    "focusTitle": "Courses first",
-    "focusText": "The first iteration adopts structure and material from the lectures wiki and puts exercises, slides, videos, and project-related resources directly onto the course pages.",
-    "navigationLabel": "Navigation",
-    "navigationTitle": "Four clear entry points",
-    "navigationText": "The previous home entry fades into the background. In the target structure, the start leads directly into the four main areas Teaching, Research, Book, and Software.",
-    "nextLabel": "Next iteration",
-    "nextTitle": "More courses, less hardcode",
-    "nextText": "Content is gradually moving into language files and importable source data. That makes it easier to add more courses without expanding code-bound translations."
-  },
   "book": {
     "label": "Textbook",
     "title": "App Engineering as its own top-level area",

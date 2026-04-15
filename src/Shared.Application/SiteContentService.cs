@@ -16,8 +16,6 @@ public sealed class SiteContentService
 
     public async Task<UiTextViewModel> GetUiTextAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Ui;
 
-    public async Task<HomePageViewModel> GetHomePageAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Home;
-
     public async Task<SectionLandingViewModel> GetBookLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Book;
 
     public async Task<IReadOnlyList<ResourceLinkViewModel>> GetBookLinksAsync(SiteLanguage language) => (await GetDocumentAsync(language)).BookLinks;

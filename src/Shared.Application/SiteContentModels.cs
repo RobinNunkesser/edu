@@ -2,7 +2,6 @@ namespace Shared.Application;
 
 public sealed record SiteContentDocument(
     UiTextViewModel Ui,
-    HomePageViewModel Home,
     SectionLandingViewModel Book,
     SectionLandingViewModel Teaching,
     SectionLandingViewModel Research,
@@ -27,20 +26,6 @@ public sealed record UiTextViewModel(
     string LectureNotFoundText,
     string NotFoundTitle,
     string NotFoundText);
-
-public sealed record HomePageViewModel(
-    string HeroKicker,
-    string HeroTitle,
-    string HeroLead,
-    string FocusLabel,
-    string FocusTitle,
-    string FocusText,
-    string NavigationLabel,
-    string NavigationTitle,
-    string NavigationText,
-    string NextLabel,
-    string NextTitle,
-    string NextText);
 
 public sealed record SectionLandingViewModel(
     string Label,
