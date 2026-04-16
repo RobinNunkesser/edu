@@ -1,6 +1,7 @@
 using System.Globalization;
 using Italbytz.Graph;
 using Italbytz.Graph.Abstractions;
+using Italbytz.Graph.Visualization;
 using Shared.Domain;
 
 namespace Shared.Application;
@@ -8,6 +9,8 @@ namespace Shared.Application;
 public sealed class StudyTopicService
 {
     private const string MinimalSpanningTreeSlug = "minimaler-spannbaum";
+    private const string GraphVisualizationSlug = "graph-visualisierung";
+    private const string GraphVisualizationSlugEn = "graph-visualization";
 
     public StudyTopicCardViewModel GetFeaturedTopic(SiteLanguage language)
     {
@@ -16,35 +19,43 @@ public sealed class StudyTopicService
         return new StudyTopicCardViewModel(
             Title: isEnglish ? "Minimum Spanning Tree" : "Minimaler Spannbaum",
             Summary: isEnglish
-                ? "First technical slice for edu: a web view over the existing MST solver from Italbytz.Graph."
-                : "Erster technischer Durchstich fuer edu: eine Web-Ansicht ueber dem bestehenden MST-Solver aus Italbytz.Graph.",
+                ? "Graph rendering POC for edu: an interactive SVG view over the existing MST solver from Italbytz.Graph."
+                : "Graph-Rendering-POC fuer edu: eine interaktive SVG-Ansicht ueber dem bestehenden MST-Solver aus Italbytz.Graph.",
             Kicker: "ISD Companion / Italbytz.Graph",
             Route: isEnglish ? $"/en{StudyRoutes.Topic(MinimalSpanningTreeSlug)}" : StudyRoutes.Topic(MinimalSpanningTreeSlug),
             Tags: isEnglish
-                ? ["Graphs", "Prim", "Companion import"]
-                : ["Graphen", "Prim", "Companion-Import"]);
+                ? ["Graphs", "Prim", "SVG POC"]
+                : ["Graphen", "Prim", "SVG-POC"]);
     }
 
     public StudyTopicDetailViewModel? GetTopicDetail(SiteLanguage language, string slug)
     {
-        if (!string.Equals(slug, MinimalSpanningTreeSlug, StringComparison.OrdinalIgnoreCase))
+        if (!IsSupportedSlug(slug))
         {
             return null;
         }
 
-        return BuildMinimalSpanningTreeTopic(language);
+        return BuildMinimalSpanningTreeTopic(language, slug);
     }
 
-    private static StudyTopicDetailViewModel BuildMinimalSpanningTreeTopic(SiteLanguage language)
+    private static bool IsSupportedSlug(string slug)
+        => string.Equals(slug, MinimalSpanningTreeSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GraphVisualizationSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase);
+
+    private static StudyTopicDetailViewModel BuildMinimalSpanningTreeTopic(SiteLanguage language, string slug)
     {
         var isEnglish = language == SiteLanguage.En;
+        var isVisualizationPoc = string.Equals(slug, GraphVisualizationSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase);
         var graph = Graphs.Instance.TanenbaumWetherall;
         var solver = new MinimumSpanningTreeSolver();
         var parameters = new MinimumSpanningTreeParameters(graph);
         var solution = solver.Solve(parameters);
+        var orderedSolutionEdges = solution.Edges.ToArray();
 
-        var selectedKeys = solution.Edges
-            .Select(edge => CreateEdgeKey(edge.Source, edge.Target, edge.Tag))
+        var selectedKeys = orderedSolutionEdges
+            .Select(edge => GraphViewKeys.CreateUndirectedEdgeKey(edge.Source, edge.Target, edge.Tag))
             .ToArray();
 
         var graphEdges = graph.Edges
@@ -52,17 +63,20 @@ public sealed class StudyTopicService
                 Source: edge.Source,
                 Target: edge.Target,
                 Weight: FormatWeight(edge.Tag),
-                EdgeKey: CreateEdgeKey(edge.Source, edge.Target, edge.Tag),
-                IsPartOfSolution: selectedKeys.Contains(CreateEdgeKey(edge.Source, edge.Target, edge.Tag))))
+                EdgeKey: GraphViewKeys.CreateUndirectedEdgeKey(edge.Source, edge.Target, edge.Tag),
+                IsPartOfSolution: selectedKeys.Contains(GraphViewKeys.CreateUndirectedEdgeKey(edge.Source, edge.Target, edge.Tag))))
             .OrderBy(edge => edge.Source, StringComparer.Ordinal)
             .ThenBy(edge => edge.Target, StringComparer.Ordinal)
             .ThenBy(edge => edge.Weight, StringComparer.Ordinal)
             .ToArray();
 
-        var steps = solution.Edges
+        var graphVisualization = GraphViewFactory.BuildSvgGraphView(graph, selectedKeys);
+        var graphStates = GraphViewFactory.BuildMinimumSpanningTreeStates(graph, orderedSolutionEdges);
+
+        var steps = orderedSolutionEdges
             .Select((edge, index) => new StudyStepViewModel(
                 Number: index + 1,
-                EdgeKey: CreateEdgeKey(edge.Source, edge.Target, edge.Tag),
+                EdgeKey: GraphViewKeys.CreateUndirectedEdgeKey(edge.Source, edge.Target, edge.Tag),
                 EdgeLabel: $"{edge.Source} - {edge.Target}",
                 Weight: FormatWeight(edge.Tag),
                 Description: isEnglish
@@ -71,20 +85,28 @@ public sealed class StudyTopicService
             .ToArray();
 
         return new StudyTopicDetailViewModel(
-            Slug: MinimalSpanningTreeSlug,
-            Title: isEnglish ? "Minimum Spanning Tree" : "Minimaler Spannbaum",
+            Slug: slug,
+            Title: isVisualizationPoc
+                ? (isEnglish ? "Graph Visualization POC" : "Graph-Visualisierung POC")
+                : (isEnglish ? "Minimum Spanning Tree" : "Minimaler Spannbaum"),
             Intro: isEnglish
-                ? "This page reuses the existing graph package from the companion code base and turns the MST example into a first web-native teaching slice for edu."
-                : "Diese Seite nutzt das bestehende Graph-Paket aus dem Companion-Codebestand weiter und macht das MST-Beispiel zu einem ersten web-nativen Lehrdurchstich fuer edu.",
-            SectionLabel: isEnglish ? "Technical topic" : "Technisches Thema",
+                ? (isVisualizationPoc
+                    ? "Proof of concept for graph rendering in edu: the MST example is laid out with MSAGL and rendered as interactive SVG in the browser."
+                    : "This page reuses the existing graph package from the companion code base and turns the MST example into a web-native SVG graph view for edu.")
+                : (isVisualizationPoc
+                    ? "Proof of concept fuer Graph-Rendering in edu: Das MST-Beispiel wird mit MSAGL gelayoutet und im Browser als interaktive SVG gerendert."
+                    : "Diese Seite nutzt das bestehende Graph-Paket aus dem Companion-Codebestand weiter und macht das MST-Beispiel zu einer web-nativen SVG-Graphansicht fuer edu."),
+            SectionLabel: isVisualizationPoc
+                ? (isEnglish ? "Proof of concept" : "Proof of concept")
+                : (isEnglish ? "Technical topic" : "Technisches Thema"),
             MetaLabel: isEnglish ? "Solver" : "Solver",
-            MetaValue: "Prim / Italbytz.Graph",
+            MetaValue: "Prim / Italbytz.Graph / SVG",
             BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
             BackRoute: isEnglish ? SiteRoutes.Teaching(language) : SiteRoutes.Teaching(language),
             GraphSectionTitle: isEnglish ? "Graph" : "Graph",
             GraphSectionIntro: isEnglish
-                ? "The sample graph comes directly from the shared package and is intentionally small enough to follow the selection step by step."
-                : "Der Beispielgraph kommt direkt aus dem gemeinsamen Paket und ist bewusst klein genug, um die Auswahl Schritt fuer Schritt nachzuvollziehen.",
+                ? "The layout is calculated in C# with MSAGL and rendered as SVG in the browser so the current tree can be inspected directly on the graph."
+                : "Das Layout wird in C# mit MSAGL berechnet und im Browser als SVG gerendert, damit der aktuelle Baum direkt im Graphen nachvollzogen werden kann.",
             StepSectionTitle: isEnglish ? "Stepwise solution" : "Schrittweise Loesung",
             StepSectionIntro: isEnglish
                 ? "Advance through the tree one edge at a time or jump to the complete solution."
@@ -113,14 +135,10 @@ public sealed class StudyTopicService
                 .Distinct(StringComparer.Ordinal)
                 .Count(),
             EdgeCount: graph.Edges.Count(),
+            GraphVisualization: graphVisualization,
+            GraphStates: graphStates,
             GraphEdges: graphEdges,
             Steps: steps);
-    }
-
-    private static string CreateEdgeKey(string source, string target, double weight)
-    {
-        var ordered = new[] { source, target }.OrderBy(value => value, StringComparer.Ordinal).ToArray();
-        return string.Create(CultureInfo.InvariantCulture, $"{ordered[0]}|{ordered[1]}|{weight:0.##}");
     }
 
     private static string FormatWeight(double weight) => weight.ToString("0.##", CultureInfo.InvariantCulture);
@@ -163,6 +181,8 @@ public sealed record StudyTopicDetailViewModel(
     string TotalWeight,
     int VertexCount,
     int EdgeCount,
+    GraphViewModel GraphVisualization,
+    IReadOnlyList<GraphStateViewModel> GraphStates,
     IReadOnlyList<StudyEdgeViewModel> GraphEdges,
     IReadOnlyList<StudyStepViewModel> Steps);
 

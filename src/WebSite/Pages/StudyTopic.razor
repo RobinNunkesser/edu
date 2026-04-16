@@ -1,5 +1,7 @@
 @page "/study/{Slug}"
+@page "/study/graph-visualisierung"
 @page "/en/study/{Slug}"
+@page "/en/study/graph-visualization"
 @inject NavigationManager NavigationManager
 @inject StudyTopicService TopicService
 
@@ -78,6 +80,37 @@ else
                 <p>@_topic.GraphSectionIntro</p>
             </div>
 
+            <GraphViewport Graph="@_topic.GraphVisualization"
+                           ActiveEdgeKeys="@CurrentGraphState.ActiveEdgeKeys"
+                           ActiveNodeKeys="@CurrentGraphState.ActiveNodeIds"
+                           FrontierNodeKeys="@CurrentGraphState.FrontierNodeIds"
+                           ExploredNodeKeys="@CurrentGraphState.ExploredNodeIds"
+                           CurrentNodeKey="@CurrentGraphState.CurrentNodeId"
+                           SuccessorEdgeKeys="@CurrentGraphState.SuccessorEdgeKeys"
+                           DirectedActiveEdgeIds="@CurrentGraphState.DirectedActiveEdgeIds"
+                           DirectedSuccessorEdgeIds="@CurrentGraphState.DirectedSuccessorEdgeIds"
+                           Title="@_topic.GraphSectionTitle"
+                           ZoomInLabel="@GraphZoomInLabel"
+                           ZoomOutLabel="@GraphZoomOutLabel"
+                           FitLabel="@GraphFitLabel"
+                           ResetLabel="@GraphResetLabel"
+                           InteractionHint="@GraphInteractionHint"
+                           ActiveLegendLabel="@GraphLegendActiveLabel"
+                           SuccessorLegendLabel="@GraphLegendSuccessorLabel"
+                           CurrentNodeLegendLabel="@GraphLegendCurrentNodeLabel"
+                           FrontierLegendLabel="@GraphLegendFrontierLabel"
+                           ExploredLegendLabel="@GraphLegendExploredLabel"
+                           SolutionLegendLabel="@GraphLegendSolutionLabel"
+                           DefaultLegendLabel="@GraphLegendDefaultLabel"
+                           InspectorTitle="@GraphInspectorTitle"
+                           NoSelectionTitle="@GraphNoSelectionTitle"
+                           NoSelectionText="@GraphNoSelectionText"
+                           NodeLabel="@GraphNodeLabel"
+                           EdgeLabel="@GraphEdgeLabel"
+                           WeightLabel="@GraphWeightLabel"
+                           ConnectionsLabel="@GraphConnectionsLabel"
+                           StateLabel="@GraphStateLabel" />
+
             <div class="mst-edge-grid">
                 @foreach (var edge in _topic.GraphEdges)
                 {
@@ -127,11 +160,65 @@ else
         ? string.Empty
         : $"{CurrentStep}/{_topic.Steps.Count}";
 
+    private string GraphZoomInLabel => CurrentLanguage == SiteLanguage.En ? "Zoom in" : "Vergroessern";
+
+    private string GraphZoomOutLabel => CurrentLanguage == SiteLanguage.En ? "Zoom out" : "Verkleinern";
+
+    private string GraphFitLabel => CurrentLanguage == SiteLanguage.En ? "Fit graph" : "Graph einpassen";
+
+    private string GraphResetLabel => CurrentLanguage == SiteLanguage.En ? "Reset" : "Reset";
+
+    private string GraphInteractionHint => CurrentLanguage == SiteLanguage.En
+        ? "Drag to pan, use the wheel to zoom, double click to refit, focus for arrow-key panning and click nodes or edges for details."
+        : "Zum Verschieben ziehen, mit dem Mausrad zoomen, mit Doppelklick neu einpassen, nach Fokus mit Pfeiltasten verschieben und fuer Details Knoten oder Kanten anklicken.";
+
+    private string GraphLegendActiveLabel => CurrentLanguage == SiteLanguage.En ? "Current tree" : "Aktueller Baum";
+
+    private string GraphLegendSuccessorLabel => CurrentLanguage == SiteLanguage.En ? "Candidate edges" : "Kandidatenkanten";
+
+    private string GraphLegendCurrentNodeLabel => CurrentLanguage == SiteLanguage.En ? "Current node" : "Aktueller Knoten";
+
+    private string GraphLegendFrontierLabel => CurrentLanguage == SiteLanguage.En ? "Frontier" : "Frontier";
+
+    private string GraphLegendExploredLabel => CurrentLanguage == SiteLanguage.En ? "Explored" : "Exploriert";
+
+    private string GraphLegendSolutionLabel => CurrentLanguage == SiteLanguage.En ? "Final solution" : "Finale Loesung";
+
+    private string GraphLegendDefaultLabel => CurrentLanguage == SiteLanguage.En ? "Alternative edge" : "Alternative Kante";
+
+    private string GraphInspectorTitle => CurrentLanguage == SiteLanguage.En ? "Inspector" : "Inspektor";
+
+    private string GraphNoSelectionTitle => CurrentLanguage == SiteLanguage.En ? "Nothing selected" : "Nichts ausgewaehlt";
+
+    private string GraphNoSelectionText => CurrentLanguage == SiteLanguage.En
+        ? "Use the graph itself to inspect nodes, edges and the current MST state."
+        : "Nutze den Graphen selbst, um Knoten, Kanten und den aktuellen MST-Zustand zu inspizieren.";
+
+    private string GraphNodeLabel => CurrentLanguage == SiteLanguage.En ? "Node" : "Knoten";
+
+    private string GraphEdgeLabel => CurrentLanguage == SiteLanguage.En ? "Edge" : "Kante";
+
+    private string GraphWeightLabel => CurrentLanguage == SiteLanguage.En ? "Weight" : "Gewicht";
+
+    private string GraphConnectionsLabel => CurrentLanguage == SiteLanguage.En ? "Connections" : "Verbindungen";
+
+    private string GraphStateLabel => CurrentLanguage == SiteLanguage.En ? "State" : "Status";
+
     private string CurrentStepDescription => _topic is null
         ? string.Empty
         : CurrentStep == 0
             ? _topic.InitialStepDescription
             : _topic.Steps[CurrentStep - 1].Description;
+
+    private IReadOnlySet<string> IncludedEdgeKeys => _topic is null
+        ? new HashSet<string>(StringComparer.Ordinal)
+        : _topic.Steps.Take(CurrentStep)
+            .Select(step => step.EdgeKey)
+            .ToHashSet(StringComparer.Ordinal);
+
+    private GraphStateViewModel CurrentGraphState => _topic is null
+        ? new GraphStateViewModel(string.Empty, [], [], [], [], [], [], [])
+        : _topic.GraphStates[Math.Min(CurrentStep, _topic.GraphStates.Count - 1)];
 
     private IReadOnlyList<StudyEdgeViewModel> IncludedEdges => _topic is null
         ? []
@@ -140,7 +227,10 @@ else
     protected override void OnParametersSet()
     {
         CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
-        _topic = TopicService.GetTopicDetail(CurrentLanguage, Slug);
+        var resolvedSlug = string.IsNullOrWhiteSpace(Slug)
+            ? (CurrentLanguage == SiteLanguage.En ? "graph-visualization" : "graph-visualisierung")
+            : Slug;
+        _topic = TopicService.GetTopicDetail(CurrentLanguage, resolvedSlug);
         CurrentStep = 0;
 
         NotFoundLabel = CurrentLanguage == SiteLanguage.En ? "Study topic" : "Studienthema";
@@ -208,6 +298,11 @@ else
         if (edge.IsPartOfSolution)
         {
             return isEnglish ? "Part of final tree" : "Teil der finalen Loesung";
+        }
+
+        if (CurrentGraphState.SuccessorEdgeKeys.Contains(edge.EdgeKey))
+        {
+            return isEnglish ? "Current candidate" : "Aktueller Kandidat";
         }
 
         return isEnglish ? "Alternative edge" : "Alternative Kante";
