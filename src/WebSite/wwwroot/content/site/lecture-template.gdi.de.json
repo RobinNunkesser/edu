@@ -4,13 +4,7 @@
   "semester": "1. Semester",
   "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Demonstratoren, Folien und Aufzeichnungen.",
   "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/GDI",
-  "highlightTags": [
-    "Klausur",
-    "Uebungen",
-    "Demonstratoren",
-    "Folien",
-    "Videos"
-  ],
+  "highlightTags": [],
   "sections": [
     {
       "title": "Organisatorisches",

@@ -7,10 +7,12 @@
 }
 else
 {
-    var assessmentShowcaseSections = GetAssessmentShowcaseSections(Lecture.Sections);
-    var exerciseDemoSections = GetExerciseDemoSections(Lecture.Sections);
-    var mediaSections = GetMediaSections(Lecture.Sections);
-    var remainingSections = GetRemainingSections(Lecture.Sections);
+    var lectureSections = Lecture.Sections ?? [];
+    var highlightTags = Lecture.HighlightTags ?? [];
+    var assessmentShowcaseSections = GetAssessmentShowcaseSections(lectureSections);
+    var exerciseDemoSections = GetExerciseDemoSections(lectureSections);
+    var mediaSections = GetMediaSections(lectureSections);
+    var remainingSections = GetRemainingSections(lectureSections);
 
     <section class="page-intro lecture-hero">
         <div>
@@ -26,11 +28,11 @@ else
         </div>
     </section>
 
-    @if (Lecture.HighlightTags.Count > 0)
+    @if (highlightTags.Count > 0)
     {
         <section class="page-section">
             <div class="tag-row">
-                @foreach (var tag in Lecture.HighlightTags)
+                @foreach (var tag in highlightTags)
                 {
                     <span class="tag">@tag</span>
                 }

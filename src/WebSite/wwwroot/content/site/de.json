@@ -182,7 +182,7 @@
       "semester": "6. Semester",
       "summary": "Die Struktur orientiert sich am lectures-Wiki und buendelt organisatorische Informationen, Projektformat, Folien und Vorlesungsvideos auf einer Seite.",
       "wikiPath": "AppDevelopment",
-      "highlightTags": ["Projektformat", "GitHub Assignment", "Folien", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",
@@ -219,7 +219,7 @@
       "semester": "3. Semester",
       "summary": "Uebungen und Probeklausuren stehen prominent im Vordergrund, ergaenzt um Companion- und Vorlesungsmaterialien.",
       "wikiPath": "TechnischeInformatik",
-      "highlightTags": ["Uebungen", "Probeklausuren", "Companion", "Folien"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",
@@ -260,7 +260,7 @@
       "semester": "6. Semester",
       "summary": "Die Seite stellt Projektideen, assignment-nahe Arbeitsweise, Folien und Code-Einstieg in den Vordergrund.",
       "wikiPath": "AI",
-      "highlightTags": ["Projektideen", "Folien", "Code", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",
@@ -298,7 +298,7 @@
       "semester": "3. Semester",
       "summary": "Globaluebungen, Companion-Hinweise und eine gut gepflegte Sammlung von Folien und Vorlesungsvideos stehen im Mittelpunkt.",
       "wikiPath": "Netzwerke",
-      "highlightTags": ["Globaluebungen", "Companion", "Folien", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",
@@ -336,7 +336,7 @@
       "semester": "3. Semester",
       "summary": "Globaluebungen, Companion-Verweise sowie Folien und Videos fuer die komplette Veranstaltung.",
       "wikiPath": "Betriebssysteme",
-      "highlightTags": ["Globaluebungen", "Companion", "Folien", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",
@@ -374,7 +374,7 @@
       "semester": "4. Semester",
       "summary": "Projektorientierte Lehrveranstaltung mit GitHub Assignment, Vorabgabe, App-Engineering-Bezug und Videoaufzeichnung.",
       "wikiPath": "Softwaretechnik",
-      "highlightTags": ["Projekt", "GitHub Assignment", "Lehrbuch", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",
@@ -409,7 +409,7 @@
       "semester": "1. Semester",
       "summary": "Uebungen, Companion-Hinweise, externe Erklaerungen und eine breite Foliensammlung fuer den Einstieg in die Informatik.",
       "wikiPath": "GDI",
-      "highlightTags": ["Uebungen", "Companion", "Folien", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Organisatorisches",

@@ -4,11 +4,7 @@
   "semester": "7. Semester",
   "summary": "Klausurorientierte Veranstaltungsseite mit Folien und Aufzeichnungen.",
   "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ITConsulting",
-  "highlightTags": [
-    "Klausur",
-    "Folien",
-    "Videos"
-  ],
+  "highlightTags": [],
   "sections": [
     {
       "title": "Organisatorisches",

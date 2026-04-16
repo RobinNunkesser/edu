@@ -4,12 +4,7 @@
   "semester": "3. Semester",
   "summary": "Klausurorientierte Veranstaltungsseite mit Uebungsmaterial, Folien und Aufzeichnungen.",
   "sourceUrl": "https://github.com/isd-nunkesser/lectures.wiki/wiki/Betriebssysteme",
-  "highlightTags": [
-    "Klausur",
-    "Uebungen",
-    "Folien",
-    "Videos"
-  ],
+  "highlightTags": [],
   "sections": [
     {
       "title": "Organisatorisches",

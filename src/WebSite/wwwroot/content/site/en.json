@@ -182,7 +182,7 @@
       "semester": "6th semester",
       "summary": "This version follows the lectures wiki and bundles course logistics, project setup, slides, and lecture recordings on a single page.",
       "wikiPath": "AppDevelopment",
-      "highlightTags": ["Project format", "GitHub Assignment", "Slides", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
@@ -219,7 +219,7 @@
       "semester": "3rd semester",
       "summary": "Exercises and mock exams are placed front and center, complemented by companion and lecture materials.",
       "wikiPath": "TechnischeInformatik",
-      "highlightTags": ["Exercises", "Mock exams", "Companion", "Slides"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
@@ -260,7 +260,7 @@
       "semester": "6th semester",
       "summary": "The page focuses on project ideas, assignment-driven workflows, slides, and code entry points.",
       "wikiPath": "AI",
-      "highlightTags": ["Project ideas", "Slides", "Code", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
@@ -298,7 +298,7 @@
       "semester": "3rd semester",
       "summary": "Global exercise sheets, companion references, and a curated collection of slides and lecture videos are central to this course page.",
       "wikiPath": "Netzwerke",
-      "highlightTags": ["Global exercises", "Companion", "Slides", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
@@ -336,7 +336,7 @@
       "semester": "3rd semester",
       "summary": "Global exercises, companion references, as well as slides and videos covering the full course.",
       "wikiPath": "Betriebssysteme",
-      "highlightTags": ["Global exercises", "Companion", "Slides", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
@@ -374,7 +374,7 @@
       "semester": "4th semester",
       "summary": "Project-based course with GitHub Assignment, early deliverable review, App Engineering context, and video recording.",
       "wikiPath": "Softwaretechnik",
-      "highlightTags": ["Project", "GitHub Assignment", "Textbook", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
@@ -409,7 +409,7 @@
       "semester": "1st semester",
       "summary": "Exercises, companion references, external explanations, and a broad slide collection for the first computer science concepts.",
       "wikiPath": "GDI",
-      "highlightTags": ["Exercises", "Companion", "Slides", "Videos"],
+      "highlightTags": [],
       "sections": [
         {
           "title": "Course logistics",
