@@ -28,8 +28,6 @@ public static class SiteRoutes
 
     public static string Research(SiteLanguage language) => language == SiteLanguage.En ? "en/research" : "forschung";
 
-    public static string Book(SiteLanguage language) => language == SiteLanguage.En ? "en/book" : "buch";
-
     public static string Software(SiteLanguage language) => language == SiteLanguage.En ? "en/software" : "software";
 
     public static string TeachingTemplate(SiteLanguage language) => language == SiteLanguage.En ? "en/teaching/template" : "lehre/template";
@@ -79,7 +77,7 @@ public static class SiteRoutes
         {
             "lehre" or "teaching" or "study" => Teaching(targetLanguage),
             "forschung" or "research" => Research(targetLanguage),
-            "buch" or "book" => Book(targetLanguage),
+            "buch" or "book" => Research(targetLanguage),
             "software" => Software(targetLanguage),
             _ => Home(targetLanguage)
         };

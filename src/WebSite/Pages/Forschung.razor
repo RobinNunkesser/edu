@@ -5,52 +5,57 @@
 
 <PageTitle>Forschung</PageTitle>
 
-@if (Landing is not null)
+@if (Publications.Count > 0)
 {
-    <section class="page-intro">
-        <p class="section-label">@Landing.Label</p>
-        <h1>@Landing.Title</h1>
-        <p>@Landing.Intro</p>
-    </section>
-
-    @if (PublicationsSection is not null && Publications.Count > 0)
+    <section class="page-section page-section-muted">
+        @foreach (var group in PublicationGroups)
     {
-        <section class="page-section page-section-muted">
-            <div class="section-heading">
-                <p class="section-label">@PublicationsSection.Label</p>
-                <h2>@PublicationsSection.Title</h2>
-                <p>@PublicationsSection.Intro</p>
-            </div>
-
-            @foreach (var group in Publications.GroupBy(publication => publication.Category))
-            {
-                <div class="publication-group">
-                    <div class="section-heading publication-group-heading">
-                        <p class="section-label">@PublicationsSection.Label</p>
-                        <h3>@group.Key</h3>
-                    </div>
-
-                    <div class="feature-grid">
-                        @foreach (var publication in group.OrderByDescending(item => item.Year).ThenBy(item => item.Title))
-                        {
-                            <a class="feature-card" href="@NormalizeUrl(publication.Url)" target="_blank" rel="noreferrer">
-                                <p class="feature-card-kicker">@publication.Year</p>
-                                <h3>@publication.Title</h3>
-                                <p class="publication-meta">@publication.Meta</p>
-                            </a>
-                        }
-                    </div>
+            <div class="publication-group">
+                <div class="section-heading publication-group-heading">
+                    <h3>@group.Year</h3>
                 </div>
-            }
-        </section>
+
+                <div class="bibliography-list">
+                    @foreach (var publication in group.Items)
+                    {
+                        <article class="bibliography-entry">
+                            <p class="bibliography-citation">
+                                <span class="citation-authors">@publication.Authors</span>
+                                <span class="citation-year">(@publication.Year).</span>
+                                <span class="citation-title">@AppendPeriod(publication.Title)</span>
+                                <span class="citation-venue">@AppendPeriod(FormatContainer(publication))</span>
+                            </p>
+
+                            <div class="bibliography-meta">
+                                @if (!string.IsNullOrWhiteSpace(publication.Status))
+                                {
+                                    <span class="bibliography-status">@publication.Status</span>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(publication.Doi))
+                                {
+                                    <a class="bibliography-link" href="@GetDoiUrl(publication)" target="_blank" rel="noreferrer">DOI: @publication.Doi</a>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(GetPrimaryUrl(publication)))
+                                {
+                                    <a class="bibliography-link" href="@NormalizeUrl(GetPrimaryUrl(publication)!)" target="_blank" rel="noreferrer">@(CurrentLanguage == SiteLanguage.En ? "Open source" : "Quelle oeffnen")</a>
+                                }
+                            </div>
+
+                        </article>
+                    }
+                </div>
+            </div>
+        }
+    </section>
     }
 }
 
 @code {
     private SiteLanguage CurrentLanguage;
-    private SectionLandingViewModel? Landing;
-    private SectionLandingViewModel? PublicationsSection;
     private IReadOnlyList<ResearchPublicationViewModel> Publications = [];
+    private IReadOnlyList<PublicationYearGroup> PublicationGroups = [];
 
     private static string NormalizeUrl(string url)
     {
@@ -64,11 +69,70 @@
             : url;
     }
 
+    private static string? GetPrimaryUrl(ResearchPublicationViewModel publication)
+        => !string.IsNullOrWhiteSpace(publication.Url)
+            ? publication.Url
+            : GetDoiUrl(publication);
+
+    private static string? GetDoiUrl(ResearchPublicationViewModel publication)
+        => string.IsNullOrWhiteSpace(publication.Doi)
+            ? null
+            : $"https://doi.org/{publication.Doi.Replace("https://doi.org/", string.Empty, StringComparison.OrdinalIgnoreCase)}";
+
+    private static string FormatContainer(ResearchPublicationViewModel publication)
+    {
+        var parts = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(publication.Venue))
+        {
+            var venue = publication.Venue;
+
+            if (!string.IsNullOrWhiteSpace(publication.Volume))
+            {
+                venue += $", {publication.Volume}";
+
+                if (!string.IsNullOrWhiteSpace(publication.Issue))
+                {
+                    venue += $"({publication.Issue})";
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(publication.Issue))
+            {
+                venue += $", {publication.Issue}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(publication.Pages))
+            {
+                venue += $", {publication.Pages}";
+            }
+
+            parts.Add(venue);
+        }
+
+        if (!string.IsNullOrWhiteSpace(publication.Publisher))
+        {
+            parts.Add(publication.Publisher);
+        }
+
+        return string.Join(". ", parts);
+    }
+
+    private static string AppendPeriod(string value)
+        => string.IsNullOrWhiteSpace(value)
+            ? string.Empty
+            : value.TrimEnd().EndsWith('.') ? value : $"{value}.";
+
     protected override async Task OnParametersSetAsync()
     {
         CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
-        Landing = await ContentService.GetResearchLandingAsync(CurrentLanguage);
-        PublicationsSection = await ContentService.GetResearchPublicationsSectionAsync(CurrentLanguage);
         Publications = await ContentService.GetResearchPublicationsAsync(CurrentLanguage);
+        PublicationGroups = Publications
+            .OrderByDescending(item => item.Year)
+            .ThenBy(item => item.Title)
+            .GroupBy(item => item.Year)
+            .Select(group => new PublicationYearGroup(group.Key, group.ToArray()))
+            .ToArray();
     }
+
+    private sealed record PublicationYearGroup(int Year, IReadOnlyList<ResearchPublicationViewModel> Items);
 }

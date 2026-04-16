@@ -1,41 +1,13 @@
 @page "/buch"
 @page "/en/book"
 @inject NavigationManager NavigationManager
-@inject SiteContentService ContentService
 
 <PageTitle>Buch</PageTitle>
 
-@if (Landing is not null)
-{
-    <section class="page-intro">
-        <p class="section-label">@Landing.Label</p>
-        <h1>@Landing.Title</h1>
-        <p>@Landing.Intro</p>
-    </section>
-
-    <section class="page-section">
-        <div class="resource-grid">
-            @foreach (var link in Links)
-            {
-                <a class="resource-card" href="@link.Url" target="_blank" rel="noreferrer">
-                    <p class="feature-card-kicker">@Landing.Label</p>
-                    <h3>@link.Title</h3>
-                    <p>@link.Description</p>
-                </a>
-            }
-        </div>
-    </section>
-}
-
 @code {
-    private SiteLanguage CurrentLanguage;
-    private SectionLandingViewModel? Landing;
-    private IReadOnlyList<ResourceLinkViewModel> Links = [];
-
-    protected override async Task OnParametersSetAsync()
+    protected override void OnInitialized()
     {
-        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
-        Landing = await ContentService.GetBookLandingAsync(CurrentLanguage);
-        Links = await ContentService.GetBookLinksAsync(CurrentLanguage);
+        var language = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        NavigationManager.NavigateTo(SiteRoutes.Research(language), true);
     }
 }

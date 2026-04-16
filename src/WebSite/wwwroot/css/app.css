@@ -337,6 +337,64 @@ a {
     line-height: 1.5;
 }
 
+.bibliography-list {
+    margin: 0;
+    padding-left: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.bibliography-entry {
+    padding: 1.2rem 1.2rem 1.05rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(140, 173, 202, 0.24);
+    box-shadow: 0 1rem 2rem rgba(17, 44, 70, 0.07);
+}
+
+.bibliography-citation {
+    margin: 0;
+    color: #18314f;
+    line-height: 1.75;
+}
+
+.citation-authors,
+.citation-year {
+    font-weight: 600;
+}
+
+.citation-title {
+    color: #10273d;
+}
+
+.citation-venue {
+    color: #526071;
+}
+
+.bibliography-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    margin-top: 0.65rem;
+}
+
+.bibliography-status {
+    color: #526071;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.bibliography-link {
+    color: #1d4ed8;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.bibliography-link:hover {
+    text-decoration: underline;
+}
+
 .publication-group + .publication-group {
     margin-top: 1.5rem;
 }

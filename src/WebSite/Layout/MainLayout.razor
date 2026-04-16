@@ -27,7 +27,7 @@
     private SiteLanguage CurrentLanguage;
     private string RelativePath = string.Empty;
     private string CurrentSectionTitle = string.Empty;
-    private UiTextViewModel UiText = new("Lehre", "Forschung", "Buch", "Software", "Zweisprachiger Prototyp", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+    private UiTextViewModel UiText = new("Lehre", "Forschung", "Software", "Zweisprachiger Prototyp", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,7 +72,6 @@
         {
             "lehre" or "teaching" or "study" => UiText.NavTeaching,
             "forschung" or "research" => UiText.NavResearch,
-            "buch" or "book" => UiText.NavBook,
             "software" => UiText.NavSoftware,
             _ => UiText.NavTeaching
         };

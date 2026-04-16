@@ -2,21 +2,17 @@ namespace Shared.Application;
 
 public sealed record SiteContentDocument(
     UiTextViewModel Ui,
-    SectionLandingViewModel Book,
     SectionLandingViewModel Teaching,
     SectionLandingViewModel Research,
     SectionLandingViewModel ResearchPublicationsSection,
     SectionLandingViewModel Software,
     IReadOnlyList<HomeAreaDocument> Areas,
-    IReadOnlyList<ResourceLinkViewModel> BookLinks,
-    IReadOnlyList<ResearchPublicationViewModel> ResearchPublications,
     IReadOnlyList<InfoCardViewModel> SoftwareCards,
     IReadOnlyList<LectureDocument> Lectures);
 
 public sealed record UiTextViewModel(
     string NavTeaching,
     string NavResearch,
-    string NavBook,
     string NavSoftware,
     string HeaderPrototype,
     string LectureMetaLabel,
@@ -53,10 +49,19 @@ public sealed record InfoCardViewModel(
 
 public sealed record ResearchPublicationViewModel(
     string Category,
+    string PublicationType,
     int Year,
     string Title,
-    string Meta,
-    string Url);
+    string Authors,
+    string Venue,
+    string? Volume,
+    string? Issue,
+    string? Pages,
+    string? Publisher,
+    string? Doi,
+    string? Url,
+    string? Status,
+    string? Abstract);
 
 public sealed record LectureDocument(
     string Slug,

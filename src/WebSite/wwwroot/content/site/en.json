@@ -2,7 +2,6 @@
   "ui": {
     "navTeaching": "Teaching",
     "navResearch": "Research",
-    "navBook": "Book",
     "navSoftware": "Software",
     "headerPrototype": "Bilingual prototype",
     "lectureMetaLabel": "Overview",
@@ -14,18 +13,6 @@
     "notFoundTitle": "Not found",
     "notFoundText": "There is no content at this address."
   },
-  "book": {
-    "label": "Textbook",
-    "title": "App Engineering as its own top-level area",
-    "intro": "The book now gets its own page on the same level as Teaching, Research, and Software. That keeps the reference permanently visible and leaves room for later material, notes, and context."
-  },
-  "bookLinks": [
-    {
-      "title": "App Engineering",
-      "url": "https://link.springer.com/book/10.1007/978-3-662-67476-5",
-      "description": "SpringerLink entry for the textbook"
-    }
-  ],
   "teaching": {
     "label": "Teaching",
     "title": "Courses with direct access to exercises and materials",
@@ -34,12 +21,12 @@
   "research": {
     "label": "Research",
     "title": "Research themes that connect teaching and software",
-    "intro": "This area will grow into an overview of research themes, project ideas, and entry points for theses. As a first step, the page is already prefilled with curated publication hits derived from Google Scholar."
+    "intro": ""
   },
   "researchPublicationsSection": {
     "label": "Publications",
-    "title": "Curated Scholar hits grouped by theme",
-    "intro": "These entries are based on the currently discoverable Google Scholar hits for Robin Nunkesser. They are grouped by theme and link to the sources found there."
+    "title": "",
+    "intro": ""
   },
   "software": {
     "label": "Software",
@@ -60,81 +47,10 @@
       "highlights": ["Topics", "Projects", "Theses"]
     },
     {
-      "key": "book",
-      "title": "Book",
-      "summary": "",
-      "highlights": ["App Engineering", "Springer", "Reference"]
-    },
-    {
       "key": "software",
       "title": "Software",
       "summary": "",
       "highlights": ["Apps", "Packages", "Repos"]
-    }
-  ],
-  "researchPublications": [
-    {
-      "category": "Mobile Software Engineering",
-      "year": 2026,
-      "title": "Assessing the Generalizability of Mobile Software Engineering Research Through Combined Systematic Methods",
-      "meta": "R Nunkesser - Software, 2026 - mdpi.com",
-      "url": "https://www.mdpi.com/2674-113X/5/1/12"
-    },
-    {
-      "category": "Mobile Software Engineering",
-      "year": 2026,
-      "title": "A Systematic Method for Evaluating the Generalizability of Mobile-Specific Research: Green Computing as a Case Study",
-      "meta": "R Nunkesser - 2026 - preprints.org",
-      "url": "https://www.preprints.org/manuscript/202601.0328"
-    },
-    {
-      "category": "Mobile Software Engineering",
-      "year": 2018,
-      "title": "Beyond web/native/hybrid: A new taxonomy for mobile app development",
-      "meta": "R Nunkesser - Proceedings of the 5th International Conference on Mobile Software Engineering and Systems, 2018 - dl.acm.org",
-      "url": "https://dl.acm.org/doi/abs/10.1145/3197231.3197260"
-    },
-    {
-      "category": "Software Architecture",
-      "year": 2025,
-      "title": "logicGP-A Framework for Literal Based Classification with a Focus on Software Architecture and Open Source Implementation",
-      "meta": "R Nunkesser - Proceedings of the Genetic and Evolutionary Computation Conference Companion, 2025 - dl.acm.org",
-      "url": "https://dl.acm.org/doi/abs/10.1145/3712255.3734300"
-    },
-    {
-      "category": "Software Architecture",
-      "year": 2022,
-      "title": "Using Hexagonal Architecture for Mobile Applications",
-      "meta": "R Nunkesser - ICSOFT 2022 - scitepress.org",
-      "url": "https://www.scitepress.org/Papers/2022/110751/110751.pdf"
-    },
-    {
-      "category": "AI and Evolutionary Methods",
-      "year": 2025,
-      "title": "Extensibility, Model Interpretability and Explainability, and Automation in ML.NET: A Comprehensive Analysis",
-      "meta": "R Nunkesser - International Joint Conference on Computational Intelligence, 2025 - Springer",
-      "url": "https://link.springer.com/chapter/10.1007/978-3-032-15638-9_11"
-    },
-    {
-      "category": "AI and Evolutionary Methods",
-      "year": 2010,
-      "title": "An evolutionary algorithm for robust regression",
-      "meta": "R Nunkesser, O Morell - Computational Statistics and Data Analysis, 2010 - Elsevier",
-      "url": "https://www.sciencedirect.com/science/article/pii/S0167947310001623"
-    },
-    {
-      "category": "AI and Evolutionary Methods",
-      "year": 2007,
-      "title": "Detecting high-order interactions of single nucleotide polymorphisms using genetic programming",
-      "meta": "R Nunkesser, T Bernholt, H Schwender... - Bioinformatics, 2007 - academic.oup.com",
-      "url": "https://academic.oup.com/bioinformatics/article-abstract/23/24/3280/264004"
-    },
-    {
-      "category": "Didactics and Assessment",
-      "year": 2025,
-      "title": "Leveraging Automated Exam Question Generation for Enhanced Teaching and Assessment",
-      "meta": "R Nunkesser - Authorea Preprints, 2025 - techrxiv.org",
-      "url": "https://www.techrxiv.org/doi/full/10.36227/techrxiv.175372369.97413362"
     }
   ],
   "softwareCards": [

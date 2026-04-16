@@ -5,14 +5,8 @@
 
 <PageTitle>Software</PageTitle>
 
-@if (Landing is not null)
+@if (Cards.Count > 0)
 {
-    <section class="page-intro">
-        <p class="section-label">@Landing.Label</p>
-        <h1>@Landing.Title</h1>
-        <p>@Landing.Intro</p>
-    </section>
-
     <section class="page-section">
         <div class="feature-grid">
             @foreach (var card in Cards)
@@ -39,14 +33,11 @@
 }
 
 @code {
-    private SiteLanguage CurrentLanguage;
-    private SectionLandingViewModel? Landing;
     private IReadOnlyList<InfoCardViewModel> Cards = [];
 
     protected override async Task OnParametersSetAsync()
     {
-        CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
-        Landing = await ContentService.GetSoftwareLandingAsync(CurrentLanguage);
-        Cards = await ContentService.GetSoftwareCardsAsync(CurrentLanguage);
+        var currentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+        Cards = await ContentService.GetSoftwareCardsAsync(currentLanguage);
     }
 }

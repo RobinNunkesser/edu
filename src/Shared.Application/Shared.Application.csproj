@@ -9,6 +9,8 @@
   <ItemGroup>
     <EmbeddedResource Include="..\WebSite\wwwroot\content\site\de.json" LogicalName="Shared.Application.Content.de.json" />
     <EmbeddedResource Include="..\WebSite\wwwroot\content\site\en.json" LogicalName="Shared.Application.Content.en.json" />
+    <EmbeddedResource Include="..\WebSite\wwwroot\content\site\research-publications.de.json" LogicalName="Shared.Application.Content.research-publications.de.json" />
+    <EmbeddedResource Include="..\WebSite\wwwroot\content\site\research-publications.en.json" LogicalName="Shared.Application.Content.research-publications.en.json" />
   </ItemGroup>
 
   <PropertyGroup>

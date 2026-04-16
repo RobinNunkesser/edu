@@ -15,6 +15,7 @@ public sealed class SiteContentService
     private readonly HttpClient _httpClient;
     private readonly bool _disableContentCache;
     private readonly Dictionary<SiteLanguage, SiteContentDocument> _cache = new();
+    private readonly Dictionary<SiteLanguage, IReadOnlyList<ResearchPublicationViewModel>> _researchPublicationsCache = new();
     private readonly Dictionary<SiteLanguage, IReadOnlyList<TeachingLectureIndexItem>> _teachingLectureIndexCache = new();
     private readonly Dictionary<string, LectureDetailViewModel> _teachingLectureCache = new();
 
@@ -26,17 +27,48 @@ public sealed class SiteContentService
 
     public async Task<UiTextViewModel> GetUiTextAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Ui;
 
-    public async Task<SectionLandingViewModel> GetBookLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Book;
-
-    public async Task<IReadOnlyList<ResourceLinkViewModel>> GetBookLinksAsync(SiteLanguage language) => (await GetDocumentAsync(language)).BookLinks;
-
     public async Task<SectionLandingViewModel> GetTeachingLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Teaching;
 
     public async Task<SectionLandingViewModel> GetResearchLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Research;
 
     public async Task<SectionLandingViewModel> GetResearchPublicationsSectionAsync(SiteLanguage language) => (await GetDocumentAsync(language)).ResearchPublicationsSection;
 
-    public async Task<IReadOnlyList<ResearchPublicationViewModel>> GetResearchPublicationsAsync(SiteLanguage language) => (await GetDocumentAsync(language)).ResearchPublications;
+    public async Task<IReadOnlyList<ResearchPublicationViewModel>> GetResearchPublicationsAsync(SiteLanguage language)
+    {
+        if (!_disableContentCache && _researchPublicationsCache.TryGetValue(language, out var cached))
+        {
+            return cached;
+        }
+
+        IReadOnlyList<ResearchPublicationViewModel> publications;
+
+        if (_disableContentCache)
+        {
+            var fileName = GetResearchPublicationFileName(language);
+            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            response.EnsureSuccessStatusCode();
+
+            publications = await response.Content.ReadFromJsonAsync<IReadOnlyList<ResearchPublicationViewModel>>(JsonOptions)
+                ?? throw new InvalidOperationException($"Could not deserialize live research publications file {fileName}.");
+        }
+        else
+        {
+            var resourceName = GetResearchPublicationResourceName(language);
+
+            await using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)
+                ?? throw new InvalidOperationException($"Could not load embedded research publications resource {resourceName}.");
+
+            publications = await JsonSerializer.DeserializeAsync<IReadOnlyList<ResearchPublicationViewModel>>(stream, JsonOptions)
+                ?? throw new InvalidOperationException($"Could not deserialize embedded research publications resource {resourceName}.");
+        }
+
+        if (!_disableContentCache)
+        {
+            _researchPublicationsCache[language] = publications;
+        }
+
+        return publications;
+    }
 
     public async Task<SectionLandingViewModel> GetSoftwareLandingAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Software;
 
@@ -148,6 +180,14 @@ public sealed class SiteContentService
     private static IReadOnlyList<string> GetTeachingLectureDetailCandidates(SiteLanguage language, string slug)
         => [$"lecture-template.{slug}.de.json"];
 
+    private static string GetResearchPublicationFileName(SiteLanguage language)
+        => language == SiteLanguage.En ? "research-publications.en.json" : "research-publications.de.json";
+
+    private static string GetResearchPublicationResourceName(SiteLanguage language)
+        => language == SiteLanguage.En
+            ? "Shared.Application.Content.research-publications.en.json"
+            : "Shared.Application.Content.research-publications.de.json";
+
     private async Task<SiteContentDocument> GetDocumentAsync(SiteLanguage language)
     {
         if (!_disableContentCache && _cache.TryGetValue(language, out var cached))
@@ -196,7 +236,7 @@ public sealed class SiteContentService
     {
         "teaching" => SiteRoutes.Teaching(language),
         "research" => SiteRoutes.Research(language),
-        "book" => SiteRoutes.Book(language),
+        "book" => SiteRoutes.Research(language),
         "software" => SiteRoutes.Software(language),
         _ => SiteRoutes.Home(language)
     };
