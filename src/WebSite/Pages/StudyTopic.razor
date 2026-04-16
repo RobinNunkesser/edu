@@ -172,7 +172,7 @@ else
         ? "Drag to pan, use the wheel to zoom, double click to refit, focus for arrow-key panning and click nodes or edges for details."
         : "Zum Verschieben ziehen, mit dem Mausrad zoomen, mit Doppelklick neu einpassen, nach Fokus mit Pfeiltasten verschieben und fuer Details Knoten oder Kanten anklicken.";
 
-    private string GraphLegendActiveLabel => CurrentLanguage == SiteLanguage.En ? "Current tree" : "Aktueller Baum";
+    private string GraphLegendActiveLabel => CurrentLanguage == SiteLanguage.En ? "Active solution" : "Aktive Loesung";
 
     private string GraphLegendSuccessorLabel => CurrentLanguage == SiteLanguage.En ? "Candidate edges" : "Kandidatenkanten";
 
@@ -191,8 +191,8 @@ else
     private string GraphNoSelectionTitle => CurrentLanguage == SiteLanguage.En ? "Nothing selected" : "Nichts ausgewaehlt";
 
     private string GraphNoSelectionText => CurrentLanguage == SiteLanguage.En
-        ? "Use the graph itself to inspect nodes, edges and the current MST state."
-        : "Nutze den Graphen selbst, um Knoten, Kanten und den aktuellen MST-Zustand zu inspizieren.";
+        ? "Use the graph itself to inspect nodes, edges and the current search or solution state."
+        : "Nutze den Graphen selbst, um Knoten, Kanten und den aktuellen Such- oder Loesungszustand zu inspizieren.";
 
     private string GraphNodeLabel => CurrentLanguage == SiteLanguage.En ? "Node" : "Knoten";
 
@@ -210,19 +210,13 @@ else
             ? _topic.InitialStepDescription
             : _topic.Steps[CurrentStep - 1].Description;
 
-    private IReadOnlySet<string> IncludedEdgeKeys => _topic is null
-        ? new HashSet<string>(StringComparer.Ordinal)
-        : _topic.Steps.Take(CurrentStep)
-            .Select(step => step.EdgeKey)
-            .ToHashSet(StringComparer.Ordinal);
-
     private GraphStateViewModel CurrentGraphState => _topic is null
         ? new GraphStateViewModel(string.Empty, [], [], [], [], [], [], [])
         : _topic.GraphStates[Math.Min(CurrentStep, _topic.GraphStates.Count - 1)];
 
     private IReadOnlyList<StudyEdgeViewModel> IncludedEdges => _topic is null
         ? []
-        : _topic.GraphEdges.Where(edge => IsIncluded(edge.EdgeKey)).ToArray();
+        : _topic.GraphEdges.Where(edge => CurrentGraphState.ActiveEdgeKeys.Contains(edge.EdgeKey)).ToArray();
 
     protected override void OnParametersSet()
     {
@@ -308,5 +302,5 @@ else
         return isEnglish ? "Alternative edge" : "Alternative Kante";
     }
 
-    private bool IsIncluded(string edgeKey) => _topic is not null && _topic.Steps.Take(CurrentStep).Any(step => step.EdgeKey == edgeKey);
+    private bool IsIncluded(string edgeKey) => CurrentGraphState.ActiveEdgeKeys.Contains(edgeKey);
 }

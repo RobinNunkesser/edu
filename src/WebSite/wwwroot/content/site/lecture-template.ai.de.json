@@ -98,6 +98,17 @@
           "description": "08.04.2026"
         }
       ]
+    },
+    {
+      "title": "Interaktive Übungen / Demonstratoren",
+      "intro": "",
+      "links": [
+        {
+          "title": "Rumänien-Suche mit A*",
+          "url": "study/rumaenien-suche",
+          "description": "Schrittweiser Suchdemonstrator von Arad nach Bukarest mit Graphansicht, Frontier und Kostenbewertung"
+        }
+      ]
     }
   ]
 }
