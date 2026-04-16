@@ -139,19 +139,40 @@
   ],
   "softwareCards": [
     {
-      "kicker": "Companions",
-      "title": "Interaktive Lernwerkzeuge",
-      "text": "Companion-Anwendungen und deren importierbare Inhalte sollen hier gebuendelt sichtbar werden."
+      "kicker": "NuGet Repository",
+      "title": "nuget-foundation",
+      "text": "Gemeinsame Grundlagen der Italbytz-Paketfamilie mit allgemeinen Abstraktionen, Random-Helfern, Open-XML-Werkzeugen und musikbezogenen Vertraegen.",
+      "url": "https://github.com/Italbytz/nuget-foundation"
     },
     {
-      "kicker": "Pakete",
-      "title": "NuGet- und PyPI-Artefakte",
-      "text": "Wiederverwendbare Bibliotheken und Hilfswerkzeuge erhalten kuenftig eine kuratierte Uebersicht."
+      "kicker": "NuGet Repository",
+      "title": "nuget-ai",
+      "text": "Groessere KI-Paketfamilie mit Suchverfahren, Constraint-Satisfaction, Planung, Lernen, Evolutionaeren Verfahren und ML.NET-Integration.",
+      "url": "https://github.com/Italbytz/nuget-ai"
     },
     {
-      "kicker": "Repos",
-      "title": "Projektlandschaft",
-      "text": "Ausgewaehlte Repositories werden spaeter mit Kontext, Zweck und Einsatzzweck beschrieben statt nur verlinkt."
+      "kicker": "NuGet Repository",
+      "title": "nuget-systems",
+      "text": "Solver und Lehrbausteine fuer Rechnerstrukturen, Netzwerke und Betriebssysteme, gedacht fuer Uebungen, Klausurvorbereitung und demonstrative Beispiele.",
+      "url": "https://github.com/Italbytz/nuget-systems"
+    },
+    {
+      "kicker": "NuGet Repository",
+      "title": "nuget-exam",
+      "text": "Wiederverwendbare Pakete fuer Klausur- und Aufgabenmodelle, Schrittloesungen sowie Trivia- und Quiz-Szenarien in der Lehre.",
+      "url": "https://github.com/Italbytz/nuget-exam"
+    },
+    {
+      "kicker": "NuGet Repository",
+      "title": "nuget-graph",
+      "text": "Graph-Abstraktionen, Algorithmen und Visualisierungshilfen fuer Blazor und .NET MAUI, inklusive des aktuellen MST- und SVG-Renderings in edu.",
+      "url": "https://github.com/Italbytz/nuget-graph"
+    },
+    {
+      "kicker": "NuGet Repository",
+      "title": "nuget-meal",
+      "text": "Paketfamilie fuer Mensa- und Speiseplan-Szenarien mit OpenMensa- und STWPB-Integration sowie Test- und Demo-Helfern.",
+      "url": "https://github.com/Italbytz/nuget-meal"
     }
   ],
   "lectures": [

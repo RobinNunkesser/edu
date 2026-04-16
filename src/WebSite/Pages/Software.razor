@@ -17,11 +17,22 @@
         <div class="feature-grid">
             @foreach (var card in Cards)
             {
-                <article class="feature-card feature-card-static">
-                    <p class="feature-card-kicker">@card.Kicker</p>
-                    <h3>@card.Title</h3>
-                    <p>@card.Text</p>
-                </article>
+                if (string.IsNullOrWhiteSpace(card.Url))
+                {
+                    <article class="feature-card feature-card-static">
+                        <p class="feature-card-kicker">@card.Kicker</p>
+                        <h3>@card.Title</h3>
+                        <p>@card.Text</p>
+                    </article>
+                }
+                else
+                {
+                    <a class="feature-card" href="@card.Url" target="_blank" rel="noreferrer">
+                        <p class="feature-card-kicker">@card.Kicker</p>
+                        <h3>@card.Title</h3>
+                        <p>@card.Text</p>
+                    </a>
+                }
             }
         </div>
     </section>

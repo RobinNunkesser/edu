@@ -48,7 +48,8 @@ public sealed record HomeAreaViewModel(
 public sealed record InfoCardViewModel(
     string Kicker,
     string Title,
-    string Text);
+    string Text,
+    string? Url = null);
 
 public sealed record ResearchPublicationViewModel(
     string Category,
