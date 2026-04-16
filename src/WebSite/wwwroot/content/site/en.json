@@ -50,25 +50,25 @@
     {
       "key": "teaching",
       "title": "Teaching",
-      "summary": "Courses with dedicated subpages, exercises, slides, videos, and supporting materials.",
+      "summary": "",
       "highlights": ["Courses", "Exercises", "Materials"]
     },
     {
       "key": "research",
       "title": "Research",
-      "summary": "Focus areas, research themes, and entry points for projects and theses.",
+      "summary": "",
       "highlights": ["Topics", "Projects", "Theses"]
     },
     {
       "key": "book",
       "title": "Book",
-      "summary": "The App Engineering textbook as a durable reference point with direct access to the Springer entry.",
+      "summary": "",
       "highlights": ["App Engineering", "Springer", "Reference"]
     },
     {
       "key": "software",
       "title": "Software",
-      "summary": "Teaching software, open-source artifacts, and reusable packages from projects and courses.",
+      "summary": "",
       "highlights": ["Apps", "Packages", "Repos"]
     }
   ],
@@ -180,7 +180,7 @@
       "slug": "app-development",
       "title": "App Development",
       "semester": "6th semester",
-      "summary": "This version follows the lectures wiki and bundles course logistics, project setup, slides, and lecture recordings on a single page.",
+      "summary": "",
       "wikiPath": "AppDevelopment",
       "highlightTags": [],
       "sections": [
@@ -217,7 +217,7 @@
       "slug": "technische-informatik",
       "title": "Technical Computer Engineering",
       "semester": "3rd semester",
-      "summary": "Exercises and mock exams are placed front and center, complemented by companion and lecture materials.",
+      "summary": "",
       "wikiPath": "TechnischeInformatik",
       "highlightTags": [],
       "sections": [
@@ -258,7 +258,7 @@
       "slug": "kuenstliche-intelligenz",
       "title": "Artificial Intelligence",
       "semester": "6th semester",
-      "summary": "The page focuses on project ideas, assignment-driven workflows, slides, and code entry points.",
+      "summary": "",
       "wikiPath": "AI",
       "highlightTags": [],
       "sections": [
@@ -296,7 +296,7 @@
       "slug": "netzwerke",
       "title": "Computer Networks",
       "semester": "3rd semester",
-      "summary": "Global exercise sheets, companion references, and a curated collection of slides and lecture videos are central to this course page.",
+      "summary": "",
       "wikiPath": "Netzwerke",
       "highlightTags": [],
       "sections": [
@@ -334,7 +334,7 @@
       "slug": "betriebssysteme",
       "title": "Operating Systems",
       "semester": "3rd semester",
-      "summary": "Global exercises, companion references, as well as slides and videos covering the full course.",
+      "summary": "",
       "wikiPath": "Betriebssysteme",
       "highlightTags": [],
       "sections": [
@@ -372,7 +372,7 @@
       "slug": "softwaretechnik",
       "title": "Software Engineering",
       "semester": "4th semester",
-      "summary": "Project-based course with GitHub Assignment, early deliverable review, App Engineering context, and video recording.",
+      "summary": "",
       "wikiPath": "Softwaretechnik",
       "highlightTags": [],
       "sections": [
@@ -407,7 +407,7 @@
       "slug": "grundlagen-der-informatik",
       "title": "Foundations of Computer Science",
       "semester": "1st semester",
-      "summary": "Exercises, companion references, external explanations, and a broad slide collection for the first computer science concepts.",
+      "summary": "",
       "wikiPath": "GDI",
       "highlightTags": [],
       "sections": [

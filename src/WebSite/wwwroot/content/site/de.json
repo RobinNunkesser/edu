@@ -50,25 +50,25 @@
     {
       "key": "teaching",
       "title": "Lehre",
-      "summary": "Lehrveranstaltungen mit Unterseiten, Uebungen, Folien, Videos und weiterfuehrenden Materialien.",
+      "summary": "",
       "highlights": ["Vorlesungen", "Uebungen", "Lehrmaterialien"]
     },
     {
       "key": "research",
       "title": "Forschung",
-      "summary": "Schwerpunkte, Themenfelder und Anknuepfungspunkte fuer Projekt- und Abschlussarbeiten.",
+      "summary": "",
       "highlights": ["Schwerpunkte", "Projekte", "Arbeiten"]
     },
     {
       "key": "book",
       "title": "Buch",
-      "summary": "Das Lehrbuch App Engineering als dauerhafter Referenzpunkt mit direktem Zugriff auf den Springer-Eintrag.",
+      "summary": "",
       "highlights": ["App Engineering", "Springer", "Referenz"]
     },
     {
       "key": "software",
       "title": "Software",
-      "summary": "Lehrsoftware, Open-Source-Artefakte und wiederverwendbare Pakete aus Projekten und Lehrveranstaltungen.",
+      "summary": "",
       "highlights": ["Apps", "Pakete", "Repos"]
     }
   ],
@@ -180,7 +180,7 @@
       "slug": "app-development",
       "title": "App Development",
       "semester": "6. Semester",
-      "summary": "Die Struktur orientiert sich am lectures-Wiki und buendelt organisatorische Informationen, Projektformat, Folien und Vorlesungsvideos auf einer Seite.",
+      "summary": "",
       "wikiPath": "AppDevelopment",
       "highlightTags": [],
       "sections": [
@@ -217,7 +217,7 @@
       "slug": "technische-informatik",
       "title": "Technische Informatik",
       "semester": "3. Semester",
-      "summary": "Uebungen und Probeklausuren stehen prominent im Vordergrund, ergaenzt um Companion- und Vorlesungsmaterialien.",
+      "summary": "",
       "wikiPath": "TechnischeInformatik",
       "highlightTags": [],
       "sections": [
@@ -258,7 +258,7 @@
       "slug": "kuenstliche-intelligenz",
       "title": "Kuenstliche Intelligenz",
       "semester": "6. Semester",
-      "summary": "Die Seite stellt Projektideen, assignment-nahe Arbeitsweise, Folien und Code-Einstieg in den Vordergrund.",
+      "summary": "",
       "wikiPath": "AI",
       "highlightTags": [],
       "sections": [
@@ -296,7 +296,7 @@
       "slug": "netzwerke",
       "title": "Netzwerke",
       "semester": "3. Semester",
-      "summary": "Globaluebungen, Companion-Hinweise und eine gut gepflegte Sammlung von Folien und Vorlesungsvideos stehen im Mittelpunkt.",
+      "summary": "",
       "wikiPath": "Netzwerke",
       "highlightTags": [],
       "sections": [
@@ -334,7 +334,7 @@
       "slug": "betriebssysteme",
       "title": "Betriebssysteme",
       "semester": "3. Semester",
-      "summary": "Globaluebungen, Companion-Verweise sowie Folien und Videos fuer die komplette Veranstaltung.",
+      "summary": "",
       "wikiPath": "Betriebssysteme",
       "highlightTags": [],
       "sections": [
@@ -372,7 +372,7 @@
       "slug": "softwaretechnik",
       "title": "Softwaretechnik",
       "semester": "4. Semester",
-      "summary": "Projektorientierte Lehrveranstaltung mit GitHub Assignment, Vorabgabe, App-Engineering-Bezug und Videoaufzeichnung.",
+      "summary": "",
       "wikiPath": "Softwaretechnik",
       "highlightTags": [],
       "sections": [
@@ -407,7 +407,7 @@
       "slug": "grundlagen-der-informatik",
       "title": "Grundlagen der Informatik",
       "semester": "1. Semester",
-      "summary": "Uebungen, Companion-Hinweise, externe Erklaerungen und eine breite Foliensammlung fuer den Einstieg in die Informatik.",
+      "summary": "",
       "wikiPath": "GDI",
       "highlightTags": [],
       "sections": [
