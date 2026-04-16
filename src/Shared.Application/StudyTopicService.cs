@@ -11,6 +11,8 @@ public sealed class StudyTopicService
     private const string MinimalSpanningTreeSlug = "minimaler-spannbaum";
     private const string RomaniaSearchSlug = "rumaenien-suche";
     private const string RomaniaSearchSlugEn = "romania-search";
+    private const string NQueensSlug = "n-damen";
+    private const string NQueensSlugEn = "n-queens";
     private const string GraphVisualizationSlug = "graph-visualisierung";
     private const string GraphVisualizationSlugEn = "graph-visualization";
 
@@ -40,6 +42,9 @@ public sealed class StudyTopicService
         return string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlugEn, StringComparison.OrdinalIgnoreCase)
             ? BuildRomaniaSearchTopic(language, slug)
+            : string.Equals(slug, NQueensSlug, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(slug, NQueensSlugEn, StringComparison.OrdinalIgnoreCase)
+                ? BuildNQueensTopic(language, slug)
             : BuildMinimalSpanningTreeTopic(language, slug);
     }
 
@@ -47,8 +52,181 @@ public sealed class StudyTopicService
         => string.Equals(slug, MinimalSpanningTreeSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, NQueensSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, NQueensSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, GraphVisualizationSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase);
+
+    private static StudyTopicDetailViewModel BuildNQueensTopic(SiteLanguage language, string slug)
+    {
+        var isEnglish = language == SiteLanguage.En;
+        var algorithms = NQueensSimulation.BuildAll(8)
+            .Select(simulation => BuildNQueensAlgorithm(language, simulation))
+            .ToArray();
+
+        return new StudyTopicDetailViewModel(
+            Kind: StudyTopicKind.NQueens,
+            Slug: slug,
+            Title: isEnglish ? "N-Queens with Local and Evolutionary Search" : "N-Damen mit lokaler und evolutionaerer Suche",
+            Intro: isEnglish
+                ? "This demonstrator compares three approaches discussed in the lecture on the same 8-queens problem: Hill Climbing, Simulated Annealing and a Genetic Algorithm."
+                : "Dieser Demonstrator vergleicht drei in der Vorlesung besprochene Verfahren am selben 8-Damen-Problem: Hill Climbing, Simulated Annealing und einen Genetic Algorithm.",
+            SectionLabel: isEnglish ? "AI demonstrator" : "KI-Demonstrator",
+            MetaLabel: isEnglish ? "Algorithms" : "Algorithmen",
+            MetaValue: "Hill Climbing / Simulated Annealing / Genetic Algorithm",
+            BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
+            BackRoute: SiteRoutes.Teaching(language),
+            Facts: isEnglish
+                ? [
+                    new StudyFactViewModel("Board", "8x8"),
+                    new StudyFactViewModel("Algorithms", "3"),
+                    new StudyFactViewModel("Goal", "0 conflicts"),
+                    new StudyFactViewModel("Source", "ISD Companion + lecture strategies")
+                ]
+                : [
+                    new StudyFactViewModel("Brett", "8x8"),
+                    new StudyFactViewModel("Algorithmen", "3"),
+                    new StudyFactViewModel("Ziel", "0 Konflikte"),
+                    new StudyFactViewModel("Quelle", "ISD Companion + Vorlesungsansaetze")
+                ],
+            GraphSectionTitle: null,
+            GraphSectionIntro: null,
+            StepSectionTitle: isEnglish ? "Stepwise comparison" : "Schrittweiser Vergleich",
+            StepSectionIntro: isEnglish
+                ? "Switch between algorithms and inspect how each method changes queen positions, conflicts and evaluation metrics over time."
+                : "Wechsle zwischen den Algorithmen und verfolge, wie jedes Verfahren Damenpositionen, Konflikte und Bewertungsmetriken ueber die Zeit veraendert.",
+            ResultSectionTitle: isEnglish ? "Current state" : "Aktueller Zustand",
+            ResultSectionIntro: isEnglish
+                ? "The cards summarize the currently selected algorithm state instead of a fixed final tree."
+                : "Die Karten fassen den aktuell ausgewaehlten Algorithmuszustand zusammen statt einer festen finalen Baumloesung.",
+            InitialStepDescription: isEnglish
+                ? "Choose an algorithm and advance one step at a time."
+                : "Waehle einen Algorithmus und gehe dann Schritt fuer Schritt vor.",
+            PreviousStepLabel: isEnglish ? "Previous" : "Zurueck",
+            NextStepLabel: isEnglish ? "Next" : "Naechster Schritt",
+            CompleteSolutionLabel: isEnglish ? "Complete run" : "Kompletter Lauf",
+            ResetLabel: isEnglish ? "Reset" : "Neu starten",
+            ProgressLabel: isEnglish ? "Current progress" : "Aktueller Fortschritt",
+            NQueens: new NQueensTopicViewModel(
+                AlgorithmSelectorLabel: isEnglish ? "Algorithm" : "Algorithmus",
+                BoardSectionTitle: isEnglish ? "Board" : "Brett",
+                BoardSectionIntro: isEnglish
+                    ? "Conflicting queens are highlighted in red. The currently modified queen is outlined separately."
+                    : "Konfliktbehaftete Damen sind rot markiert. Die aktuell bearbeitete Dame wird zusaetzlich hervorgehoben.",
+                BoardSizeLabel: isEnglish ? "Board size" : "Brettgroesse",
+                ConflictCountLabel: isEnglish ? "Conflicts" : "Konflikte",
+                CurrentAssignmentLabel: isEnglish ? "Assignment" : "Belegung",
+                CurrentMoveLabel: isEnglish ? "Current move" : "Aktuelle Aktion",
+                SolvedLabel: isEnglish ? "Solution found" : "Loesung gefunden",
+                StoppedLabel: isEnglish ? "No further improvement" : "Keine weitere Verbesserung",
+                Algorithms: algorithms),
+            GraphVisualization: null,
+            GraphStates: null,
+            GraphEdges: null,
+            Steps: null);
+    }
+
+    private static NQueensAlgorithmViewModel BuildNQueensAlgorithm(SiteLanguage language, NQueensAlgorithmSimulation simulation)
+    {
+        var isEnglish = language == SiteLanguage.En;
+        var name = simulation.Algorithm switch
+        {
+            NQueensAlgorithmKind.HillClimbing => "Hill Climbing",
+            NQueensAlgorithmKind.SimulatedAnnealing => "Simulated Annealing",
+            _ => "Genetic Algorithm"
+        };
+
+        var summary = simulation.Algorithm switch
+        {
+            NQueensAlgorithmKind.HillClimbing => isEnglish
+                ? "Greedy local search: always pick the best improving queen move."
+                : "Gierige lokale Suche: Es wird immer der beste verbessernde Zug gewaehlt.",
+            NQueensAlgorithmKind.SimulatedAnnealing => isEnglish
+                ? "Occasionally accepts worse moves while the temperature is still high."
+                : "Akzeptiert bei hoher Temperatur gelegentlich auch schlechtere Zuege.",
+            _ => isEnglish
+                ? "Evolves a population of boards through selection, crossover and mutation."
+                : "Entwickelt eine Population von Brettern ueber Selektion, Crossover und Mutation weiter."
+        };
+
+        return new NQueensAlgorithmViewModel(
+            Key: simulation.Algorithm.ToString(),
+            Name: name,
+            Summary: summary,
+            BoardSize: simulation.BoardSize,
+            InitialQueenRows: simulation.InitialQueenRows,
+            Steps: simulation.Steps.Select(step => BuildNQueensStep(language, simulation.Algorithm, step)).ToArray());
+    }
+
+    private static NQueensStepViewModel BuildNQueensStep(
+        SiteLanguage language,
+        NQueensAlgorithmKind algorithm,
+        NQueensStepModel step)
+    {
+        var isEnglish = language == SiteLanguage.En;
+        var assignment = FormatAssignment(step.QueenRows);
+        var metric = algorithm switch
+        {
+            NQueensAlgorithmKind.HillClimbing => isEnglish
+                ? $"fitness={FormatWeight(step.Fitness ?? 0)}"
+                : $"Fitness={FormatWeight(step.Fitness ?? 0)}",
+            NQueensAlgorithmKind.SimulatedAnnealing => isEnglish
+                ? $"T={FormatWeight(step.Temperature ?? 0)}, fitness={FormatWeight(step.Fitness ?? 0)}"
+                : $"T={FormatWeight(step.Temperature ?? 0)}, Fitness={FormatWeight(step.Fitness ?? 0)}",
+            _ => isEnglish
+                ? $"generation={step.Generation ?? 0}, fitness={FormatWeight(step.Fitness ?? 0)}"
+                : $"Generation={step.Generation ?? 0}, Fitness={FormatWeight(step.Fitness ?? 0)}"
+        };
+
+        var summary = step.Kind switch
+        {
+            NQueensStepKind.Initial => isEnglish ? "Initial board" : "Startbrett",
+            NQueensStepKind.Move => step.CurrentColumn.HasValue && step.CurrentRow.HasValue
+                ? (isEnglish ? $"Move Q{step.CurrentColumn.Value + 1} to row {step.CurrentRow.Value + 1}" : $"Q{step.CurrentColumn.Value + 1} nach Zeile {step.CurrentRow.Value + 1} verschieben")
+                : (isEnglish ? "Apply move" : "Zug anwenden"),
+            NQueensStepKind.RejectedMove => step.CurrentColumn.HasValue && step.CurrentRow.HasValue
+                ? (isEnglish ? $"Reject Q{step.CurrentColumn.Value + 1} -> row {step.CurrentRow.Value + 1}" : $"Q{step.CurrentColumn.Value + 1} -> Zeile {step.CurrentRow.Value + 1} verwerfen")
+                : (isEnglish ? "Reject move" : "Zug verwerfen"),
+            NQueensStepKind.Generation => isEnglish ? $"Generation {step.Generation}" : $"Generation {step.Generation}",
+            NQueensStepKind.Solved => isEnglish ? "Solution found" : "Loesung gefunden",
+            _ => isEnglish ? "Stop condition reached" : "Abbruchbedingung erreicht"
+        };
+
+        var description = step.Kind switch
+        {
+            NQueensStepKind.Initial => isEnglish
+                ? $"Start with assignment {assignment}."
+                : $"Starte mit der Belegung {assignment}.",
+            NQueensStepKind.Move => isEnglish
+                ? $"The new state is {assignment} with {step.ConflictCount} conflicting queen pairs."
+                : $"Der neue Zustand ist {assignment} mit {step.ConflictCount} konfliktbehafteten Damenpaaren.",
+            NQueensStepKind.RejectedMove => isEnglish
+                ? $"The candidate move is rejected; the board stays at {assignment}."
+                : $"Der Kandidatenzug wird verworfen; das Brett bleibt bei {assignment}.",
+            NQueensStepKind.Generation => isEnglish
+                ? $"This generation keeps the currently best board {assignment} with {step.ConflictCount} conflicts."
+                : $"Diese Generation behaelt das aktuell beste Brett {assignment} mit {step.ConflictCount} Konflikten.",
+            NQueensStepKind.Solved => isEnglish
+                ? $"All queens are placed conflict-free: {assignment}."
+                : $"Alle Damen sind konfliktfrei platziert: {assignment}.",
+            _ => isEnglish
+                ? $"The run stops at {assignment} with {step.ConflictCount} remaining conflicts."
+                : $"Der Lauf endet bei {assignment} mit noch {step.ConflictCount} Konflikten."
+        };
+
+        return new NQueensStepViewModel(
+            Number: step.StepNumber,
+            Summary: summary,
+            Metric: metric,
+            Description: description,
+            QueenRows: step.QueenRows,
+            CurrentColumn: step.CurrentColumn,
+            CurrentRow: step.CurrentRow,
+            ConflictedColumns: step.ConflictedColumns,
+            ConflictCount: step.ConflictCount,
+            Solved: step.Solved,
+            Stopped: step.Kind == NQueensStepKind.Stopped);
+    }
 
     private static StudyTopicDetailViewModel BuildRomaniaSearchTopic(SiteLanguage language, string slug)
     {
@@ -90,6 +268,7 @@ public sealed class StudyTopicService
         var finalRoute = string.Join(" -> ", finalPathStates);
 
         return new StudyTopicDetailViewModel(
+            Kind: StudyTopicKind.Graph,
             Slug: slug,
             Title: isEnglish ? "Romania Search with A*" : "Rumänien-Suche mit A*",
             Intro: isEnglish
@@ -100,6 +279,19 @@ public sealed class StudyTopicService
             MetaValue: "A* / Italbytz.Graph / SVG",
             BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
             BackRoute: SiteRoutes.Teaching(language),
+            Facts: isEnglish
+                ? [
+                    new StudyFactViewModel("Cities", graph.Edges.SelectMany(edge => new[] { edge.Source, edge.Target }).Distinct(StringComparer.Ordinal).Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Roads", graph.Edges.Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Path cost", FormatWeight(totalCost)),
+                    new StudyFactViewModel("Source", "ISD Companion + Italbytz.Graph")
+                ]
+                : [
+                    new StudyFactViewModel("Staedte", graph.Edges.SelectMany(edge => new[] { edge.Source, edge.Target }).Distinct(StringComparer.Ordinal).Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Strassen", graph.Edges.Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Pfadkosten", FormatWeight(totalCost)),
+                    new StudyFactViewModel("Quelle", "ISD Companion + Italbytz.Graph")
+                ],
             GraphSectionTitle: isEnglish ? "Search graph" : "Suchgraph",
             GraphSectionIntro: isEnglish
                 ? "The graph shows the current expanded city, the active route from Arad, the frontier and the successors generated in the current A* step."
@@ -120,15 +312,7 @@ public sealed class StudyTopicService
             CompleteSolutionLabel: isEnglish ? "Complete solution" : "Komplette Loesung",
             ResetLabel: isEnglish ? "Reset" : "Neu starten",
             ProgressLabel: isEnglish ? "Current progress" : "Aktueller Fortschritt",
-            TotalWeightLabel: isEnglish ? "Path cost" : "Pfadkosten",
-            SolutionEdgeLabel: isEnglish ? "Route segment" : "Routenabschnitt",
-            VerticesLabel: isEnglish ? "Cities" : "Staedte",
-            EdgesLabel: isEnglish ? "Roads" : "Strassen",
-            SourceSystemLabel: isEnglish ? "Source" : "Quelle",
-            SourceSystemValue: "ISD Companion + Italbytz.Graph",
-            TotalWeight: FormatWeight(totalCost),
-            VertexCount: graph.Edges.SelectMany(edge => new[] { edge.Source, edge.Target }).Distinct(StringComparer.Ordinal).Count(),
-            EdgeCount: graph.Edges.Count(),
+            NQueens: null,
             GraphVisualization: graphVisualization,
             GraphStates: graphStates,
             GraphEdges: graphEdges,
@@ -177,6 +361,7 @@ public sealed class StudyTopicService
             .ToArray();
 
         return new StudyTopicDetailViewModel(
+            Kind: StudyTopicKind.Graph,
             Slug: slug,
             Title: isVisualizationPoc
                 ? (isEnglish ? "Graph Visualization POC" : "Graph-Visualisierung POC")
@@ -195,6 +380,19 @@ public sealed class StudyTopicService
             MetaValue: "Prim / Italbytz.Graph / SVG",
             BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
             BackRoute: isEnglish ? SiteRoutes.Teaching(language) : SiteRoutes.Teaching(language),
+            Facts: isEnglish
+                ? [
+                    new StudyFactViewModel("Vertices", graph.Edges.SelectMany(edge => new[] { edge.Source, edge.Target }).Distinct(StringComparer.Ordinal).Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Edges", graph.Edges.Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Total weight", FormatWeight(solution.Edges.Sum(edge => edge.Tag))),
+                    new StudyFactViewModel("Source", "ISD Companion + Italbytz.Graph")
+                ]
+                : [
+                    new StudyFactViewModel("Knoten", graph.Edges.SelectMany(edge => new[] { edge.Source, edge.Target }).Distinct(StringComparer.Ordinal).Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Kanten", graph.Edges.Count().ToString(CultureInfo.InvariantCulture)),
+                    new StudyFactViewModel("Gesamtgewicht", FormatWeight(solution.Edges.Sum(edge => edge.Tag))),
+                    new StudyFactViewModel("Quelle", "ISD Companion + Italbytz.Graph")
+                ],
             GraphSectionTitle: isEnglish ? "Graph" : "Graph",
             GraphSectionIntro: isEnglish
                 ? "The layout is calculated in C# with MSAGL and rendered as SVG in the browser so the current tree can be inspected directly on the graph."
@@ -215,18 +413,7 @@ public sealed class StudyTopicService
             CompleteSolutionLabel: isEnglish ? "Complete solution" : "Komplette Loesung",
             ResetLabel: isEnglish ? "Reset" : "Neu starten",
             ProgressLabel: isEnglish ? "Current progress" : "Aktueller Fortschritt",
-            TotalWeightLabel: isEnglish ? "Total weight" : "Gesamtgewicht",
-            SolutionEdgeLabel: isEnglish ? "Selected edges" : "Ausgewaehlte Kanten",
-            VerticesLabel: isEnglish ? "Vertices" : "Knoten",
-            EdgesLabel: isEnglish ? "Edges" : "Kanten",
-            SourceSystemLabel: isEnglish ? "Source" : "Quelle",
-            SourceSystemValue: "ISD Companion + Italbytz.Graph",
-            TotalWeight: FormatWeight(solution.Edges.Sum(edge => edge.Tag)),
-            VertexCount: graph.Edges
-                .SelectMany(edge => new[] { edge.Source, edge.Target })
-                .Distinct(StringComparer.Ordinal)
-                .Count(),
-            EdgeCount: graph.Edges.Count(),
+            NQueens: null,
             GraphVisualization: graphVisualization,
             GraphStates: graphStates,
             GraphEdges: graphEdges,
@@ -313,6 +500,9 @@ public sealed class StudyTopicService
     private static string[] BuildDirectedPathEdgeIds(IReadOnlyList<string> pathStates)
         => pathStates.Zip(pathStates.Skip(1), (from, to) => GraphViewKeys.CreateDirectedEdgeId(from, to)).ToArray();
 
+    private static string FormatAssignment(IReadOnlyList<int> queenRows)
+        => string.Join(", ", queenRows.Select((row, column) => $"Q{column + 1}->{row + 1}"));
+
     private static ITaggedEdge<string, double>? FindEdge(
         IUndirectedGraph<string, ITaggedEdge<string, double>> graph,
         string from,
@@ -331,7 +521,14 @@ public sealed record StudyTopicCardViewModel(
     string Route,
     IReadOnlyList<string> Tags);
 
+public enum StudyTopicKind
+{
+    Graph,
+    NQueens
+}
+
 public sealed record StudyTopicDetailViewModel(
+    StudyTopicKind Kind,
     string Slug,
     string Title,
     string Intro,
@@ -340,8 +537,9 @@ public sealed record StudyTopicDetailViewModel(
     string MetaValue,
     string BackLabel,
     string BackRoute,
-    string GraphSectionTitle,
-    string GraphSectionIntro,
+    IReadOnlyList<StudyFactViewModel> Facts,
+    string? GraphSectionTitle,
+    string? GraphSectionIntro,
     string StepSectionTitle,
     string StepSectionIntro,
     string ResultSectionTitle,
@@ -352,19 +550,13 @@ public sealed record StudyTopicDetailViewModel(
     string CompleteSolutionLabel,
     string ResetLabel,
     string ProgressLabel,
-    string TotalWeightLabel,
-    string SolutionEdgeLabel,
-    string VerticesLabel,
-    string EdgesLabel,
-    string SourceSystemLabel,
-    string SourceSystemValue,
-    string TotalWeight,
-    int VertexCount,
-    int EdgeCount,
-    GraphViewModel GraphVisualization,
-    IReadOnlyList<GraphStateViewModel> GraphStates,
-    IReadOnlyList<StudyEdgeViewModel> GraphEdges,
-    IReadOnlyList<StudyStepViewModel> Steps);
+    NQueensTopicViewModel? NQueens,
+    GraphViewModel? GraphVisualization,
+    IReadOnlyList<GraphStateViewModel>? GraphStates,
+    IReadOnlyList<StudyEdgeViewModel>? GraphEdges,
+    IReadOnlyList<StudyStepViewModel>? Steps);
+
+public sealed record StudyFactViewModel(string Label, string Value);
 
 public sealed record StudyEdgeViewModel(
     string Source,
@@ -379,3 +571,36 @@ public sealed record StudyStepViewModel(
     string EdgeLabel,
     string Weight,
     string Description);
+
+public sealed record NQueensTopicViewModel(
+    string AlgorithmSelectorLabel,
+    string BoardSectionTitle,
+    string BoardSectionIntro,
+    string BoardSizeLabel,
+    string ConflictCountLabel,
+    string CurrentAssignmentLabel,
+    string CurrentMoveLabel,
+    string SolvedLabel,
+    string StoppedLabel,
+    IReadOnlyList<NQueensAlgorithmViewModel> Algorithms);
+
+public sealed record NQueensAlgorithmViewModel(
+    string Key,
+    string Name,
+    string Summary,
+    int BoardSize,
+    int[] InitialQueenRows,
+    IReadOnlyList<NQueensStepViewModel> Steps);
+
+public sealed record NQueensStepViewModel(
+    int Number,
+    string Summary,
+    string Metric,
+    string Description,
+    int[] QueenRows,
+    int? CurrentColumn,
+    int? CurrentRow,
+    IReadOnlyList<int> ConflictedColumns,
+    int ConflictCount,
+    bool Solved,
+    bool Stopped);

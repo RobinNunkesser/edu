@@ -33,10 +33,10 @@ else
 
     <section class="page-section">
         <div class="tag-row">
-            <span class="tag">@_topic.VerticesLabel: @_topic.VertexCount</span>
-            <span class="tag">@_topic.EdgesLabel: @_topic.EdgeCount</span>
-            <span class="tag">@_topic.TotalWeightLabel: @_topic.TotalWeight</span>
-            <span class="tag">@_topic.SourceSystemLabel: @_topic.SourceSystemValue</span>
+            @foreach (var fact in _topic.Facts)
+            {
+                <span class="tag">@fact.Label: @fact.Value</span>
+            }
         </div>
     </section>
 
@@ -47,10 +47,29 @@ else
                 <p>@_topic.StepSectionIntro</p>
             </div>
 
+            @if (IsNQueensTopic)
+            {
+                <div class="nq-algorithm-switcher" role="tablist" aria-label="@CurrentNQueensTopic!.AlgorithmSelectorLabel">
+                    @foreach (var algorithm in CurrentNQueensTopic.Algorithms)
+                    {
+                        <button class="@(IsSelectedAlgorithm(algorithm.Key) ? "btn btn-primary" : "btn btn-outline-primary")"
+                                @onclick="() => SelectAlgorithm(algorithm.Key)">
+                            @algorithm.Name
+                        </button>
+                    }
+                </div>
+
+                <div class="mst-progress-card">
+                    <p class="feature-card-kicker">@CurrentNQueensTopic.AlgorithmSelectorLabel</p>
+                    <h3>@CurrentNQueensAlgorithm!.Name</h3>
+                    <p>@CurrentNQueensAlgorithm.Summary</p>
+                </div>
+            }
+
             <div class="mst-controls">
                 <button class="btn btn-outline-primary" @onclick="PreviousStep" disabled="@(CurrentStep == 0)">@_topic.PreviousStepLabel</button>
-                <button class="btn btn-primary" @onclick="NextStep" disabled="@(CurrentStep >= _topic.Steps.Count)">@_topic.NextStepLabel</button>
-                <button class="btn btn-outline-primary" @onclick="ShowCompleteSolution" disabled="@(CurrentStep >= _topic.Steps.Count)">@_topic.CompleteSolutionLabel</button>
+                <button class="btn btn-primary" @onclick="NextStep" disabled="@(CurrentStep >= CurrentStepCount)">@_topic.NextStepLabel</button>
+                <button class="btn btn-outline-primary" @onclick="ShowCompleteSolution" disabled="@(CurrentStep >= CurrentStepCount)">@_topic.CompleteSolutionLabel</button>
                 <button class="btn btn-link" @onclick="Reset">@_topic.ResetLabel</button>
             </div>
 
@@ -61,14 +80,14 @@ else
             </div>
 
             <ol class="mst-step-list">
-                @foreach (var step in _topic.Steps)
+                @foreach (var step in CurrentStepItems)
                 {
                     <li class="@GetStepClass(step.Number)">
                         <div>
-                            <strong>@step.Number. @step.EdgeLabel</strong>
+                            <strong>@step.Number. @step.Title</strong>
                             <p>@step.Description</p>
                         </div>
-                        <span class="tag">@step.Weight</span>
+                        <span class="tag">@step.Badge</span>
                     </li>
                 }
             </ol>
@@ -76,53 +95,88 @@ else
 
         <article class="resource-card mst-card">
             <div class="section-heading">
-                <h2>@_topic.GraphSectionTitle</h2>
-                <p>@_topic.GraphSectionIntro</p>
+                <h2>@VisualSectionTitle</h2>
+                <p>@VisualSectionIntro</p>
             </div>
 
-            <GraphViewport Graph="@_topic.GraphVisualization"
-                           ActiveEdgeKeys="@CurrentGraphState.ActiveEdgeKeys"
-                           ActiveNodeKeys="@CurrentGraphState.ActiveNodeIds"
-                           FrontierNodeKeys="@CurrentGraphState.FrontierNodeIds"
-                           ExploredNodeKeys="@CurrentGraphState.ExploredNodeIds"
-                           CurrentNodeKey="@CurrentGraphState.CurrentNodeId"
-                           SuccessorEdgeKeys="@CurrentGraphState.SuccessorEdgeKeys"
-                           DirectedActiveEdgeIds="@CurrentGraphState.DirectedActiveEdgeIds"
-                           DirectedSuccessorEdgeIds="@CurrentGraphState.DirectedSuccessorEdgeIds"
-                           Title="@_topic.GraphSectionTitle"
-                           ZoomInLabel="@GraphZoomInLabel"
-                           ZoomOutLabel="@GraphZoomOutLabel"
-                           FitLabel="@GraphFitLabel"
-                           ResetLabel="@GraphResetLabel"
-                           InteractionHint="@GraphInteractionHint"
-                           ActiveLegendLabel="@GraphLegendActiveLabel"
-                           SuccessorLegendLabel="@GraphLegendSuccessorLabel"
-                           CurrentNodeLegendLabel="@GraphLegendCurrentNodeLabel"
-                           FrontierLegendLabel="@GraphLegendFrontierLabel"
-                           ExploredLegendLabel="@GraphLegendExploredLabel"
-                           SolutionLegendLabel="@GraphLegendSolutionLabel"
-                           DefaultLegendLabel="@GraphLegendDefaultLabel"
-                           InspectorTitle="@GraphInspectorTitle"
-                           NoSelectionTitle="@GraphNoSelectionTitle"
-                           NoSelectionText="@GraphNoSelectionText"
-                           NodeLabel="@GraphNodeLabel"
-                           EdgeLabel="@GraphEdgeLabel"
-                           WeightLabel="@GraphWeightLabel"
-                           ConnectionsLabel="@GraphConnectionsLabel"
-                           StateLabel="@GraphStateLabel" />
+            @if (IsNQueensTopic)
+            {
+                <div class="nq-board-shell">
+                    <div class="nq-board" style="--board-size:@CurrentBoardSize">
+                        @for (var row = 0; row < CurrentBoardSize; row++)
+                        {
+                            @for (var column = 0; column < CurrentBoardSize; column++)
+                            {
+                                <div class="@GetBoardCellClass(column, row)" title="@GetBoardCellTitle(column, row)">
+                                    @if (CurrentBoardRows[column] == row)
+                                    {
+                                        <span class="nq-queen">Q</span>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
 
-            <div class="mst-edge-grid">
-                @foreach (var edge in _topic.GraphEdges)
-                {
-                    <article class="@GetEdgeClass(edge)">
-                        <div>
-                            <p class="feature-card-kicker">@edge.Source - @edge.Target</p>
-                            <h3>@edge.Weight</h3>
-                        </div>
-                        <p>@GetEdgeStatus(edge)</p>
-                    </article>
-                }
-            </div>
+                    <div class="nq-inspector-grid">
+                        <article class="mst-edge-card @(CurrentNQueensStep?.Solved == true ? "mst-edge-card-active" : string.Empty)">
+                            <p class="feature-card-kicker">@CurrentNQueensTopic!.BoardSizeLabel</p>
+                            <h3>@CurrentBoardSize x @CurrentBoardSize</h3>
+                            <p>@CurrentNQueensTopic!.ConflictCountLabel: @CurrentConflictCount</p>
+                        </article>
+                        <article class="mst-edge-card @(CurrentNQueensStep?.Stopped == true ? "mst-edge-card-solution" : string.Empty)">
+                            <p class="feature-card-kicker">@CurrentNQueensTopic!.CurrentMoveLabel</p>
+                            <h3>@CurrentActionTitle</h3>
+                            <p>@CurrentActionMetric</p>
+                        </article>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <GraphViewport Graph="@CurrentGraphVisualization"
+                               ActiveEdgeKeys="@CurrentGraphState.ActiveEdgeKeys"
+                               ActiveNodeKeys="@CurrentGraphState.ActiveNodeIds"
+                               FrontierNodeKeys="@CurrentGraphState.FrontierNodeIds"
+                               ExploredNodeKeys="@CurrentGraphState.ExploredNodeIds"
+                               CurrentNodeKey="@CurrentGraphState.CurrentNodeId"
+                               SuccessorEdgeKeys="@CurrentGraphState.SuccessorEdgeKeys"
+                               DirectedActiveEdgeIds="@CurrentGraphState.DirectedActiveEdgeIds"
+                               DirectedSuccessorEdgeIds="@CurrentGraphState.DirectedSuccessorEdgeIds"
+                               Title="@_topic.GraphSectionTitle"
+                               ZoomInLabel="@GraphZoomInLabel"
+                               ZoomOutLabel="@GraphZoomOutLabel"
+                               FitLabel="@GraphFitLabel"
+                               ResetLabel="@GraphResetLabel"
+                               InteractionHint="@GraphInteractionHint"
+                               ActiveLegendLabel="@GraphLegendActiveLabel"
+                               SuccessorLegendLabel="@GraphLegendSuccessorLabel"
+                               CurrentNodeLegendLabel="@GraphLegendCurrentNodeLabel"
+                               FrontierLegendLabel="@GraphLegendFrontierLabel"
+                               ExploredLegendLabel="@GraphLegendExploredLabel"
+                               SolutionLegendLabel="@GraphLegendSolutionLabel"
+                               DefaultLegendLabel="@GraphLegendDefaultLabel"
+                               InspectorTitle="@GraphInspectorTitle"
+                               NoSelectionTitle="@GraphNoSelectionTitle"
+                               NoSelectionText="@GraphNoSelectionText"
+                               NodeLabel="@GraphNodeLabel"
+                               EdgeLabel="@GraphEdgeLabel"
+                               WeightLabel="@GraphWeightLabel"
+                               ConnectionsLabel="@GraphConnectionsLabel"
+                               StateLabel="@GraphStateLabel" />
+
+                <div class="mst-edge-grid">
+                    @foreach (var edge in _topic.GraphEdges ?? [])
+                    {
+                        <article class="@GetEdgeClass(edge)">
+                            <div>
+                                <p class="feature-card-kicker">@edge.Source - @edge.Target</p>
+                                <h3>@edge.Weight</h3>
+                            </div>
+                            <p>@GetEdgeStatus(edge)</p>
+                        </article>
+                    }
+                </div>
+            }
         </article>
     </section>
 
@@ -133,13 +187,34 @@ else
         </div>
 
         <div class="resource-grid">
-            @foreach (var edge in IncludedEdges)
+            @if (IsNQueensTopic)
             {
                 <article class="resource-card mst-result-card">
-                    <p class="feature-card-kicker">@_topic.SolutionEdgeLabel</p>
-                    <h3>@edge.Source - @edge.Target</h3>
-                    <p>@_topic.TotalWeightLabel: @edge.Weight</p>
+                    <p class="feature-card-kicker">@CurrentNQueensTopic!.AlgorithmSelectorLabel</p>
+                    <h3>@CurrentNQueensAlgorithm!.Name</h3>
+                    <p>@CurrentNQueensAlgorithm.Summary</p>
                 </article>
+                <article class="resource-card mst-result-card">
+                    <p class="feature-card-kicker">@CurrentNQueensTopic.CurrentAssignmentLabel</p>
+                    <h3>@CurrentAssignment</h3>
+                    <p>@CurrentNQueensTopic.ConflictCountLabel: @CurrentConflictCount</p>
+                </article>
+                <article class="resource-card mst-result-card">
+                    <p class="feature-card-kicker">@CurrentNQueensTopic.CurrentMoveLabel</p>
+                    <h3>@CurrentActionTitle</h3>
+                    <p>@CurrentActionMetric</p>
+                </article>
+            }
+            else
+            {
+                @foreach (var edge in IncludedEdges)
+                {
+                    <article class="resource-card mst-result-card">
+                        <p class="feature-card-kicker">@(CurrentLanguage == SiteLanguage.En ? "Selected edge" : "Ausgewaehlte Kante")</p>
+                        <h3>@edge.Source - @edge.Target</h3>
+                        <p>@(CurrentLanguage == SiteLanguage.En ? "Weight" : "Gewicht"): @edge.Weight</p>
+                    </article>
+                }
             }
         </div>
     </section>
@@ -152,13 +227,37 @@ else
     private SiteLanguage CurrentLanguage;
     private StudyTopicDetailViewModel? _topic;
     private int CurrentStep;
+    private string _selectedAlgorithmKey = string.Empty;
     private string NotFoundLabel = string.Empty;
     private string NotFoundTitle = string.Empty;
     private string NotFoundText = string.Empty;
 
     private string ProgressText => _topic is null
         ? string.Empty
-        : $"{CurrentStep}/{_topic.Steps.Count}";
+        : $"{CurrentStep}/{CurrentStepCount}";
+
+    private bool IsNQueensTopic => _topic?.Kind == StudyTopicKind.NQueens;
+
+    private NQueensTopicViewModel? CurrentNQueensTopic => _topic?.NQueens;
+
+    private NQueensAlgorithmViewModel? CurrentNQueensAlgorithm => CurrentNQueensTopic?.Algorithms.FirstOrDefault(algorithm => algorithm.Key == _selectedAlgorithmKey)
+        ?? CurrentNQueensTopic?.Algorithms.FirstOrDefault();
+
+    private int CurrentStepCount => IsNQueensTopic
+        ? CurrentNQueensAlgorithm?.Steps.Count ?? 0
+        : _topic?.Steps?.Count ?? 0;
+
+    private IReadOnlyList<StudyStepListItem> CurrentStepItems => IsNQueensTopic
+        ? (CurrentNQueensAlgorithm?.Steps.Select(step => new StudyStepListItem(step.Number, step.Summary, step.Metric, step.Description)).ToArray() ?? [])
+        : (_topic?.Steps?.Select(step => new StudyStepListItem(step.Number, step.EdgeLabel, step.Weight, step.Description)).ToArray() ?? []);
+
+    private string VisualSectionTitle => IsNQueensTopic
+        ? CurrentNQueensTopic?.BoardSectionTitle ?? string.Empty
+        : _topic?.GraphSectionTitle ?? string.Empty;
+
+    private string VisualSectionIntro => IsNQueensTopic
+        ? CurrentNQueensTopic?.BoardSectionIntro ?? string.Empty
+        : _topic?.GraphSectionIntro ?? string.Empty;
 
     private string GraphZoomInLabel => CurrentLanguage == SiteLanguage.En ? "Zoom in" : "Vergroessern";
 
@@ -206,17 +305,44 @@ else
 
     private string CurrentStepDescription => _topic is null
         ? string.Empty
-        : CurrentStep == 0
-            ? _topic.InitialStepDescription
-            : _topic.Steps[CurrentStep - 1].Description;
+        : IsNQueensTopic
+            ? CurrentStep == 0
+                ? CurrentNQueensAlgorithm?.Summary ?? _topic.InitialStepDescription
+                : CurrentNQueensStep?.Description ?? string.Empty
+            : CurrentStep == 0
+                ? _topic.InitialStepDescription
+                : _topic.Steps![CurrentStep - 1].Description;
+
+    private NQueensStepViewModel? CurrentNQueensStep => IsNQueensTopic && CurrentStep > 0 && CurrentNQueensAlgorithm is not null
+        ? CurrentNQueensAlgorithm.Steps[Math.Min(CurrentStep - 1, CurrentNQueensAlgorithm.Steps.Count - 1)]
+        : null;
+
+    private int CurrentBoardSize => CurrentNQueensAlgorithm?.BoardSize ?? 0;
+
+    private IReadOnlyList<int> CurrentBoardRows => CurrentNQueensStep?.QueenRows ?? CurrentNQueensAlgorithm?.InitialQueenRows ?? [];
+
+    private string CurrentAssignment => string.Join(", ", CurrentBoardRows.Select((row, column) => $"Q{column + 1}->{row + 1}"));
+
+    private int CurrentConflictCount => CurrentNQueensStep?.ConflictCount ?? CountNQueensConflicts(CurrentBoardRows);
+
+    private string CurrentActionTitle => CurrentNQueensStep?.Summary
+        ?? (CurrentLanguage == SiteLanguage.En ? "Initial board" : "Startbrett");
+
+    private string CurrentActionMetric => CurrentNQueensStep?.Metric
+        ?? (CurrentLanguage == SiteLanguage.En ? "No move executed yet" : "Noch kein Zug ausgefuehrt");
 
     private GraphStateViewModel CurrentGraphState => _topic is null
         ? new GraphStateViewModel(string.Empty, [], [], [], [], [], [], [])
-        : _topic.GraphStates[Math.Min(CurrentStep, _topic.GraphStates.Count - 1)];
+        : _topic.GraphStates is null || _topic.GraphStates.Count == 0
+            ? new GraphStateViewModel(string.Empty, [], [], [], [], [], [], [])
+            : _topic.GraphStates[Math.Min(CurrentStep, _topic.GraphStates.Count - 1)];
+
+    private GraphViewModel CurrentGraphVisualization => _topic?.GraphVisualization
+        ?? throw new InvalidOperationException("Graph visualization is not available for the current topic.");
 
     private IReadOnlyList<StudyEdgeViewModel> IncludedEdges => _topic is null
         ? []
-        : _topic.GraphEdges.Where(edge => CurrentGraphState.ActiveEdgeKeys.Contains(edge.EdgeKey)).ToArray();
+        : (_topic.GraphEdges ?? []).Where(edge => CurrentGraphState.ActiveEdgeKeys.Contains(edge.EdgeKey)).ToArray();
 
     protected override void OnParametersSet()
     {
@@ -226,6 +352,7 @@ else
             : Slug;
         _topic = TopicService.GetTopicDetail(CurrentLanguage, resolvedSlug);
         CurrentStep = 0;
+        _selectedAlgorithmKey = _topic?.NQueens?.Algorithms.FirstOrDefault()?.Key ?? string.Empty;
 
         NotFoundLabel = CurrentLanguage == SiteLanguage.En ? "Study topic" : "Studienthema";
         NotFoundTitle = CurrentLanguage == SiteLanguage.En ? "Topic not found" : "Thema nicht gefunden";
@@ -244,7 +371,7 @@ else
 
     private void NextStep()
     {
-        if (_topic is not null && CurrentStep < _topic.Steps.Count)
+        if (_topic is not null && CurrentStep < CurrentStepCount)
         {
             CurrentStep++;
         }
@@ -254,11 +381,19 @@ else
     {
         if (_topic is not null)
         {
-            CurrentStep = _topic.Steps.Count;
+            CurrentStep = CurrentStepCount;
         }
     }
 
     private void Reset() => CurrentStep = 0;
+
+    private void SelectAlgorithm(string key)
+    {
+        _selectedAlgorithmKey = key;
+        CurrentStep = 0;
+    }
+
+    private bool IsSelectedAlgorithm(string key) => string.Equals(_selectedAlgorithmKey, key, StringComparison.Ordinal);
 
     private string GetStepClass(int stepNumber)
     {
@@ -303,4 +438,67 @@ else
     }
 
     private bool IsIncluded(string edgeKey) => CurrentGraphState.ActiveEdgeKeys.Contains(edgeKey);
+
+    private string GetBoardCellClass(int column, int row)
+    {
+        var classes = new List<string>
+        {
+            "nq-cell",
+            ((row + column) % 2 == 0) ? "nq-cell-light" : "nq-cell-dark"
+        };
+
+        if (CurrentBoardRows.Count > column && CurrentBoardRows[column] == row)
+        {
+            classes.Add("nq-cell-has-queen");
+        }
+
+        if (CurrentNQueensStep?.ConflictedColumns.Contains(column) == true && CurrentBoardRows[column] == row)
+        {
+            classes.Add("nq-cell-conflict");
+        }
+
+        if (CurrentNQueensStep?.CurrentColumn == column && CurrentNQueensStep?.CurrentRow == row)
+        {
+            classes.Add("nq-cell-current");
+        }
+        else if (CurrentNQueensStep?.CurrentColumn == column && CurrentBoardRows[column] == row)
+        {
+            classes.Add("nq-cell-column-focus");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetBoardCellTitle(int column, int row)
+    {
+        var hasQueen = CurrentBoardRows.Count > column && CurrentBoardRows[column] == row;
+        if (!hasQueen)
+        {
+            return $"({column + 1}, {row + 1})";
+        }
+
+        return CurrentLanguage == SiteLanguage.En
+            ? $"Queen {column + 1} on row {row + 1}"
+            : $"Dame {column + 1} in Zeile {row + 1}";
+    }
+
+    private static int CountNQueensConflicts(IReadOnlyList<int> queenRows)
+    {
+        var conflicts = 0;
+        for (var leftColumn = 0; leftColumn < queenRows.Count; leftColumn++)
+        {
+            for (var rightColumn = leftColumn + 1; rightColumn < queenRows.Count; rightColumn++)
+            {
+                if (queenRows[leftColumn] == queenRows[rightColumn]
+                    || Math.Abs(queenRows[leftColumn] - queenRows[rightColumn]) == Math.Abs(leftColumn - rightColumn))
+                {
+                    conflicts++;
+                }
+            }
+        }
+
+        return conflicts;
+    }
+
+    private sealed record StudyStepListItem(int Number, string Title, string Badge, string Description);
 }
