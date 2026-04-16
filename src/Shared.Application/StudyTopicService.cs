@@ -22,7 +22,7 @@ public sealed class StudyTopicService
                 ? "Graph rendering POC for edu: an interactive SVG view over the existing MST solver from Italbytz.Graph."
                 : "Graph-Rendering-POC fuer edu: eine interaktive SVG-Ansicht ueber dem bestehenden MST-Solver aus Italbytz.Graph.",
             Kicker: "ISD Companion / Italbytz.Graph",
-            Route: isEnglish ? $"/en{StudyRoutes.Topic(MinimalSpanningTreeSlug)}" : StudyRoutes.Topic(MinimalSpanningTreeSlug),
+            Route: StudyRoutes.Topic(language, MinimalSpanningTreeSlug),
             Tags: isEnglish
                 ? ["Graphs", "Prim", "SVG POC"]
                 : ["Graphen", "Prim", "SVG-POC"]);

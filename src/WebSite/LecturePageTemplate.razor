@@ -105,11 +105,11 @@ else
                                     <div class="resource-table-action">
                                         @if (IsExternalLink(link.Url))
                                         {
-                                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                            <a class="inline-link" href="@NormalizeUrl(link.Url)" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
                                         }
                                         else
                                         {
-                                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                            <a class="inline-link" href="@NormalizeUrl(link.Url)">@UiText?.OpenMaterialLabel</a>
                                         }
                                     </div>
                                 </div>
@@ -126,11 +126,11 @@ else
                             <p>@link.Description</p>
                             @if (IsExternalLink(link.Url))
                             {
-                                <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                <a class="inline-link" href="@NormalizeUrl(link.Url)" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
                             }
                             else
                             {
-                                <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                <a class="inline-link" href="@NormalizeUrl(link.Url)">@UiText?.OpenMaterialLabel</a>
                             }
                         </article>
                     }
@@ -198,11 +198,11 @@ else
                                 {
                                     @if (IsExternalLink(assignmentUrl))
                                     {
-                                        <a class="inline-link assessment-template-link" href="@assignmentUrl" target="_blank" rel="noreferrer">@GetAssessmentAssignmentActionLabel()</a>
+                                        <a class="inline-link assessment-template-link" href="@NormalizeUrl(assignmentUrl)" target="_blank" rel="noreferrer">@GetAssessmentAssignmentActionLabel()</a>
                                     }
                                     else
                                     {
-                                        <a class="inline-link assessment-template-link" href="@assignmentUrl">@GetAssessmentAssignmentActionLabel()</a>
+                                        <a class="inline-link assessment-template-link" href="@NormalizeUrl(assignmentUrl)">@GetAssessmentAssignmentActionLabel()</a>
                                     }
                                 }
 
@@ -210,11 +210,11 @@ else
                                 {
                                     @if (IsExternalLink(explanationUrl))
                                     {
-                                        <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@explanationUrl" target="_blank" rel="noreferrer">@GetAssessmentExplanationActionLabel()</a>
+                                        <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@NormalizeUrl(explanationUrl)" target="_blank" rel="noreferrer">@GetAssessmentExplanationActionLabel()</a>
                                     }
                                     else
                                     {
-                                        <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@explanationUrl">@GetAssessmentExplanationActionLabel()</a>
+                                        <a class="inline-link assessment-template-link assessment-template-link-secondary" href="@NormalizeUrl(explanationUrl)">@GetAssessmentExplanationActionLabel()</a>
                                     }
                                 }
                             </div>
@@ -255,11 +255,11 @@ else
                                     <div class="resource-table-action">
                                         @if (IsExternalLink(link.Url))
                                         {
-                                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                            <a class="inline-link" href="@NormalizeUrl(link.Url)" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
                                         }
                                         else
                                         {
-                                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                            <a class="inline-link" href="@NormalizeUrl(link.Url)">@UiText?.OpenMaterialLabel</a>
                                         }
                                     </div>
                                 </div>
@@ -301,11 +301,11 @@ else
                                     <div class="resource-table-action">
                                         @if (IsExternalLink(link.Url))
                                         {
-                                            <a class="inline-link" href="@link.Url" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
+                                            <a class="inline-link" href="@NormalizeUrl(link.Url)" target="_blank" rel="noreferrer">@UiText?.OpenMaterialLabel</a>
                                         }
                                         else
                                         {
-                                            <a class="inline-link" href="@link.Url">@UiText?.OpenMaterialLabel</a>
+                                            <a class="inline-link" href="@NormalizeUrl(link.Url)">@UiText?.OpenMaterialLabel</a>
                                         }
                                     </div>
                                 </div>
@@ -450,6 +450,18 @@ else
 
     private static bool HasCompactMeta(ResourceLinkViewModel link)
         => !string.IsNullOrWhiteSpace(link.Description);
+
+    private static string NormalizeUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return "#";
+        }
+
+        return Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri)
+            ? absoluteUri.ToString()
+            : url.TrimStart('/');
+    }
 
     private static (string Primary, string? Secondary) SplitDescription(string description)
     {
