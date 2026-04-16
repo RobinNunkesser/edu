@@ -37,9 +37,6 @@ jobs:
       - name: Publish WebSite
         run: dotnet publish src/WebSite/WebSite.csproj -c Release -o dist
 
-      - name: Prepare SPA fallback
-        run: cp dist/wwwroot/edu/index.html dist/wwwroot/edu/404.html
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

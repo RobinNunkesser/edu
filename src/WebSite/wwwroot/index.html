@@ -6,8 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>edu</title>
     <script>
-        const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-        document.write(`<base href="${isLocalHost ? "/" : "/edu/"}" />`);
+        (() => {
+            const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+            const appBasePath = isLocalHost ? "" : "/edu";
+            const redirectStorageKey = "edu-spa-redirect";
+            const redirectedPath = window.sessionStorage.getItem(redirectStorageKey);
+
+            if (redirectedPath) {
+                window.sessionStorage.removeItem(redirectStorageKey);
+                const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+                if (redirectedPath !== currentPath) {
+                    window.history.replaceState(null, "", redirectedPath);
+                }
+            }
+
+            document.write(`<base href="${appBasePath}/" />`);
+        })();
     </script>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />

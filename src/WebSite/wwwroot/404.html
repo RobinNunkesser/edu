@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <title>edu</title>
+    <script>
+        (() => {
+            const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+            const appBasePath = isLocalHost ? "" : "/edu";
+            const redirectStorageKey = "edu-spa-redirect";
+            const requestedPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+            const appRoot = `${window.location.origin}${appBasePath}/`;
+
+            window.sessionStorage.setItem(redirectStorageKey, requestedPath);
+            window.location.replace(appRoot);
+        })();
+    </script>
+</head>
+<body></body>
+</html>

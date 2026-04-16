@@ -24,20 +24,20 @@ public static class SiteRoutes
 
     public static string Home(SiteLanguage language) => Teaching(language);
 
-    public static string Teaching(SiteLanguage language) => language == SiteLanguage.En ? "/en/teaching" : "/lehre";
+    public static string Teaching(SiteLanguage language) => language == SiteLanguage.En ? "en/teaching" : "lehre";
 
-    public static string Research(SiteLanguage language) => language == SiteLanguage.En ? "/en/research" : "/forschung";
+    public static string Research(SiteLanguage language) => language == SiteLanguage.En ? "en/research" : "forschung";
 
-    public static string Book(SiteLanguage language) => language == SiteLanguage.En ? "/en/book" : "/buch";
+    public static string Book(SiteLanguage language) => language == SiteLanguage.En ? "en/book" : "buch";
 
-    public static string Software(SiteLanguage language) => language == SiteLanguage.En ? "/en/software" : "/software";
+    public static string Software(SiteLanguage language) => language == SiteLanguage.En ? "en/software" : "software";
 
-    public static string TeachingTemplate(SiteLanguage language) => language == SiteLanguage.En ? "/en/teaching/template" : "/lehre/template";
+    public static string TeachingTemplate(SiteLanguage language) => language == SiteLanguage.En ? "en/teaching/template" : "lehre/template";
 
     public static string TeachingTemplate(SiteLanguage language, string templateKey)
         => $"{TeachingTemplate(language)}/{templateKey}";
 
-    public static string Lecture(SiteLanguage language, string slug) => language == SiteLanguage.En ? $"/en/teaching/{slug}" : $"/lehre/{slug}";
+    public static string Lecture(SiteLanguage language, string slug) => language == SiteLanguage.En ? $"en/teaching/{slug}" : $"lehre/{slug}";
 
     public static string SwitchLanguage(string? relativePath, SiteLanguage targetLanguage)
     {
