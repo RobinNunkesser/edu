@@ -13,6 +13,7 @@ public sealed class SiteContentService
     };
 
     private readonly HttpClient _httpClient;
+    private readonly bool _disableContentCache;
     private readonly Dictionary<SiteLanguage, SiteContentDocument> _cache = new();
     private readonly Dictionary<SiteLanguage, IReadOnlyList<TeachingLectureIndexItem>> _teachingLectureIndexCache = new();
     private readonly Dictionary<string, LectureDetailViewModel> _teachingLectureCache = new();
@@ -20,6 +21,7 @@ public sealed class SiteContentService
     public SiteContentService(HttpClient httpClient)
     {
         _httpClient = httpClient;
+        _disableContentCache = IsLocalDevelopment(httpClient.BaseAddress);
     }
 
     public async Task<UiTextViewModel> GetUiTextAsync(SiteLanguage language) => (await GetDocumentAsync(language)).Ui;
@@ -71,7 +73,7 @@ public sealed class SiteContentService
         }
 
         var cacheKey = $"{language}:{slug.ToLowerInvariant()}";
-        if (_teachingLectureCache.TryGetValue(cacheKey, out var cached))
+        if (!_disableContentCache && _teachingLectureCache.TryGetValue(cacheKey, out var cached))
         {
             return cached;
         }
@@ -82,13 +84,17 @@ public sealed class SiteContentService
             return null;
         }
 
-        _teachingLectureCache[cacheKey] = lecture;
+        if (!_disableContentCache)
+        {
+            _teachingLectureCache[cacheKey] = lecture;
+        }
+
         return lecture;
     }
 
     private async Task<IReadOnlyList<TeachingLectureIndexItem>> GetTeachingLectureIndexAsync(SiteLanguage language)
     {
-        if (_teachingLectureIndexCache.TryGetValue(language, out var cached))
+        if (!_disableContentCache && _teachingLectureIndexCache.TryGetValue(language, out var cached))
         {
             return cached;
         }
@@ -104,7 +110,11 @@ public sealed class SiteContentService
             var lectures = await response.Content.ReadFromJsonAsync<IReadOnlyList<TeachingLectureIndexItem>>(JsonOptions);
             if (lectures is not null)
             {
-                _teachingLectureIndexCache[language] = lectures;
+                if (!_disableContentCache)
+                {
+                    _teachingLectureIndexCache[language] = lectures;
+                }
+
                 return lectures;
             }
         }
@@ -140,9 +150,21 @@ public sealed class SiteContentService
 
     private async Task<SiteContentDocument> GetDocumentAsync(SiteLanguage language)
     {
-        if (_cache.TryGetValue(language, out var cached))
+        if (!_disableContentCache && _cache.TryGetValue(language, out var cached))
         {
             return cached;
+        }
+
+        if (_disableContentCache)
+        {
+            var fileName = language == SiteLanguage.En ? "en.json" : "de.json";
+            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            response.EnsureSuccessStatusCode();
+
+            var liveDocument = await response.Content.ReadFromJsonAsync<SiteContentDocument>(JsonOptions)
+                ?? throw new InvalidOperationException($"Could not deserialize live site content file {fileName}.");
+
+            return liveDocument;
         }
 
         var resourceName = language == SiteLanguage.En
@@ -157,6 +179,17 @@ public sealed class SiteContentService
 
         _cache[language] = document;
         return document;
+    }
+
+    private static bool IsLocalDevelopment(Uri? baseAddress)
+    {
+        if (baseAddress is null)
+        {
+            return false;
+        }
+
+        return string.Equals(baseAddress.Host, "localhost", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(baseAddress.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase);
     }
 
     private static string GetAreaRoute(SiteLanguage language, string key) => key switch
