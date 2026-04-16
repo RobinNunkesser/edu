@@ -236,7 +236,6 @@ public sealed class SiteContentService
     {
         "teaching" => SiteRoutes.Teaching(language),
         "research" => SiteRoutes.Research(language),
-        "book" => SiteRoutes.Research(language),
         "software" => SiteRoutes.Software(language),
         _ => SiteRoutes.Home(language)
     };

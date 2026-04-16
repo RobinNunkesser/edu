@@ -77,7 +77,6 @@ public static class SiteRoutes
         {
             "lehre" or "teaching" or "study" => Teaching(targetLanguage),
             "forschung" or "research" => Research(targetLanguage),
-            "buch" or "book" => Research(targetLanguage),
             "software" => Software(targetLanguage),
             _ => Home(targetLanguage)
         };
