@@ -1,33 +1,23 @@
 [
   {
-    "slug": "aad",
-    "title": "AAD",
-    "semester": "5. Semester"
-  },
-  {
     "slug": "ai",
-    "title": "AI",
+    "title": "Künstliche Intelligenz",
     "semester": "6. Semester"
   },
   {
     "slug": "aki",
-    "title": "AKI",
-    "semester": "4. Semester"
-  },
-  {
-    "slug": "android-development",
-    "title": "Android Development",
-    "semester": "3. Semester"
+    "title": "Angewandte Künstliche Intelligenz",
+    "semester": "7. Semester"
   },
   {
     "slug": "app-development",
-    "title": "App Development",
+    "title": "App Entwicklung",
     "semester": "6. Semester"
   },
   {
     "slug": "app-frontends",
     "title": "App Frontends",
-    "semester": "5. Semester"
+    "semester": "4. Semester"
   },
   {
     "slug": "betriebssysteme",
@@ -35,38 +25,23 @@
     "semester": "3. Semester"
   },
   {
-    "slug": "cpd",
-    "title": "CPD",
-    "semester": "2. Semester"
-  },
-  {
     "slug": "gdi",
-    "title": "GDI",
+    "title": "Grundlagen der Informatik",
     "semester": "1. Semester"
   },
   {
     "slug": "iga",
-    "title": "IGA",
+    "title": "Interaktive Grafiksysteme",
     "semester": "7. Semester"
-  },
-  {
-    "slug": "ios-development",
-    "title": "iOS Development",
-    "semester": "4. Semester"
-  },
-  {
-    "slug": "istp",
-    "title": "ISTP",
-    "semester": "5. Semester"
   },
   {
     "slug": "it-consulting",
     "title": "IT Consulting",
-    "semester": "6. Semester"
+    "semester": "7. Semester"
   },
   {
     "slug": "it-projektmanagement",
-    "title": "IT Projektmanagement",
+    "title": "IT-Projektmanagement",
     "semester": "4. Semester"
   },
   {
@@ -77,11 +52,6 @@
   {
     "slug": "softwaretechnik",
     "title": "Softwaretechnik",
-    "semester": "5. Semester"
-  },
-  {
-    "slug": "technische-informatik",
-    "title": "Technische Informatik",
-    "semester": "2. Semester"
+    "semester": "4. Semester"
   }
 ]

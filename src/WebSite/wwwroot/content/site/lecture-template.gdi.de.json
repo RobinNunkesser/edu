@@ -44,6 +44,11 @@
       "intro": "",
       "links": [
         {
+          "title": "Minimaler Spannbaum (MST)",
+          "url": "/study/minimaler-spannbaum",
+          "description": ""
+        },
+        {
           "title": "Disjunctive Normal Form (DNF) and Conjunctive Normal Form (CNF)",
           "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html",
           "description": ""
