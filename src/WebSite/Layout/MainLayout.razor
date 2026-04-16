@@ -10,6 +10,7 @@
 
     <main>
         <div class="top-row px-4">
+            <div class="top-row-title">@CurrentSectionTitle</div>
             <div class="language-switch">
                 <a class="@(CurrentLanguage == SiteLanguage.De ? "active-language" : null)" href="@SiteRoutes.SwitchLanguage(RelativePath, SiteLanguage.De)">DE</a>
                 <a class="@(CurrentLanguage == SiteLanguage.En ? "active-language" : null)" href="@SiteRoutes.SwitchLanguage(RelativePath, SiteLanguage.En)">EN</a>
@@ -25,6 +26,7 @@
 @code {
     private SiteLanguage CurrentLanguage;
     private string RelativePath = string.Empty;
+    private string CurrentSectionTitle = string.Empty;
     private UiTextViewModel UiText = new("Lehre", "Forschung", "Buch", "Software", "Zweisprachiger Prototyp", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
     protected override async Task OnInitializedAsync()
@@ -49,5 +51,30 @@
         RelativePath = NavigationManager.ToBaseRelativePath(location ?? NavigationManager.Uri);
         CurrentLanguage = SiteRoutes.GetLanguage(RelativePath);
         UiText = await ContentService.GetUiTextAsync(CurrentLanguage);
+        CurrentSectionTitle = ResolveCurrentSectionTitle(RelativePath);
+    }
+
+    private string ResolveCurrentSectionTitle(string relativePath)
+    {
+        var normalized = relativePath.Split('?', '#')[0].Trim('/');
+
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return UiText.NavTeaching;
+        }
+
+        var segments = normalized.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var head = CurrentLanguage == SiteLanguage.En && segments.Length > 0
+            ? segments.Skip(1).FirstOrDefault() ?? string.Empty
+            : segments[0];
+
+        return head.ToLowerInvariant() switch
+        {
+            "lehre" or "teaching" or "study" => UiText.NavTeaching,
+            "forschung" or "research" => UiText.NavResearch,
+            "buch" or "book" => UiText.NavBook,
+            "software" => UiText.NavSoftware,
+            _ => UiText.NavTeaching
+        };
     }
 }

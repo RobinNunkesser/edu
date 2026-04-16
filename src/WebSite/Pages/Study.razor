@@ -10,10 +10,6 @@
 
 @if (Landing is not null)
 {
-	<section class="page-intro">
-		<h1>@PageTitleText</h1>
-	</section>
-
 	<section class="page-section">
 		@foreach (var semesterGroup in GroupedLectures)
 		{
@@ -40,14 +36,12 @@
 	private SectionLandingViewModel? Landing;
 	private IReadOnlyList<LectureOverviewViewModel> Lectures = [];
 	private IReadOnlyList<SemesterLectureGroup> GroupedLectures = [];
-	private string PageTitleText = string.Empty;
 
 	protected override async Task OnParametersSetAsync()
 	{
 		CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
 		Landing = await ContentService.GetTeachingLandingAsync(CurrentLanguage);
 		Lectures = await ContentService.GetTeachingLecturesAsync(CurrentLanguage);
-		PageTitleText = CurrentLanguage == SiteLanguage.En ? "Courses" : "Lehrveranstaltungen";
 		GroupedLectures = Lectures
 			.Select(lecture => new { Lecture = lecture, SemesterNumber = ParseSemesterNumber(lecture.Semester) })
 			.OrderBy(item => item.SemesterNumber)
