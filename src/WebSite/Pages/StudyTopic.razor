@@ -1,19 +1,5 @@
 @page "/study/{Slug}"
-@page "/study/graph-visualisierung"
-@page "/study/binaer-zu-dezimal"
-@page "/study/dezimal-zu-binaer"
-@page "/study/seitenersetzung"
-@page "/study/kuerzeste-wege"
-@page "/study/spannbaum"
-@page "/study/zweierkomplement"
 @page "/en/study/{Slug}"
-@page "/en/study/graph-visualization"
-@page "/en/study/binary-to-decimal"
-@page "/en/study/decimal-to-binary"
-@page "/en/study/page-replacement"
-@page "/en/study/shortest-path"
-@page "/en/study/spanning-tree"
-@page "/en/study/twos-complement"
 @using Content.Schema
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
@@ -258,7 +244,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                                     {
                                                         <tr>
                                                             <th scope="row">@row.Header</th>
-                                                            @foreach (var cell in row.Cells)
+                                                            @foreach (var cell in GetRenderedTableCells(row, ShowExerciseSolution && HasSolutionTable(worksheetResponse.Table)))
                                                             {
                                                                 <td><span class="exercise-response-table-cell">@cell</span></td>
                                                             }
@@ -274,12 +260,12 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                         var answerKey = GetExerciseAnswerKey(worksheetResponse.Title, "worksheet");
                                         <div class="exercise-prompt-answer-grid">
                                             <div>
-                                                @if (ShowExerciseSolution)
+                                                @if (ShowExerciseSolution && !HasSolutionTable(worksheetResponse.Table))
                                                 {
                                                     <p class="exercise-solution-caption">@worksheetResponse.SolutionLabel</p>
                                                     <pre class="binary-addition-pre">@worksheetResponse.SolutionText</pre>
                                                 }
-                                                else
+                                                else if (!ShowExerciseSolution)
                                                 {
                                                     <p class="exercise-solution-caption">@worksheetResponse.AnswerLabel</p>
                                                     <textarea class="exercise-answer-input exercise-answer-textarea"
@@ -302,6 +288,206 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                 </section>
             }
         </div>
+
+        @if (HasShortestPathVisualization)
+        {
+            <section class="page-section resource-card shortest-path-demo-card">
+                <div class="section-heading">
+                    <p class="exercise-document-state">@ShortestPathDemoLabel</p>
+                    <h3>@ShortestPathDemoTitle</h3>
+                    <p>@ShortestPathDemoIntro</p>
+                </div>
+
+                <div class="shortest-path-demo-toolbar">
+                    <span class="tag">@ShortestPathDemoProgressText</span>
+                    <button class="btn btn-outline-primary" @onclick="PreviousShortestPathTraceStep" disabled="@(!CanMoveShortestPathTraceBackward)">@_topic.PreviousStepLabel</button>
+                    <button class="btn btn-outline-primary" @onclick="NextShortestPathTraceStep" disabled="@(!CanMoveShortestPathTraceForward)">@_topic.NextStepLabel</button>
+                    <button class="btn btn-outline-primary" @onclick="ResetShortestPathTrace" disabled="@(CurrentShortestPathTraceStepIndex == 0)">@_topic.ResetLabel</button>
+                    <button class="btn btn-primary" @onclick="JumpToShortestPathFinalState" disabled="@(CurrentShortestPathTrace is null && CurrentShortestPathFinalState is null)">@ShortestPathFinalStateButtonLabel</button>
+                </div>
+
+                @if (CurrentShortestPathTraceStep is not null)
+                {
+                    <div class="shortest-path-demo-layout">
+                        <article class="resource-card shortest-path-step-card">
+                            <p class="feature-card-kicker">@ShortestPathCurrentStepLabel</p>
+                            <h3>@ShortestPathCurrentNodeLabel @CurrentShortestPathTraceStep.CurrentNode</h3>
+                            <p>@GetShortestPathStepSummary(CurrentShortestPathTraceStep)</p>
+
+                            @if (CurrentWorksheetFigure is not null)
+                            {
+                                <img class="exercise-figure-image shortest-path-demo-image" src="@CurrentWorksheetFigure.Source" alt="@CurrentWorksheetFigure.AltText" />
+                            }
+
+                            <div class="shortest-path-frontier-block">
+                                <strong>@ShortestPathFrontierLabel</strong>
+                                <div class="tag-row shortest-path-frontier-tags">
+                                    @foreach (var node in CurrentShortestPathTraceStep.Frontier)
+                                    {
+                                        <span class="tag">@node</span>
+                                    }
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="resource-card shortest-path-step-card">
+                            <p class="feature-card-kicker">@ShortestPathDistanceTableLabel</p>
+                            <div class="exercise-table-wrapper">
+                                <table class="exercise-response-table" aria-label="@ShortestPathDistanceTableLabel">
+                                    <thead>
+                                        <tr>
+                                            <th>@ShortestPathNodeHeaderLabel</th>
+                                            <th>@ShortestPathDistanceHeaderLabel</th>
+                                            <th>@ShortestPathPreviousHeaderLabel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var distance in CurrentShortestPathTraceStep.Distances)
+                                        {
+                                            <tr>
+                                                <th scope="row">@distance.Node</th>
+                                                <td><span class="exercise-response-table-cell">@FormatShortestPathDistance(distance.Distance)</span></td>
+                                                <td><span class="exercise-response-table-cell">@FormatShortestPathPreviousNode(distance.Node, distance.Distance, distance.PreviousNode)</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="resource-grid shortest-path-relaxation-grid">
+                        @foreach (var relaxation in CurrentShortestPathTraceStep.Relaxations)
+                        {
+                            <article class="resource-card shortest-path-relaxation-card @(relaxation.Accepted ? "shortest-path-relaxation-card-accepted" : "shortest-path-relaxation-card-rejected")">
+                                <p class="feature-card-kicker">@ShortestPathRelaxationLabel</p>
+                                <h3>@relaxation.FromNode -> @relaxation.ToNode</h3>
+                                <p>@ShortestPathCandidateDistanceLabel @relaxation.CandidateDistance</p>
+                                <span class="tag">@GetShortestPathRelaxationOutcome(relaxation.Accepted)</span>
+                            </article>
+                        }
+                    </div>
+                }
+
+                @if (CurrentShortestPathFinalState is not null)
+                {
+                    <div class="resource-grid shortest-path-final-grid">
+                        <article class="resource-card mst-result-card">
+                            <p class="feature-card-kicker">@ShortestPathStartNodeLabel</p>
+                            <h3>@CurrentShortestPathFinalState.StartNode</h3>
+                            <p>@ShortestPathFinalStateIntro</p>
+                        </article>
+
+                        @foreach (var route in CurrentShortestPathFinalState.Routes)
+                        {
+                            <article class="resource-card mst-result-card">
+                                <p class="feature-card-kicker">@route.TargetNode</p>
+                                <h3>@string.Join(" -> ", route.Path)</h3>
+                                <p>@ShortestPathRouteCostLabel @route.TotalCost</p>
+                            </article>
+                        }
+                    </div>
+                }
+            </section>
+        }
+
+        @if (HasPageReplacementVisualization)
+        {
+            <section class="page-section resource-card shortest-path-demo-card">
+                <div class="section-heading">
+                    <p class="exercise-document-state">@PageReplacementDemoLabel</p>
+                    <h3>@PageReplacementDemoTitle</h3>
+                    <p>@PageReplacementDemoIntro</p>
+                </div>
+
+                <div class="shortest-path-demo-toolbar">
+                    <span class="tag">@PageReplacementDemoProgressText</span>
+                    <button class="btn btn-outline-primary" @onclick="PreviousPageReplacementTraceStep" disabled="@(!CanMovePageReplacementTraceBackward)">@_topic.PreviousStepLabel</button>
+                    <button class="btn btn-outline-primary" @onclick="NextPageReplacementTraceStep" disabled="@(!CanMovePageReplacementTraceForward)">@_topic.NextStepLabel</button>
+                    <button class="btn btn-outline-primary" @onclick="ResetPageReplacementTrace" disabled="@(CurrentPageReplacementTraceStepIndex == 0)">@_topic.ResetLabel</button>
+                    <button class="btn btn-primary" @onclick="JumpToPageReplacementFinalState" disabled="@(CurrentPageReplacementTrace is null && CurrentPageReplacementFinalState is null)">@PageReplacementFinalStateButtonLabel</button>
+                </div>
+
+                @if (CurrentPageReplacementTraceStep is not null)
+                {
+                    <div class="shortest-path-demo-layout">
+                        <article class="resource-card shortest-path-step-card">
+                            <p class="feature-card-kicker">@PageReplacementCurrentStepLabel</p>
+                            <h3>@PageReplacementRequestedPageLabel @CurrentPageReplacementTraceStep.RequestedPage</h3>
+                            <p>@GetPageReplacementStepSummary(CurrentPageReplacementTraceStep)</p>
+                            <span class="tag">@GetPageReplacementFaultOutcome(CurrentPageReplacementTraceStep.IsPageFault)</span>
+                            <p>@CurrentPageReplacementTraceStep.Explanation</p>
+                        </article>
+
+                        <article class="resource-card shortest-path-step-card">
+                            <p class="feature-card-kicker">@PageReplacementFrameTableLabel</p>
+                            <div class="exercise-table-wrapper">
+                                <table class="exercise-response-table" aria-label="@PageReplacementFrameTableLabel">
+                                    <thead>
+                                        <tr>
+                                            <th>@PageReplacementSlotHeaderLabel</th>
+                                            <th>@PageReplacementPageHeaderLabel</th>
+                                            <th>@PageReplacementReferenceHeaderLabel</th>
+                                            <th>@PageReplacementDistanceHeaderLabel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var frame in CurrentPageReplacementTraceStep.Frames)
+                                        {
+                                            <tr>
+                                                <th scope="row">@frame.Slot</th>
+                                                <td><span class="exercise-response-table-cell">@frame.Page</span></td>
+                                                <td><span class="exercise-response-table-cell">@frame.ReferenceBit</span></td>
+                                                <td><span class="exercise-response-table-cell">@frame.Distance</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                    </div>
+                }
+
+                @if (CurrentPageReplacementFinalState is not null)
+                {
+                    <div class="resource-grid shortest-path-final-grid">
+                        <article class="resource-card mst-result-card">
+                            <p class="feature-card-kicker">@PageReplacementStrategyLabel</p>
+                            <h3>@CurrentPageReplacementFinalState.Strategy</h3>
+                            <p>@PageReplacementFaultCountLabel @CurrentPageReplacementFinalState.PageFaultCount</p>
+                            <p>@PageReplacementReferenceSequenceLabel @string.Join(", ", CurrentPageReplacementFinalState.ReferenceRequests)</p>
+                        </article>
+
+                        <article class="resource-card mst-result-card">
+                            <p class="feature-card-kicker">@PageReplacementFinalFramesLabel</p>
+                            <div class="exercise-table-wrapper">
+                                <table class="exercise-response-table" aria-label="@PageReplacementFinalFramesLabel">
+                                    <thead>
+                                        <tr>
+                                            <th>@PageReplacementSlotHeaderLabel</th>
+                                            <th>@PageReplacementPageHeaderLabel</th>
+                                            <th>@PageReplacementReferenceHeaderLabel</th>
+                                            <th>@PageReplacementDistanceHeaderLabel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var frame in CurrentPageReplacementFinalState.FinalFrames)
+                                        {
+                                            <tr>
+                                                <th scope="row">@frame.Slot</th>
+                                                <td><span class="exercise-response-table-cell">@frame.Page</span></td>
+                                                <td><span class="exercise-response-table-cell">@frame.ReferenceBit</span></td>
+                                                <td><span class="exercise-response-table-cell">@frame.Distance</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                    </div>
+                }
+            </section>
+        }
 
         <section class="exercise-print-sheet" aria-hidden="true">
             <header class="exercise-print-header">
@@ -503,7 +689,38 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
 
                                     @if (ShowExerciseSolution)
                                     {
-                                        <pre class="binary-addition-pre">@worksheetResponse.SolutionText</pre>
+                                        @if (HasSolutionTable(worksheetResponse.Table))
+                                        {
+                                            <div class="exercise-table-wrapper">
+                                                <table class="exercise-print-response-table" aria-label="@worksheetResponse.Table!.TableAriaLabel">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@worksheetResponse.Table.RowHeaderLabel</th>
+                                                            @foreach (var column in worksheetResponse.Table.Columns)
+                                                            {
+                                                                <th>@column.Header</th>
+                                                            }
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var row in worksheetResponse.Table.Rows)
+                                                        {
+                                                            <tr>
+                                                                <th scope="row">@row.Header</th>
+                                                                @foreach (var cell in GetRenderedTableCells(row, true))
+                                                                {
+                                                                    <td><span class="exercise-response-table-cell">@cell</span></td>
+                                                                }
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <pre class="binary-addition-pre">@worksheetResponse.SolutionText</pre>
+                                        }
                                     }
                                     else
                                     {
@@ -525,7 +742,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                                         {
                                                             <tr>
                                                                 <th scope="row">@row.Header</th>
-                                                                @foreach (var cell in row.Cells)
+                                                                @foreach (var cell in GetRenderedTableCells(row, false))
                                                                 {
                                                                     <td><span class="exercise-response-table-cell">@cell</span></td>
                                                                 }
@@ -772,6 +989,11 @@ else
     private string _selectedAlgorithmKey = string.Empty;
     private string _selectedExerciseKey = string.Empty;
     private ExerciseDocumentViewModel? _activeExerciseDocument;
+    private ShortestPathDemoTraceViewModel? _activeShortestPathTrace;
+    private ShortestPathFinalStateViewModel? _activeShortestPathFinalState;
+    private PageReplacementDemoTraceDocumentViewModel? _activePageReplacementTraceDocument;
+    private int _currentShortestPathTraceStepIndex;
+    private int _currentPageReplacementTraceStepIndex;
     private bool _useRuntimeExerciseDocument;
     private string NotFoundLabel = string.Empty;
     private string NotFoundTitle = string.Empty;
@@ -788,6 +1010,46 @@ else
     private ExerciseDocumentViewModel? CurrentExerciseDocument => _activeExerciseDocument ?? _topic?.ExerciseDocument;
 
     private IReadOnlyList<ExerciseTopicOptionViewModel> CurrentExerciseOptions => _topic?.ExerciseOptions ?? [];
+
+    private ShortestPathDemoTraceViewModel? CurrentShortestPathTrace => _activeShortestPathTrace;
+
+    private ShortestPathFinalStateViewModel? CurrentShortestPathFinalState => _activeShortestPathFinalState;
+
+    private bool HasShortestPathVisualization => CurrentShortestPathTrace is not null || CurrentShortestPathFinalState is not null;
+
+    private PageReplacementRunViewModel? CurrentPageReplacementRun => _activePageReplacementTraceDocument?.Runs.FirstOrDefault();
+
+    private PageReplacementTraceViewModel? CurrentPageReplacementTrace => CurrentPageReplacementRun?.Trace;
+
+    private PageReplacementFinalStateViewModel? CurrentPageReplacementFinalState => CurrentPageReplacementRun?.FinalState;
+
+    private bool HasPageReplacementVisualization => CurrentPageReplacementTrace is not null || CurrentPageReplacementFinalState is not null;
+
+    private ShortestPathTraceStepViewModel? CurrentShortestPathTraceStep => CurrentShortestPathTrace is null || CurrentShortestPathTrace.Steps.Count == 0
+        ? null
+        : CurrentShortestPathTrace.Steps[Math.Min(_currentShortestPathTraceStepIndex, CurrentShortestPathTrace.Steps.Count - 1)];
+
+    private int CurrentShortestPathTraceStepIndex => CurrentShortestPathTraceStep?.StepIndex ?? 0;
+
+    private bool CanMoveShortestPathTraceBackward => CurrentShortestPathTrace is not null && _currentShortestPathTraceStepIndex > 0;
+
+    private bool CanMoveShortestPathTraceForward => CurrentShortestPathTrace is not null && _currentShortestPathTraceStepIndex < CurrentShortestPathTrace.Steps.Count - 1;
+
+    private PageReplacementTraceStepViewModel? CurrentPageReplacementTraceStep => CurrentPageReplacementTrace is null || CurrentPageReplacementTrace.Steps.Count == 0
+        ? null
+        : CurrentPageReplacementTrace.Steps[Math.Min(_currentPageReplacementTraceStepIndex, CurrentPageReplacementTrace.Steps.Count - 1)];
+
+    private int CurrentPageReplacementTraceStepIndex => CurrentPageReplacementTraceStep?.StepIndex ?? 0;
+
+    private bool CanMovePageReplacementTraceBackward => CurrentPageReplacementTrace is not null && _currentPageReplacementTraceStepIndex > 0;
+
+    private bool CanMovePageReplacementTraceForward => CurrentPageReplacementTrace is not null && _currentPageReplacementTraceStepIndex < CurrentPageReplacementTrace.Steps.Count - 1;
+
+    private ExerciseFigureViewModel? CurrentWorksheetFigure => CurrentExerciseDocument?.Sections
+        .SelectMany(section => section.Blocks)
+        .OfType<ExerciseWorksheetResponseBlockViewModel>()
+        .Select(block => block.Figure)
+        .FirstOrDefault(figure => figure is not null);
 
     private bool IsExerciseStudio => CurrentExerciseOptions.Count > 1;
 
@@ -896,6 +1158,82 @@ else
         ? "The current GDI practice page keeps all major actions on one route: switch topic, solve interactively, create a fresh variant and print the current worksheet."
         : "Die aktuelle GDI-Uebungsseite haelt alle wichtigen Aktionen auf einer Route zusammen: Thema wechseln, interaktiv loesen, frische Variante erzeugen und das aktuelle Aufgabenblatt drucken.";
 
+    private string ShortestPathDemoLabel => CurrentLanguage == SiteLanguage.En ? "Generated demo trace" : "Generierter Demo-Trace";
+
+    private string ShortestPathDemoTitle => CurrentLanguage == SiteLanguage.En ? "Step-by-step shortest-path visualization" : "Schrittweise Visualisierung kuerzester Wege";
+
+    private string ShortestPathDemoIntro => CurrentLanguage == SiteLanguage.En
+        ? "This view evaluates the generated demo-trace JSON directly in edu and exposes the intermediate Dijkstra states beside the worksheet."
+        : "Diese Ansicht wertet das generierte Demo-Trace-JSON direkt in edu aus und macht die Zwischenstaende von Dijkstra neben dem Arbeitsblatt sichtbar.";
+
+    private string ShortestPathCurrentStepLabel => CurrentLanguage == SiteLanguage.En ? "Current step" : "Aktueller Schritt";
+
+    private string ShortestPathCurrentNodeLabel => CurrentLanguage == SiteLanguage.En ? "Current node:" : "Aktueller Knoten:";
+
+    private string ShortestPathFrontierLabel => CurrentLanguage == SiteLanguage.En ? "Frontier" : "Frontier";
+
+    private string ShortestPathDistanceTableLabel => CurrentLanguage == SiteLanguage.En ? "Distance snapshot" : "Distanz-Schnappschuss";
+
+    private string ShortestPathNodeHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Node" : "Knoten";
+
+    private string ShortestPathDistanceHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Distance" : "Distanz";
+
+    private string ShortestPathPreviousHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Predecessor" : "Vorgaenger";
+
+    private string ShortestPathRelaxationLabel => CurrentLanguage == SiteLanguage.En ? "Relaxation" : "Relaxation";
+
+    private string ShortestPathCandidateDistanceLabel => CurrentLanguage == SiteLanguage.En ? "Candidate distance:" : "Kandidatendistanz:";
+
+    private string ShortestPathFinalStateButtonLabel => CurrentLanguage == SiteLanguage.En ? "Show final state" : "Finalzustand zeigen";
+
+    private string ShortestPathStartNodeLabel => CurrentLanguage == SiteLanguage.En ? "Start node" : "Startknoten";
+
+    private string ShortestPathFinalStateIntro => CurrentLanguage == SiteLanguage.En
+        ? "Final routes derived from the generated final-state artifact."
+        : "Finale Wege aus dem generierten Final-State-Artefakt.";
+
+    private string ShortestPathRouteCostLabel => CurrentLanguage == SiteLanguage.En ? "Total cost:" : "Gesamtkosten:";
+
+    private string ShortestPathDemoProgressText => CurrentShortestPathTrace is null
+        ? (CurrentLanguage == SiteLanguage.En ? "No step trace available" : "Kein Schritt-Trace verfuegbar")
+        : $"{CurrentShortestPathTraceStepIndex + 1}/{CurrentShortestPathTrace.Steps.Count}";
+
+    private string PageReplacementDemoLabel => CurrentLanguage == SiteLanguage.En ? "Generated demo trace" : "Generierter Demo-Trace";
+
+    private string PageReplacementDemoTitle => CurrentLanguage == SiteLanguage.En ? "Step-by-step page replacement visualization" : "Schrittweise Visualisierung der Seitenersetzung";
+
+    private string PageReplacementDemoIntro => CurrentLanguage == SiteLanguage.En
+        ? "This view evaluates the generated demo-trace JSON directly in edu and exposes the intermediate frame states beside the worksheet."
+        : "Diese Ansicht wertet das generierte Demo-Trace-JSON direkt in edu aus und macht die Zwischenstaende des Hauptspeichers neben dem Arbeitsblatt sichtbar.";
+
+    private string PageReplacementCurrentStepLabel => CurrentLanguage == SiteLanguage.En ? "Current access" : "Aktueller Zugriff";
+
+    private string PageReplacementRequestedPageLabel => CurrentLanguage == SiteLanguage.En ? "Requested page:" : "Angeforderte Seite:";
+
+    private string PageReplacementFrameTableLabel => CurrentLanguage == SiteLanguage.En ? "Frame snapshot" : "Hauptspeicher-Schnappschuss";
+
+    private string PageReplacementSlotHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Slot" : "Slot";
+
+    private string PageReplacementPageHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Page" : "Seite";
+
+    private string PageReplacementReferenceHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Reference" : "Referenz";
+
+    private string PageReplacementDistanceHeaderLabel => CurrentLanguage == SiteLanguage.En ? "Distance" : "Abstand";
+
+    private string PageReplacementFinalStateButtonLabel => CurrentLanguage == SiteLanguage.En ? "Show final state" : "Finalzustand zeigen";
+
+    private string PageReplacementStrategyLabel => CurrentLanguage == SiteLanguage.En ? "Strategy" : "Strategie";
+
+    private string PageReplacementFaultCountLabel => CurrentLanguage == SiteLanguage.En ? "Page faults:" : "Seitenfehler:";
+
+    private string PageReplacementReferenceSequenceLabel => CurrentLanguage == SiteLanguage.En ? "Reference sequence:" : "Referenzfolge:";
+
+    private string PageReplacementFinalFramesLabel => CurrentLanguage == SiteLanguage.En ? "Final frames" : "Finale Belegung";
+
+    private string PageReplacementDemoProgressText => CurrentPageReplacementTrace is null
+        ? (CurrentLanguage == SiteLanguage.En ? "No step trace available" : "Kein Schritt-Trace verfuegbar")
+        : $"{CurrentPageReplacementTraceStepIndex + 1}/{CurrentPageReplacementTrace.Steps.Count}";
+
     private string FreshVariantLabel => CurrentLanguage == SiteLanguage.En ? "Fresh variant" : "Neue Variante";
 
     private string ImportedVariantLabel => CurrentLanguage == SiteLanguage.En ? "Imported default" : "Importierte Standardversion";
@@ -958,6 +1296,21 @@ else
         _selectedAlgorithmKey = _topic?.NQueens?.Algorithms.FirstOrDefault()?.Key ?? string.Empty;
         _selectedExerciseKey = _topic?.ExerciseDocumentKey ?? string.Empty;
         _activeExerciseDocument = _topic?.ExerciseDocument;
+        _activeShortestPathTrace = null;
+        _activeShortestPathFinalState = null;
+        _activePageReplacementTraceDocument = null;
+        _currentShortestPathTraceStepIndex = 0;
+        _currentPageReplacementTraceStepIndex = 0;
+
+        var exerciseDocumentOverridePath = GetQueryParameter(NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Query, "exerciseDocument");
+        var exerciseDocumentOverride = await LoadExerciseDocumentOverrideAsync();
+        if (exerciseDocumentOverride is not null)
+        {
+            _activeExerciseDocument = exerciseDocumentOverride;
+        }
+
+        await LoadExerciseVisualizationAsync(exerciseDocumentOverridePath);
+
         _useRuntimeExerciseDocument = false;
         ShowExerciseSolution = false;
         InteractiveExerciseMode = true;
@@ -1013,6 +1366,11 @@ else
         _selectedExerciseKey = exerciseKey;
         _useRuntimeExerciseDocument = false;
         _activeExerciseDocument = await TopicService.GetExerciseDocumentAsync(CurrentLanguage, exerciseKey);
+        _activeShortestPathTrace = null;
+        _activeShortestPathFinalState = null;
+        _activePageReplacementTraceDocument = null;
+        _currentShortestPathTraceStepIndex = 0;
+        _currentPageReplacementTraceStepIndex = 0;
         ShowExerciseSolution = false;
         InitializeExerciseAnswers();
     }
@@ -1026,6 +1384,11 @@ else
 
         _useRuntimeExerciseDocument = true;
         _activeExerciseDocument = await TopicService.GetExerciseDocumentAsync(CurrentLanguage, _selectedExerciseKey, forceRuntime: true);
+        _activeShortestPathTrace = null;
+        _activeShortestPathFinalState = null;
+        _activePageReplacementTraceDocument = null;
+        _currentShortestPathTraceStepIndex = 0;
+        _currentPageReplacementTraceStepIndex = 0;
         ShowExerciseSolution = false;
         InitializeExerciseAnswers();
     }
@@ -1039,6 +1402,11 @@ else
 
         _useRuntimeExerciseDocument = false;
         _activeExerciseDocument = await TopicService.GetExerciseDocumentAsync(CurrentLanguage, _selectedExerciseKey);
+        _activeShortestPathTrace = null;
+        _activeShortestPathFinalState = null;
+        _activePageReplacementTraceDocument = null;
+        _currentShortestPathTraceStepIndex = 0;
+        _currentPageReplacementTraceStepIndex = 0;
         ShowExerciseSolution = false;
         InitializeExerciseAnswers();
     }
@@ -1066,8 +1434,184 @@ else
 
     private static string FormatBitDisplay(string value) => string.Join(" ", value.ToCharArray());
 
+    private static bool HasSolutionTable(ExerciseResponseTableViewModel? table)
+        => table?.Rows.Any(row => row.SolutionCells is { Count: > 0 }) == true;
+
+    private static IReadOnlyList<string> GetRenderedTableCells(ExerciseTableRowViewModel row, bool useSolutionCells)
+        => useSolutionCells && row.SolutionCells is { Count: > 0 }
+            ? row.SolutionCells
+            : row.Cells;
+
+    private async Task<ExerciseDocumentViewModel?> LoadExerciseDocumentOverrideAsync()
+    {
+        var currentUri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var relativePath = GetQueryParameter(currentUri.Query, "exerciseDocument");
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            return null;
+        }
+
+        return await TopicService.LoadExerciseDocumentByPathAsync(relativePath);
+    }
+
+    private async Task LoadExerciseVisualizationAsync(string? exerciseDocumentOverridePath)
+    {
+        var currentUri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var tracePath = GetQueryParameter(currentUri.Query, "demoTrace")
+            ?? DeriveSiblingArtifactPath(exerciseDocumentOverridePath, "exercise.demo-trace");
+        var finalStatePath = GetQueryParameter(currentUri.Query, "finalState")
+            ?? DeriveSiblingArtifactPath(exerciseDocumentOverridePath, "exercise.final-state");
+
+        if (string.Equals(_selectedExerciseKey, "shortest-path", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!string.IsNullOrWhiteSpace(tracePath))
+                _activeShortestPathTrace = await TopicService.LoadShortestPathTraceByPathAsync(tracePath);
+
+            if (!string.IsNullOrWhiteSpace(finalStatePath))
+                _activeShortestPathFinalState = await TopicService.LoadShortestPathFinalStateByPathAsync(finalStatePath);
+
+            return;
+        }
+
+        if (string.Equals(_selectedExerciseKey, "page-replacement", StringComparison.OrdinalIgnoreCase)
+            && !string.IsNullOrWhiteSpace(tracePath))
+        {
+            _activePageReplacementTraceDocument = await TopicService.LoadPageReplacementTraceByPathAsync(tracePath);
+        }
+    }
+
+    private static string? DeriveSiblingArtifactPath(string? exerciseDocumentPath, string targetFilePrefix)
+    {
+        if (string.IsNullOrWhiteSpace(exerciseDocumentPath))
+        {
+            return null;
+        }
+
+        var normalizedPath = exerciseDocumentPath.TrimStart('/');
+        var lastSlashIndex = normalizedPath.LastIndexOf('/');
+        if (lastSlashIndex < 0)
+        {
+            return null;
+        }
+
+        var directory = normalizedPath[..lastSlashIndex];
+        var fileName = normalizedPath[(lastSlashIndex + 1)..];
+        if (!fileName.StartsWith("exercise.", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var suffix = fileName["exercise.".Length..];
+        return $"{directory}/{targetFilePrefix}.{suffix}";
+    }
+
+    private static string? GetQueryParameter(string query, string key)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return null;
+        }
+
+        foreach (var pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var parts = pair.Split('=', 2);
+            if (!string.Equals(Uri.UnescapeDataString(parts[0]), key, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            return parts.Length > 1 ? Uri.UnescapeDataString(parts[1]) : string.Empty;
+        }
+
+        return null;
+    }
+
     private string FormatPromptAnswer(string answer)
         => ShowExerciseSolution ? answer : new string('_', Math.Max(6, answer.Length));
+
+    private void PreviousShortestPathTraceStep()
+    {
+        if (CanMoveShortestPathTraceBackward)
+        {
+            _currentShortestPathTraceStepIndex--;
+        }
+    }
+
+    private void NextShortestPathTraceStep()
+    {
+        if (CanMoveShortestPathTraceForward)
+        {
+            _currentShortestPathTraceStepIndex++;
+        }
+    }
+
+    private void ResetShortestPathTrace() => _currentShortestPathTraceStepIndex = 0;
+
+    private void JumpToShortestPathFinalState()
+    {
+        if (CurrentShortestPathTrace is not null && CurrentShortestPathTrace.Steps.Count > 0)
+        {
+            _currentShortestPathTraceStepIndex = CurrentShortestPathTrace.Steps.Count - 1;
+        }
+    }
+
+    private string GetShortestPathStepSummary(ShortestPathTraceStepViewModel step)
+        => CurrentLanguage == SiteLanguage.En
+            ? $"Step {step.StepIndex + 1} explores node {step.CurrentNode} and keeps {step.Frontier.Count} candidate nodes in the frontier."
+            : $"Schritt {step.StepIndex + 1} verarbeitet Knoten {step.CurrentNode} und haelt {step.Frontier.Count} Kandidaten in der Frontier.";
+
+    private static string FormatShortestPathDistance(int? distance)
+        => distance?.ToString() ?? "∞";
+
+    private string FormatShortestPathPreviousNode(string node, int? distance, string? previousNode)
+    {
+        if (!string.IsNullOrWhiteSpace(previousNode))
+        {
+            return previousNode;
+        }
+
+        if (distance == 0)
+        {
+            return CurrentLanguage == SiteLanguage.En ? "Start" : "Start";
+        }
+
+        return "-";
+    }
+
+    private string GetShortestPathRelaxationOutcome(bool accepted)
+        => accepted
+            ? (CurrentLanguage == SiteLanguage.En ? "accepted" : "uebernommen")
+            : (CurrentLanguage == SiteLanguage.En ? "rejected" : "verworfen");
+
+    private void PreviousPageReplacementTraceStep()
+    {
+        if (CanMovePageReplacementTraceBackward)
+            _currentPageReplacementTraceStepIndex--;
+    }
+
+    private void NextPageReplacementTraceStep()
+    {
+        if (CanMovePageReplacementTraceForward)
+            _currentPageReplacementTraceStepIndex++;
+    }
+
+    private void ResetPageReplacementTrace() => _currentPageReplacementTraceStepIndex = 0;
+
+    private void JumpToPageReplacementFinalState()
+    {
+        if (CurrentPageReplacementTrace is not null && CurrentPageReplacementTrace.Steps.Count > 0)
+            _currentPageReplacementTraceStepIndex = CurrentPageReplacementTrace.Steps.Count - 1;
+    }
+
+    private string GetPageReplacementStepSummary(PageReplacementTraceStepViewModel step)
+        => CurrentLanguage == SiteLanguage.En
+            ? $"Step {step.StepIndex + 1} requests page {step.RequestedPage} and {(step.IsPageFault ? "causes" : "avoids")} a page fault."
+            : $"Schritt {step.StepIndex + 1} fordert Seite {step.RequestedPage} an und {(step.IsPageFault ? "verursacht" : "vermeidet")} einen Seitenfehler.";
+
+    private string GetPageReplacementFaultOutcome(bool isPageFault)
+        => isPageFault
+            ? (CurrentLanguage == SiteLanguage.En ? "page fault" : "Seitenfehler")
+            : (CurrentLanguage == SiteLanguage.En ? "hit" : "Treffer");
 
     private static IEnumerable<int> BuildBitPlaceholders(int count)
         => Enumerable.Range(0, Math.Max(count, 1));

@@ -269,6 +269,42 @@ public sealed class StudyTopicService
         return document;
     }
 
+    public async Task<ExerciseDocumentViewModel?> LoadExerciseDocumentByPathAsync(string relativePath)
+    {
+        return await LoadJsonByPathAsync<ExerciseDocumentViewModel>(relativePath);
+    }
+
+    public async Task<ShortestPathDemoTraceViewModel?> LoadShortestPathTraceByPathAsync(string relativePath)
+        => await LoadJsonByPathAsync<ShortestPathDemoTraceViewModel>(relativePath);
+
+    public async Task<ShortestPathFinalStateViewModel?> LoadShortestPathFinalStateByPathAsync(string relativePath)
+        => await LoadJsonByPathAsync<ShortestPathFinalStateViewModel>(relativePath);
+
+    public async Task<PageReplacementDemoTraceDocumentViewModel?> LoadPageReplacementTraceByPathAsync(string relativePath)
+        => await LoadJsonByPathAsync<PageReplacementDemoTraceDocumentViewModel>(relativePath);
+
+    private async Task<T?> LoadJsonByPathAsync<T>(string relativePath)
+    {
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            return default;
+        }
+
+        var normalizedPath = relativePath.TrimStart('/');
+        if (!normalizedPath.StartsWith("content/study/", StringComparison.OrdinalIgnoreCase))
+        {
+            return default;
+        }
+
+        var response = await _httpClient.GetAsync(normalizedPath);
+        if (!response.IsSuccessStatusCode)
+        {
+            return default;
+        }
+
+        return await response.Content.ReadFromJsonAsync<T>(ExerciseJsonOptions);
+    }
+
     private static string ResolveExerciseKey(string slug)
         => slug.ToLowerInvariant() switch
         {

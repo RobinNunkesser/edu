@@ -1,0 +1,510 @@
+{
+  "TraceType": "shortest-path",
+  "Steps": [
+    {
+      "StepIndex": 0,
+      "CurrentNode": "A",
+      "Frontier": [
+        "B",
+        "E",
+        "C"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": null,
+          "PreviousNode": null
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": null,
+          "PreviousNode": null
+        },
+        {
+          "Node": "G",
+          "Distance": null,
+          "PreviousNode": null
+        },
+        {
+          "Node": "H",
+          "Distance": null,
+          "PreviousNode": null
+        }
+      ],
+      "Relaxations": [
+        {
+          "FromNode": "A",
+          "ToNode": "E",
+          "CandidateDistance": 8,
+          "Accepted": true
+        },
+        {
+          "FromNode": "A",
+          "ToNode": "C",
+          "CandidateDistance": 9,
+          "Accepted": true
+        },
+        {
+          "FromNode": "A",
+          "ToNode": "B",
+          "CandidateDistance": 7,
+          "Accepted": true
+        }
+      ]
+    },
+    {
+      "StepIndex": 1,
+      "CurrentNode": "B",
+      "Frontier": [
+        "E",
+        "C",
+        "H",
+        "G",
+        "F"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": null,
+          "PreviousNode": null
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": [
+        {
+          "FromNode": "B",
+          "ToNode": "G",
+          "CandidateDistance": 12,
+          "Accepted": true
+        },
+        {
+          "FromNode": "B",
+          "ToNode": "E",
+          "CandidateDistance": 11,
+          "Accepted": false
+        },
+        {
+          "FromNode": "B",
+          "ToNode": "F",
+          "CandidateDistance": 12,
+          "Accepted": true
+        },
+        {
+          "FromNode": "B",
+          "ToNode": "H",
+          "CandidateDistance": 10,
+          "Accepted": true
+        }
+      ]
+    },
+    {
+      "StepIndex": 2,
+      "CurrentNode": "E",
+      "Frontier": [
+        "C",
+        "H",
+        "G",
+        "F"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": null,
+          "PreviousNode": null
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": [
+        {
+          "FromNode": "E",
+          "ToNode": "C",
+          "CandidateDistance": 13,
+          "Accepted": false
+        },
+        {
+          "FromNode": "E",
+          "ToNode": "G",
+          "CandidateDistance": 12,
+          "Accepted": false
+        }
+      ]
+    },
+    {
+      "StepIndex": 3,
+      "CurrentNode": "C",
+      "Frontier": [
+        "H",
+        "G",
+        "F",
+        "D"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": 19,
+          "PreviousNode": "C"
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": [
+        {
+          "FromNode": "C",
+          "ToNode": "D",
+          "CandidateDistance": 19,
+          "Accepted": true
+        }
+      ]
+    },
+    {
+      "StepIndex": 4,
+      "CurrentNode": "H",
+      "Frontier": [
+        "G",
+        "F",
+        "D"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": 15,
+          "PreviousNode": "H"
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": [
+        {
+          "FromNode": "H",
+          "ToNode": "F",
+          "CandidateDistance": 17,
+          "Accepted": false
+        },
+        {
+          "FromNode": "H",
+          "ToNode": "G",
+          "CandidateDistance": 19,
+          "Accepted": false
+        },
+        {
+          "FromNode": "H",
+          "ToNode": "D",
+          "CandidateDistance": 15,
+          "Accepted": true
+        }
+      ]
+    },
+    {
+      "StepIndex": 5,
+      "CurrentNode": "G",
+      "Frontier": [
+        "F",
+        "D"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": 15,
+          "PreviousNode": "H"
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": [
+        {
+          "FromNode": "G",
+          "ToNode": "F",
+          "CandidateDistance": 13,
+          "Accepted": false
+        }
+      ]
+    },
+    {
+      "StepIndex": 6,
+      "CurrentNode": "F",
+      "Frontier": [
+        "D"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": 15,
+          "PreviousNode": "H"
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": []
+    },
+    {
+      "StepIndex": 7,
+      "CurrentNode": "D",
+      "Frontier": [
+        "D"
+      ],
+      "Distances": [
+        {
+          "Node": "A",
+          "Distance": 0,
+          "PreviousNode": null
+        },
+        {
+          "Node": "B",
+          "Distance": 7,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "C",
+          "Distance": 9,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "D",
+          "Distance": 15,
+          "PreviousNode": "H"
+        },
+        {
+          "Node": "E",
+          "Distance": 8,
+          "PreviousNode": "A"
+        },
+        {
+          "Node": "F",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "G",
+          "Distance": 12,
+          "PreviousNode": "B"
+        },
+        {
+          "Node": "H",
+          "Distance": 10,
+          "PreviousNode": "B"
+        }
+      ],
+      "Relaxations": []
+    }
+  ]
+}

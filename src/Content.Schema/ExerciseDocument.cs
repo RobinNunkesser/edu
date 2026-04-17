@@ -75,7 +75,8 @@ public sealed record ExerciseTableColumnViewModel(string Header);
 
 public sealed record ExerciseTableRowViewModel(
     string Header,
-    IReadOnlyList<string> Cells);
+    IReadOnlyList<string> Cells,
+    IReadOnlyList<string>? SolutionCells = null);
 
 public sealed record BinaryAdditionVariantViewModel(
     string Label,

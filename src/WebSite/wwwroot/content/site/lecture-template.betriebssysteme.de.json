@@ -126,7 +126,7 @@
       "links": [
         {
           "title": "Seitenersetzung mit LRU",
-          "url": "/study/seitenersetzung",
+          "url": "/study/seitenersetzung?exerciseDocument=content/study/generated/engine-comparison/latest/page-replacement/exercise.de.json",
           "description": "Eigenständige Aufgabenseite zur Seitenersetzung mit Interaktivmodus, Aufgabenblattansicht, Lösungsansicht und Druckfunktion."
         }
       ]

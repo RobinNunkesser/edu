@@ -1,0 +1,103 @@
+{
+  "StartNode": "A",
+  "Distances": [
+    {
+      "Node": "B",
+      "Distance": 7,
+      "PreviousNode": "A"
+    },
+    {
+      "Node": "C",
+      "Distance": 9,
+      "PreviousNode": "A"
+    },
+    {
+      "Node": "D",
+      "Distance": 15,
+      "PreviousNode": "H"
+    },
+    {
+      "Node": "E",
+      "Distance": 8,
+      "PreviousNode": "A"
+    },
+    {
+      "Node": "F",
+      "Distance": 12,
+      "PreviousNode": "B"
+    },
+    {
+      "Node": "G",
+      "Distance": 12,
+      "PreviousNode": "B"
+    },
+    {
+      "Node": "H",
+      "Distance": 10,
+      "PreviousNode": "B"
+    }
+  ],
+  "Routes": [
+    {
+      "TargetNode": "B",
+      "Path": [
+        "A",
+        "B"
+      ],
+      "TotalCost": 7
+    },
+    {
+      "TargetNode": "C",
+      "Path": [
+        "A",
+        "C"
+      ],
+      "TotalCost": 9
+    },
+    {
+      "TargetNode": "D",
+      "Path": [
+        "A",
+        "B",
+        "H",
+        "D"
+      ],
+      "TotalCost": 15
+    },
+    {
+      "TargetNode": "E",
+      "Path": [
+        "A",
+        "E"
+      ],
+      "TotalCost": 8
+    },
+    {
+      "TargetNode": "F",
+      "Path": [
+        "A",
+        "B",
+        "F"
+      ],
+      "TotalCost": 12
+    },
+    {
+      "TargetNode": "G",
+      "Path": [
+        "A",
+        "B",
+        "G"
+      ],
+      "TotalCost": 12
+    },
+    {
+      "TargetNode": "H",
+      "Path": [
+        "A",
+        "B",
+        "H"
+      ],
+      "TotalCost": 10
+    }
+  ]
+}

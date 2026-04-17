@@ -61,6 +61,9 @@ public sealed class StudyCatalogService
                                 new StudyTopicDocument("binaere-addition", "Binaere Addition", "POC fuer ein druckbares Einzelaufgabenblatt mit neutralem Aufgabendokument.", "Exam Generator / edu", true, "BinaryAdditionExerciseDocument"),
                                 new StudyTopicDocument("binaer-zu-dezimal", "Binaer zu Dezimal", "Importierter Umwandlungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "BinaryToDecimalExerciseDocument"),
                                 new StudyTopicDocument("dezimal-zu-binaer", "Dezimal zu Binaer", "Importierter Umwandlungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "DecimalToBinaryExerciseDocument"),
+                                new StudyTopicDocument("seitenersetzung", "Seitenersetzung", "Importierte Tabellenaufgabe zur Seitenersetzung mit gemeinsamer Worksheet-Struktur.", "Exam Generator / edu", true, "PageReplacementExerciseDocument"),
+                                new StudyTopicDocument("kuerzeste-wege", "Kuerzeste Wege", "Importierte Graph-und-Tabellen-Aufgabe ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "ShortestPathExerciseDocument"),
+                                new StudyTopicDocument("spannbaum", "Minimaler Spannbaum", "Importierte Graphaufgabe mit freiem Antwortbereich ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "SpanningTreeExerciseDocument"),
                                 new StudyTopicDocument("zweierkomplement", "Zweierkomplement", "Importierter Darstellungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "TwosComplementExerciseDocument")
                             ])
                     ])

@@ -163,6 +163,8 @@
           "links": [
             { "title": "ISD Companion", "url": "https://github.com/isd-nunkesser/lectures.wiki/wiki/ISDCompanion", "description": "Companion app with lecture exercises" },
             { "title": "Minimum Spanning Tree in edu", "url": "/en/study/minimaler-spannbaum", "description": "Interactive technical slice for MST directly inside edu" },
+            { "title": "Shortest paths in edu", "url": "/en/study/shortest-path", "description": "Standalone graph-and-table worksheet page" },
+            { "title": "Spanning tree worksheet in edu", "url": "/en/study/spanning-tree", "description": "Standalone graph worksheet page with print and solution view" },
             { "title": "External DNF/CNF page", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/normalform/index.html", "description": "Additional explanation" },
             { "title": "External Karnaugh-Veitch map", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/karnaughmap/index.html", "description": "Additional explanation" },
             { "title": "External Quine-McCluskey algorithm", "url": "https://www.mathematik.uni-marburg.de/~thormae/lectures/ti1/code/qmc/index.html", "description": "Additional explanation" }

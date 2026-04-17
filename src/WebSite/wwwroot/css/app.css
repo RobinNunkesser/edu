@@ -155,6 +155,15 @@ a {
     font-weight: 600;
 }
 
+.inline-link-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .resource-card-grouped {
     grid-column: 1 / -1;
 }

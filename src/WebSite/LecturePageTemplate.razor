@@ -453,16 +453,20 @@ else
     private static bool HasCompactMeta(ResourceLinkViewModel link)
         => !string.IsNullOrWhiteSpace(link.Description);
 
-    private static string NormalizeUrl(string? url)
+    private string NormalizeUrl(string? url)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
             return "#";
         }
 
-        return Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri)
-            ? absoluteUri.ToString()
-            : url.TrimStart('/');
+        if (Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri)
+            && !string.Equals(absoluteUri.Scheme, Uri.UriSchemeFile, StringComparison.OrdinalIgnoreCase))
+        {
+            return absoluteUri.ToString();
+        }
+
+        return url.TrimStart('/');
     }
 
     private static (string Primary, string? Secondary) SplitDescription(string description)

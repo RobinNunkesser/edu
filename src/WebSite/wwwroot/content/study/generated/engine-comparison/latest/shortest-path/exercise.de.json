@@ -1,0 +1,241 @@
+{
+  "Title": "Druckbares Einzelaufgabenblatt",
+  "Intro": "",
+  "SourceLabel": "Quelle",
+  "SourceValue": "Exam Generator",
+  "PrintHint": "Nutze den Browser-Druckdialog fuer einen PDF-Export.",
+  "PrintLabel": "Drucken / PDF",
+  "ShowSolutionLabel": "Loesung zeigen",
+  "HideSolutionLabel": "Loesung ausblenden",
+  "Sections": [
+    {
+      "Title": "Aufgabe",
+      "Intro": "Bestimmen Sie die kuerzesten Wege im gewichteten Graphen. Verwenden Sie A als Startknoten und dokumentieren Sie Ihren Rechenweg in der Arbeitstabelle.",
+      "Blocks": [
+        {
+          "$type": "worksheet-response",
+          "Title": "Kuerzeste Wege",
+          "Intro": "Fuehren Sie die Berechnung im gezeigten Graphen durch. Tragen Sie nach jedem Schritt Distanzschaetzungen D und Vorgaenger V ein.",
+          "Figure": {
+            "Source": "content/study/generated/engine-comparison/20260417-152026/shortest-path/SPriwm0j03.qxy.dot",
+            "AltText": "Gewichteter Graph fuer die Berechnung kuerzester Wege"
+          },
+          "Table": {
+            "RowHeaderLabel": "K",
+            "TableAriaLabel": "Kuerzeste Wege",
+            "Columns": [
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              },
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              },
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              },
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              },
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              },
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              },
+              {
+                "Header": "D"
+              },
+              {
+                "Header": "V"
+              }
+            ],
+            "Rows": [
+              {
+                "Header": "A",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "B",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "C",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "D",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "E",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "F",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "G",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              },
+              {
+                "Header": "H",
+                "Cells": [
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                "SolutionCells": null
+              }
+            ]
+          },
+          "AnswerLabel": "Arbeitsblatt",
+          "SolutionLabel": "Loesung",
+          "SolutionText": "A -\u003E B (7)\n\nA -\u003E C (9)\n\nA -\u003E C -\u003E D (19)\n\nA -\u003E B -\u003E E (11)\n\nA -\u003E C -\u003E D -\u003E H -\u003E G (33)\n\nA -\u003E C -\u003E D -\u003E H (24)",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}

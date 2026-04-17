@@ -248,6 +248,7 @@ internal static class ExamTaskExerciseMapper
 							PromptLabel: promptLabel,
 							AnswerLabel: answerLabel,
 							SolutionLabel: isEnglish ? "Solution" : "Loesung",
+							Presentation: ExercisePromptAnswerPresentation.Default,
 							Variants: variants)
 					])
 			]);

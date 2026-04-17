@@ -1,0 +1,491 @@
+{
+  "Runs": [
+    {
+      "FinalState": {
+        "Strategy": "LRU",
+        "ReferenceRequests": [
+          1,
+          2,
+          3,
+          4,
+          1,
+          2,
+          5,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "FinalFrames": [
+          {
+            "Slot": 0,
+            "Page": "5",
+            "ReferenceBit": "0",
+            "Distance": "0",
+            "IsPointerSlot": false
+          },
+          {
+            "Slot": 1,
+            "Page": "2",
+            "ReferenceBit": "3",
+            "Distance": "3",
+            "IsPointerSlot": false
+          },
+          {
+            "Slot": 2,
+            "Page": "4",
+            "ReferenceBit": "1",
+            "Distance": "1",
+            "IsPointerSlot": false
+          },
+          {
+            "Slot": 3,
+            "Page": "3",
+            "ReferenceBit": "2",
+            "Distance": "2",
+            "IsPointerSlot": false
+          }
+        ],
+        "PageFaultCount": 8
+      },
+      "Trace": {
+        "TraceType": "page-replacement",
+        "Steps": [
+          {
+            "StepIndex": 0,
+            "RequestedPage": 1,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "inf",
+                "ReferenceBit": "inf",
+                "Distance": "inf",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "inf",
+                "ReferenceBit": "inf",
+                "Distance": "inf",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "inf",
+                "ReferenceBit": "inf",
+                "Distance": "inf",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 1: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 1,
+            "RequestedPage": 2,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "inf",
+                "ReferenceBit": "inf",
+                "Distance": "inf",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "inf",
+                "ReferenceBit": "inf",
+                "Distance": "inf",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 2: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 2,
+            "RequestedPage": 3,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "3",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "inf",
+                "ReferenceBit": "inf",
+                "Distance": "inf",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 3: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 3,
+            "RequestedPage": 4,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "3",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "4",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 4: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 4,
+            "RequestedPage": 1,
+            "IsPageFault": false,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "3",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "4",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 1: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 5,
+            "RequestedPage": 2,
+            "IsPageFault": false,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "3",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "4",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 2: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 6,
+            "RequestedPage": 5,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "5",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "4",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 5: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 7,
+            "RequestedPage": 1,
+            "IsPageFault": false,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "5",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "4",
+                "ReferenceBit": "4",
+                "Distance": "4",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 1: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 8,
+            "RequestedPage": 2,
+            "IsPageFault": false,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "5",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "4",
+                "ReferenceBit": "5",
+                "Distance": "5",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 2: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 9,
+            "RequestedPage": 3,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "5",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "3",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 3: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 10,
+            "RequestedPage": 4,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "1",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "4",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "3",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 4: Hauptspeicher nach dem Schritt aktualisiert."
+          },
+          {
+            "StepIndex": 11,
+            "RequestedPage": 5,
+            "IsPageFault": true,
+            "Frames": [
+              {
+                "Slot": 0,
+                "Page": "5",
+                "ReferenceBit": "0",
+                "Distance": "0",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 1,
+                "Page": "2",
+                "ReferenceBit": "3",
+                "Distance": "3",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 2,
+                "Page": "4",
+                "ReferenceBit": "1",
+                "Distance": "1",
+                "IsPointerSlot": false
+              },
+              {
+                "Slot": 3,
+                "Page": "3",
+                "ReferenceBit": "2",
+                "Distance": "2",
+                "IsPointerSlot": false
+              }
+            ],
+            "Explanation": "Zugriff 5: Hauptspeicher nach dem Schritt aktualisiert."
+          }
+        ]
+      }
+    }
+  ]
+}

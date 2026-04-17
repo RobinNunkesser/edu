@@ -58,6 +58,16 @@
           "description": "Eigenständige Übungsseite zur Darstellung negativer Zahlen im Zweierkomplement."
         },
         {
+          "title": "Kürzeste Wege",
+          "url": "/study/kuerzeste-wege?exerciseDocument=content/study/generated/engine-comparison/latest/shortest-path/exercise.de.json",
+          "description": "Graph-und-Tabellen-Arbeitsblatt mit gemeinsamer Dokumentstruktur, Interaktivmodus und Druckansicht."
+        },
+        {
+          "title": "Minimaler Spannbaum (Arbeitsblatt)",
+          "url": "/study/spannbaum",
+          "description": "Graph-Arbeitsblatt mit freiem Antwortbereich, Lösungsansicht und Druckfunktion."
+        },
+        {
           "title": "Minimaler Spannbaum (MST)",
           "url": "/study/minimaler-spannbaum",
           "description": ""

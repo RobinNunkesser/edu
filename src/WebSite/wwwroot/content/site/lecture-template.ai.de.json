@@ -106,13 +106,18 @@
       "links": [
         {
           "title": "Rumänien-Suche mit A*",
-          "url": "study/rumaenien-suche",
+          "url": "/study/rumaenien-suche",
           "description": "Schrittweiser Suchdemonstrator von Arad nach Bukarest mit Graphansicht, Frontier und Kostenbewertung"
         },
         {
           "title": "N-Damen mit lokaler und evolutionaerer Suche",
-          "url": "study/n-damen",
+          "url": "/study/n-damen",
           "description": "Vergleich von Hill Climbing, Simulated Annealing und Genetic Algorithm an einem gemeinsamen 8-Damen-Beispiel"
+        },
+        {
+          "title": "Kuerzeste Wege mit Arbeitsblatt und Schritttrace",
+          "url": "/study/kuerzeste-wege?exerciseDocument=content/study/generated/engine-comparison/latest/shortest-path/exercise.de.json",
+          "description": "Arbeitsblatt fuer Dijkstra auf gewichteten Graphen mit Loesungsansicht, Druckmodus und schrittweiser Visualisierung generierter Demo-Traces"
         }
       ]
     }

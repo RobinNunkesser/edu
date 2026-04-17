@@ -52,7 +52,7 @@
 
         foreach (var fileName in fileCandidates)
         {
-            var response = await HttpClient.GetAsync($"content/site/{fileName}");
+            var response = await HttpClient.GetAsync(GetContentRequestUri($"content/site/{fileName}"));
             if (!response.IsSuccessStatusCode)
             {
                 continue;
@@ -92,6 +92,28 @@
         => string.IsNullOrWhiteSpace(templateKey)
             ? null
             : templateKey.Trim().ToLowerInvariant();
+
+    private string GetContentRequestUri(string relativePath)
+    {
+        if (!IsLocalDevelopment(HttpClient.BaseAddress))
+        {
+            return relativePath;
+        }
+
+        var separator = relativePath.Contains('?') ? '&' : '?';
+        return $"{relativePath}{separator}t={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+    }
+
+    private static bool IsLocalDevelopment(Uri? baseAddress)
+    {
+        if (baseAddress is null)
+        {
+            return false;
+        }
+
+        return string.Equals(baseAddress.Host, "localhost", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(baseAddress.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase);
+    }
 
     private static IReadOnlyList<LectureSectionViewModel> FilterToSupportedTemplateSections(IReadOnlyList<LectureSectionViewModel> sections)
         => sections.Where(section => SupportedTemplateSections.Contains(section.Title, StringComparer.OrdinalIgnoreCase)).ToArray();

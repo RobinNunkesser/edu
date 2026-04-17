@@ -45,7 +45,7 @@ public sealed class SiteContentService
         if (_disableContentCache)
         {
             var fileName = GetResearchPublicationFileName(language);
-            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            var response = await _httpClient.GetAsync(GetContentRequestUri($"content/site/{fileName}"));
             response.EnsureSuccessStatusCode();
 
             publications = await response.Content.ReadFromJsonAsync<IReadOnlyList<ResearchPublicationViewModel>>(JsonOptions)
@@ -133,7 +133,7 @@ public sealed class SiteContentService
 
         foreach (var fileName in GetTeachingLectureIndexCandidates(language))
         {
-            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            var response = await _httpClient.GetAsync(GetContentRequestUri($"content/site/{fileName}"));
             if (!response.IsSuccessStatusCode)
             {
                 continue;
@@ -158,7 +158,7 @@ public sealed class SiteContentService
     {
         foreach (var fileName in GetTeachingLectureDetailCandidates(language, slug))
         {
-            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            var response = await _httpClient.GetAsync(GetContentRequestUri($"content/site/{fileName}"));
             if (!response.IsSuccessStatusCode)
             {
                 continue;
@@ -198,7 +198,7 @@ public sealed class SiteContentService
         if (_disableContentCache)
         {
             var fileName = language == SiteLanguage.En ? "en.json" : "de.json";
-            var response = await _httpClient.GetAsync($"content/site/{fileName}");
+            var response = await _httpClient.GetAsync(GetContentRequestUri($"content/site/{fileName}"));
             response.EnsureSuccessStatusCode();
 
             var liveDocument = await response.Content.ReadFromJsonAsync<SiteContentDocument>(JsonOptions)
@@ -230,6 +230,17 @@ public sealed class SiteContentService
 
         return string.Equals(baseAddress.Host, "localhost", StringComparison.OrdinalIgnoreCase)
             || string.Equals(baseAddress.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private string GetContentRequestUri(string relativePath)
+    {
+        if (!_disableContentCache)
+        {
+            return relativePath;
+        }
+
+        var separator = relativePath.Contains('?') ? '&' : '?';
+        return $"{relativePath}{separator}t={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
     }
 
     private static string GetAreaRoute(SiteLanguage language, string key) => key switch
