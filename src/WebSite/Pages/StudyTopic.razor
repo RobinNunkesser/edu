@@ -25,6 +25,7 @@
 }
 else if (IsExerciseTopic && CurrentExerciseDocument is not null)
 {
+    <div class="exercise-page-shell">
     <section class="page-intro lecture-hero">
         <div>
             <p class="section-label">@_topic.SectionLabel</p>
@@ -85,7 +86,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
         <span class="exercise-toolbar-hint">@(InteractiveExerciseMode ? InteractiveModeHint : CurrentExerciseDocument.PrintHint)</span>
     </section>
 
-    <section class="page-section resource-card exercise-document-card">
+    <section class="page-section resource-card exercise-document-card exercise-print-host">
         <div class="section-heading">
             <h2>@CurrentExerciseDocument.Title</h2>
             <p>@CurrentExerciseDocument.Intro</p>
@@ -294,12 +295,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                                 }
                                                 else
                                                 {
-                                                    <div class="exercise-print-bit-box-row exercise-print-bit-box-row-tight" style="--bit-count:@Math.Max(variant.Sum.Length, 1)">
-                                                        @foreach (var bitPlaceholder in BuildBitPlaceholders(variant.Sum.Length))
-                                                        {
-                                                            <span class="exercise-print-bit-box"></span>
-                                                        }
-                                                    </div>
+                                                    <div class="exercise-print-answer-line exercise-print-answer-line-binary"></div>
                                                 }
                                             </div>
                                         </article>
@@ -340,97 +336,49 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                         </tbody>
                                     </table>
                                 }
-                                else if (IsTwosComplementTemplate(promptAnswer))
+                                else if (IsDecimalToBinaryTemplate(promptAnswer))
                                 {
-                                    <div class="exercise-print-twos-table">
+                                    <div class="exercise-print-decimal-binary-grid">
                                         @foreach (var variant in promptAnswer.Variants)
                                         {
-                                            var bitCount = Math.Max(variant.Answer.Length, 1);
-                                            var magnitude = BuildMagnitudeBits(variant.Prompt, bitCount);
-                                            var inverted = InvertBits(magnitude);
-                                            var oneBits = BuildOneBits(bitCount);
-
-                                            <article class="exercise-print-twos-row">
+                                            <article class="exercise-print-decimal-binary-card">
                                                 <div class="exercise-print-row-meta">
                                                     <span class="exercise-print-row-number">@variant.Label</span>
                                                     <span class="exercise-print-row-prompt-label">@promptAnswer.PromptLabel</span>
                                                 </div>
                                                 <div class="exercise-print-decimal-prompt">@variant.Prompt</div>
-
-                                                <div class="exercise-print-twos-steps">
-                                                    <div class="exercise-print-twos-step">
-                                                        <span class="exercise-print-twos-step-label">@TwosMagnitudeLabel</span>
-                                                        <div class="exercise-print-bit-box-row" style="--bit-count:@bitCount">
-                                                            @foreach (var bit in BuildBitBoxContents(null, bitCount))
-                                                            {
-                                                                <span class="exercise-print-bit-box">@bit</span>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div class="exercise-print-twos-step">
-                                                        <span class="exercise-print-twos-step-label">@TwosInvertLabel</span>
-                                                        <div class="exercise-print-bit-box-row" style="--bit-count:@bitCount">
-                                                            @foreach (var bit in BuildBitBoxContents(null, bitCount))
-                                                            {
-                                                                <span class="exercise-print-bit-box">@bit</span>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div class="exercise-print-twos-step exercise-print-twos-step-operation">
-                                                        <span class="exercise-print-twos-step-label">@TwosAddOneLabel</span>
-                                                        <div class="exercise-print-bit-box-row" style="--bit-count:@bitCount">
-                                                            @foreach (var bit in BuildBitBoxContents(oneBits, bitCount))
-                                                            {
-                                                                <span class="exercise-print-bit-box exercise-print-bit-box-filled">@bit</span>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div class="exercise-print-twos-step exercise-print-twos-step-result">
-                                                        <span class="exercise-print-twos-step-label">@TwosResultLabel</span>
-                                                        <div class="exercise-print-bit-box-row" style="--bit-count:@bitCount">
-                                                            @foreach (var bit in BuildBitBoxContents(null, bitCount))
-                                                            {
-                                                                <span class="exercise-print-bit-box">@bit</span>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="exercise-print-working-area exercise-print-working-area-compact">
+                                                <div class="exercise-print-result-caption">@promptAnswer.AnswerLabel</div>
+                                                <div class="exercise-print-working-box">
+                                                    <div class="exercise-print-working-line"></div>
+                                                    <div class="exercise-print-working-line"></div>
+                                                    <div class="exercise-print-working-line"></div>
                                                     <div class="exercise-print-working-line"></div>
                                                 </div>
                                             </article>
                                         }
                                     </div>
                                 }
-                                else if (UsesBinaryAnswerTemplate(promptAnswer))
+                                else if (UsesLongAnswerLineTemplate(promptAnswer))
                                 {
-                                    <div class="exercise-print-binary-table">
-                                        @foreach (var variant in promptAnswer.Variants)
-                                        {
-                                            <article class="exercise-print-binary-row">
-                                                <div class="exercise-print-row-meta">
-                                                    <span class="exercise-print-row-number">@variant.Label</span>
-                                                    <span class="exercise-print-row-prompt-label">@promptAnswer.PromptLabel</span>
-                                                </div>
-                                                <div class="exercise-print-binary-prompt">@variant.Prompt</div>
-                                                <div class="exercise-print-row-answer-label">@promptAnswer.AnswerLabel</div>
-                                                <div class="exercise-print-bit-box-row" style="--bit-count:@Math.Max(variant.Answer.Length, 1)">
-                                                    @foreach (var bitPlaceholder in BuildBitPlaceholders(variant.Answer.Length))
-                                                    {
-                                                        <span class="exercise-print-bit-box"></span>
-                                                    }
-                                                </div>
-                                                @if (UsesWorkingArea(promptAnswer))
-                                                {
-                                                    <div class="exercise-print-working-area">
-                                                        <div class="exercise-print-working-line"></div>
-                                                        <div class="exercise-print-working-line"></div>
-                                                    </div>
-                                                }
-                                            </article>
-                                        }
-                                    </div>
+                                    <table class="exercise-print-table exercise-print-table-wide-answer">
+                                        <thead>
+                                            <tr>
+                                                <th>@PrintNumberLabel</th>
+                                                <th>@promptAnswer.PromptLabel</th>
+                                                <th>@promptAnswer.AnswerLabel</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var variant in promptAnswer.Variants)
+                                            {
+                                                <tr>
+                                                    <td>@variant.Label</td>
+                                                    <td><span class="exercise-print-mono">@variant.Prompt</span></td>
+                                                    <td><div class="exercise-print-answer-line exercise-print-answer-line-wide"></div></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 }
                                 else
                                 {
@@ -447,11 +395,6 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                                 <div class="exercise-print-answer-lines">
                                                     <div class="exercise-print-answer-line"></div>
                                                 </div>
-                                                <div class="exercise-print-working-area">
-                                                    <div class="exercise-print-working-line"></div>
-                                                    <div class="exercise-print-working-line"></div>
-                                                    <div class="exercise-print-working-line"></div>
-                                                </div>
                                             </article>
                                         }
                                     </div>
@@ -465,6 +408,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
             }
         </section>
     </section>
+    </div>
 }
 else
 {
@@ -797,14 +741,6 @@ else
 
     private string PrintTaskLabel => CurrentLanguage == SiteLanguage.En ? "Task" : "Aufgabe";
 
-    private string TwosMagnitudeLabel => CurrentLanguage == SiteLanguage.En ? "Magnitude" : "Betrag";
-
-    private string TwosInvertLabel => CurrentLanguage == SiteLanguage.En ? "Invert bits" : "Bits invertieren";
-
-    private string TwosAddOneLabel => CurrentLanguage == SiteLanguage.En ? "+ 1" : "+ 1";
-
-    private string TwosResultLabel => CurrentLanguage == SiteLanguage.En ? "Two's complement" : "Zweierkomplement";
-
     private string ExerciseStudioTitle => CurrentLanguage == SiteLanguage.En ? "Choose exercise type" : "Aufgabentyp waehlen";
 
     private string ExerciseStudioIntro => CurrentLanguage == SiteLanguage.En
@@ -960,7 +896,7 @@ else
     {
         InteractiveExerciseMode = false;
         await InvokeAsync(StateHasChanged);
-        await JsRuntime.InvokeVoidAsync("print");
+        await JsRuntime.InvokeVoidAsync("eduPrint.printExerciseSheet");
     }
 
     private string FormatBinaryAddition(BinaryAdditionVariantViewModel variant)
@@ -984,26 +920,6 @@ else
 
     private static IEnumerable<int> BuildBitPlaceholders(int count)
         => Enumerable.Range(0, Math.Max(count, 1));
-
-    private static IReadOnlyList<string> BuildBitBoxContents(string? value, int count)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return Enumerable.Repeat(string.Empty, Math.Max(count, 1)).ToArray();
-        }
-
-        var normalized = NormalizeAnswer(value);
-        if (normalized.Length < count)
-        {
-            normalized = normalized.PadLeft(count, '0');
-        }
-        else if (normalized.Length > count)
-        {
-            normalized = normalized[^count..];
-        }
-
-        return normalized.Select(character => character.ToString()).ToArray();
-    }
 
     private void InitializeExerciseAnswers()
     {
@@ -1107,36 +1023,26 @@ else
             ? "exercise-studio-option exercise-studio-option-active"
             : "exercise-studio-option";
 
-    private static bool UsesBinaryAnswerTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
-        => promptAnswer.Variants.All(variant => IsBinary(NormalizeAnswer(variant.Answer)));
-
     private static bool IsTwosComplementTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
         => promptAnswer.Title.Contains("Zweier", StringComparison.OrdinalIgnoreCase)
             || promptAnswer.Title.Contains("complement", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsDecimalToBinaryTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
+        => promptAnswer.Title.Contains("Dezimal nach Binaer", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.Title.Contains("Decimal to binary", StringComparison.OrdinalIgnoreCase);
+
+    private static bool UsesLongAnswerLineTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
+        => IsTwosComplementTemplate(promptAnswer)
+            || promptAnswer.Title.Contains("Binaer nach Dezimal", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.Title.Contains("Binary to decimal", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.AnswerLabel.Contains("Dezimal", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.AnswerLabel.Contains("complement", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.AnswerLabel.Contains("Zweier", StringComparison.OrdinalIgnoreCase);
 
     private static bool UsesWorkingArea(ExercisePromptAnswerBlockViewModel promptAnswer)
         => promptAnswer.Title.Contains("Zweier", StringComparison.OrdinalIgnoreCase)
             || promptAnswer.Title.Contains("complement", StringComparison.OrdinalIgnoreCase)
             || promptAnswer.PromptLabel.Contains("Dezimal", StringComparison.OrdinalIgnoreCase);
-
-    private static string BuildMagnitudeBits(string prompt, int bitCount)
-    {
-        if (!int.TryParse(prompt.Trim(), out var value))
-        {
-            return new string('0', Math.Max(bitCount, 1));
-        }
-
-        var magnitude = Convert.ToString(Math.Abs(value), 2) ?? string.Empty;
-        return magnitude.PadLeft(Math.Max(bitCount, 1), '0');
-    }
-
-    private static string InvertBits(string value)
-        => new(value.Select(character => character == '0' ? '1' : '0').ToArray());
-
-    private static string BuildOneBits(int bitCount)
-        => bitCount <= 1
-            ? "1"
-            : new string('0', bitCount - 1) + "1";
 
     private static bool AreAnswersEquivalent(string actualAnswer, string expectedAnswer)
     {
