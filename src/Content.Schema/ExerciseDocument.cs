@@ -31,6 +31,7 @@ public sealed record ExerciseSectionViewModel(
 [JsonDerivedType(typeof(ExerciseParagraphBlockViewModel), typeDiscriminator: "paragraph")]
 [JsonDerivedType(typeof(ExerciseBinaryAdditionBlockViewModel), typeDiscriminator: "binary-addition")]
 [JsonDerivedType(typeof(ExercisePromptAnswerBlockViewModel), typeDiscriminator: "prompt-answer")]
+[JsonDerivedType(typeof(ExerciseFigureResponseBlockViewModel), typeDiscriminator: "figure-response")]
 public abstract record ExerciseBlockViewModel;
 
 public sealed record ExerciseParagraphBlockViewModel(string Text) : ExerciseBlockViewModel;
@@ -49,6 +50,16 @@ public sealed record ExercisePromptAnswerBlockViewModel(
     string SolutionLabel,
     ExercisePromptAnswerPresentation Presentation,
     IReadOnlyList<PromptAnswerVariantViewModel> Variants) : ExerciseBlockViewModel;
+
+public sealed record ExerciseFigureResponseBlockViewModel(
+    string Title,
+    string Intro,
+    string FigureSource,
+    string FigureAltText,
+    string AnswerLabel,
+    string SolutionLabel,
+    string SolutionText,
+    int AnswerLineCount) : ExerciseBlockViewModel;
 
 public sealed record BinaryAdditionVariantViewModel(
     string Label,

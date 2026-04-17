@@ -574,6 +574,11 @@ a {
     font-size: 1rem;
 }
 
+.exercise-answer-textarea {
+    min-height: 8rem;
+    resize: vertical;
+}
+
 .exercise-answer-input-correct {
     border-color: rgba(22, 163, 74, 0.75);
     background: rgba(240, 253, 244, 0.92);
@@ -609,6 +614,34 @@ a {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #3d668e;
+}
+
+.exercise-figure-card {
+    display: grid;
+    gap: 1rem;
+}
+
+.exercise-figure-image {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(140, 173, 202, 0.28);
+    background: #ffffff;
+}
+
+.exercise-print-figure-card {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.exercise-print-figure-image {
+    width: 100%;
+    height: auto;
+    border: 1px solid rgba(24, 49, 79, 0.18);
+}
+
+.exercise-print-answer-lines-tall {
+    min-height: 10rem;
 }
 
 .resource-card-assessment {
