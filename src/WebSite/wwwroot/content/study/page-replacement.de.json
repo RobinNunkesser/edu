@@ -1,0 +1,60 @@
+{
+  "Title": "Druckbares Einzelaufgabenblatt",
+  "Intro": "Dieses Arbeitsblatt nutzt denselben generalisierten Worksheet-Response-Block fuer eine tabellenbasierte Aufgabe ohne Graphabbildung.",
+  "SourceLabel": "Quelle",
+  "SourceValue": "Exam Generator / edu POC",
+  "PrintHint": "Nutze den Browser-Druckdialog fuer einen PDF-Export.",
+  "PrintLabel": "Drucken / PDF",
+  "ShowSolutionLabel": "Loesung zeigen",
+  "HideSolutionLabel": "Loesung ausblenden",
+  "Sections": [
+    {
+      "Title": "Aufgabe",
+      "Intro": "Bearbeite die Seitenersetzung fuer die angegebene Referenzfolge mit Least Recently Used und dokumentiere Hauptspeicher und Abstand in der Arbeitstabelle.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "Dieses dritte komplexe Beispiel verwendet denselben Worksheet-Response-Block wie die Graph-Arbeitsblaetter, aber nur mit Antworttabelle."
+        },
+        {
+          "$type": "worksheet-response",
+          "Title": "Seitenersetzung: Least Recently Used",
+          "Intro": "Arbeite die Referenzfolge von links nach rechts ab und trage fuer jeden Schritt Hauptspeicher und Abstand der belegten Rahmen ein.",
+          "Figure": null,
+          "Table": {
+            "RowHeaderLabel": "Ref",
+            "TableAriaLabel": "Arbeitstabelle fuer Seitenersetzung",
+            "Columns": [
+              { "Header": "1" },
+              { "Header": "2" },
+              { "Header": "3" },
+              { "Header": "4" },
+              { "Header": "1" },
+              { "Header": "2" },
+              { "Header": "5" },
+              { "Header": "1" },
+              { "Header": "2" },
+              { "Header": "3" },
+              { "Header": "4" },
+              { "Header": "5" }
+            ],
+            "Rows": [
+              { "Header": "Kachel 1", "Cells": ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "5"] },
+              { "Header": "Kachel 2", "Cells": ["inf", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2"] },
+              { "Header": "Kachel 3", "Cells": ["inf", "inf", "3", "3", "3", "3", "5", "5", "5", "5", "4", "4"] },
+              { "Header": "Kachel 4", "Cells": ["inf", "inf", "inf", "4", "4", "4", "4", "4", "4", "3", "3", "3"] },
+              { "Header": "Abstand 1", "Cells": ["0", "1", "2", "3", "0", "1", "2", "0", "1", "2", "3", "0"] },
+              { "Header": "Abstand 2", "Cells": ["inf", "0", "1", "2", "3", "0", "1", "2", "0", "1", "2", "3"] },
+              { "Header": "Abstand 3", "Cells": ["inf", "inf", "0", "1", "2", "3", "0", "1", "2", "3", "0", "1"] },
+              { "Header": "Abstand 4", "Cells": ["inf", "inf", "inf", "0", "1", "2", "3", "4", "5", "0", "1", "2"] }
+            ]
+          },
+          "AnswerLabel": "Arbeitsblatt",
+          "SolutionLabel": "Loesung",
+          "SolutionText": "1: [1, inf, inf, inf]\n2: [1, 2, inf, inf]\n3: [1, 2, 3, inf]\n4: [1, 2, 3, 4]\n1: [1, 2, 3, 4]\n2: [1, 2, 3, 4]\n5: [1, 2, 5, 4]\n1: [1, 2, 5, 4]\n2: [1, 2, 5, 4]\n3: [1, 2, 5, 3]\n4: [1, 2, 4, 3]\n5: [5, 2, 4, 3]",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}

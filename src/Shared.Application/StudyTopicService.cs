@@ -32,6 +32,8 @@ public sealed class StudyTopicService
     private const string NQueensSlugEn = "n-queens";
     private const string GraphVisualizationSlug = "graph-visualisierung";
     private const string GraphVisualizationSlugEn = "graph-visualization";
+    private const string PageReplacementExerciseSlug = "seitenersetzung";
+    private const string PageReplacementExerciseSlugEn = "page-replacement";
 
     private static readonly JsonSerializerOptions ExerciseJsonOptions = new()
     {
@@ -92,6 +94,8 @@ public sealed class StudyTopicService
             || string.Equals(slug, BinaryToDecimalSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, PageReplacementExerciseSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, PageReplacementExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, ShortestPathExerciseSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, ShortestPathExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, SpanningTreeExerciseSlug, StringComparison.OrdinalIgnoreCase)
@@ -114,6 +118,8 @@ public sealed class StudyTopicService
             || string.Equals(slug, BinaryToDecimalSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, PageReplacementExerciseSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, PageReplacementExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, ShortestPathExerciseSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, ShortestPathExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, SpanningTreeExerciseSlug, StringComparison.OrdinalIgnoreCase)
@@ -141,6 +147,7 @@ public sealed class StudyTopicService
         {
             "binary-to-decimal" => isEnglish ? "Binary to decimal" : "Binaer zu Dezimal",
             "decimal-to-binary" => isEnglish ? "Decimal to binary" : "Dezimal zu Binaer",
+            "page-replacement" => isEnglish ? "Page replacement" : "Seitenersetzung",
             "shortest-path" => isEnglish ? "Shortest paths" : "Kuerzeste Wege",
             "spanning-tree" => isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum",
             "twos-complement" => isEnglish ? "Two's complement" : "Zweierkomplement",
@@ -159,6 +166,9 @@ public sealed class StudyTopicService
             "decimal-to-binary" => isEnglish
                 ? "JSON import is now the primary source for this worksheet. If the file is missing, edu falls back to runtime generation."
                 : "JSON-Import ist jetzt die primaere Quelle fuer dieses Aufgabenblatt. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck.",
+            "page-replacement" => isEnglish
+                ? "This imported worksheet demonstrates the shared worksheet block on a table-based page-replacement task without a graph figure."
+                : "Dieses importierte Arbeitsblatt demonstriert den gemeinsamen Worksheet-Block an einer tabellenbasierten Seitenersetzungsaufgabe ohne Graphabbildung.",
             "shortest-path" => isEnglish
                 ? "This imported worksheet demonstrates the shared graph-and-table block on a shortest-path task. If the file is missing, edu falls back to runtime generation."
                 : "Dieses importierte Arbeitsblatt demonstriert den gemeinsamen Graph-und-Tabellen-Block an einer Kuerzeste-Wege-Aufgabe. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck.",
@@ -266,6 +276,7 @@ public sealed class StudyTopicService
             BinaryAdditionSlug or BinaryAdditionSlugEn => "binary-addition",
             BinaryToDecimalSlug or BinaryToDecimalSlugEn => "binary-to-decimal",
             DecimalToBinarySlug or DecimalToBinarySlugEn => "decimal-to-binary",
+            PageReplacementExerciseSlug or PageReplacementExerciseSlugEn => "page-replacement",
             ShortestPathExerciseSlug or ShortestPathExerciseSlugEn => "shortest-path",
             SpanningTreeExerciseSlug or SpanningTreeExerciseSlugEn => "spanning-tree",
             TwosComplementSlug or TwosComplementSlugEn => "twos-complement",
@@ -290,6 +301,10 @@ public sealed class StudyTopicService
                 "decimal-to-binary",
                 isEnglish ? "Decimal to binary" : "Dezimal zu Binaer",
                 isEnglish ? "Convert decimal values into bit patterns." : "Wandle Dezimalwerte in Bitmuster um."),
+            new ExerciseTopicOptionViewModel(
+                "page-replacement",
+                isEnglish ? "Page replacement" : "Seitenersetzung",
+                isEnglish ? "Solve a table-based worksheet for memory page replacement." : "Loese ein tabellenbasiertes Arbeitsblatt zur Seitenersetzung."),
             new ExerciseTopicOptionViewModel(
                 "shortest-path",
                 isEnglish ? "Shortest paths" : "Kuerzeste Wege",

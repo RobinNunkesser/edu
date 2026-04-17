@@ -1,0 +1,60 @@
+{
+  "Title": "Printable single-task sheet",
+  "Intro": "This worksheet uses the same generalized worksheet-response block for a table-based task without a graph figure.",
+  "SourceLabel": "Source",
+  "SourceValue": "Exam Generator / edu POC",
+  "PrintHint": "Use the browser print dialog for a PDF export.",
+  "PrintLabel": "Print / PDF",
+  "ShowSolutionLabel": "Show solution",
+  "HideSolutionLabel": "Hide solution",
+  "Sections": [
+    {
+      "Title": "Task",
+      "Intro": "Work through the page replacement for the given reference sequence using Least Recently Used and document memory frames and distance values in the worksheet table.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "This third complex example reuses the same worksheet-response block as the graph worksheets, but with a response table only."
+        },
+        {
+          "$type": "worksheet-response",
+          "Title": "Page replacement: Least Recently Used",
+          "Intro": "Process the reference sequence from left to right and record memory contents and distance values for every step.",
+          "Figure": null,
+          "Table": {
+            "RowHeaderLabel": "Ref",
+            "TableAriaLabel": "Worksheet table for page replacement",
+            "Columns": [
+              { "Header": "1" },
+              { "Header": "2" },
+              { "Header": "3" },
+              { "Header": "4" },
+              { "Header": "1" },
+              { "Header": "2" },
+              { "Header": "5" },
+              { "Header": "1" },
+              { "Header": "2" },
+              { "Header": "3" },
+              { "Header": "4" },
+              { "Header": "5" }
+            ],
+            "Rows": [
+              { "Header": "Kachel 1", "Cells": ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "5"] },
+              { "Header": "Kachel 2", "Cells": ["inf", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2"] },
+              { "Header": "Kachel 3", "Cells": ["inf", "inf", "3", "3", "3", "3", "5", "5", "5", "5", "4", "4"] },
+              { "Header": "Kachel 4", "Cells": ["inf", "inf", "inf", "4", "4", "4", "4", "4", "4", "3", "3", "3"] },
+              { "Header": "Abstand 1", "Cells": ["0", "1", "2", "3", "0", "1", "2", "0", "1", "2", "3", "0"] },
+              { "Header": "Abstand 2", "Cells": ["inf", "0", "1", "2", "3", "0", "1", "2", "0", "1", "2", "3"] },
+              { "Header": "Abstand 3", "Cells": ["inf", "inf", "0", "1", "2", "3", "0", "1", "2", "3", "0", "1"] },
+              { "Header": "Abstand 4", "Cells": ["inf", "inf", "inf", "0", "1", "2", "3", "4", "5", "0", "1", "2"] }
+            ]
+          },
+          "AnswerLabel": "Worksheet",
+          "SolutionLabel": "Solution",
+          "SolutionText": "1: [1, inf, inf, inf]\n2: [1, 2, inf, inf]\n3: [1, 2, 3, inf]\n4: [1, 2, 3, 4]\n1: [1, 2, 3, 4]\n2: [1, 2, 3, 4]\n5: [1, 2, 5, 4]\n1: [1, 2, 5, 4]\n2: [1, 2, 5, 4]\n3: [1, 2, 5, 3]\n4: [1, 2, 4, 3]\n5: [5, 2, 4, 3]",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}
