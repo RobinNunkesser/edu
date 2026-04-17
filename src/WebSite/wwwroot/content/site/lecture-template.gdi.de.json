@@ -38,9 +38,24 @@
       "intro": "",
       "links": [
         {
-          "title": "GDI Übungsstudio",
-          "url": "/study/gdi-uebungen",
-          "description": "Interaktive Aufgaben zu Informationsdarstellung auf einer verdichteten Seite mit Themenwahl, Neugenerierung und Druckansicht."
+          "title": "Binäre Addition",
+          "url": "/study/binaere-addition",
+          "description": "Eigenständige Aufgabenseite mit Interaktivmodus, Aufgabenblattansicht, Lösungsansicht und Druckfunktion."
+        },
+        {
+          "title": "Binär zu Dezimal",
+          "url": "/study/binaer-zu-dezimal",
+          "description": "Einzelaufgabe für die Umwandlung von Bitmustern in Dezimalzahlen mit denselben wiederverwendbaren Aktionen."
+        },
+        {
+          "title": "Dezimal zu Binär",
+          "url": "/study/dezimal-zu-binaer",
+          "description": "Einzelaufgabe für die Umwandlung von Dezimalzahlen in Binärdarstellung mit frischer Variante und Druckansicht."
+        },
+        {
+          "title": "Zweierkomplement",
+          "url": "/study/zweierkomplement",
+          "description": "Eigenständige Übungsseite zur Darstellung negativer Zahlen im Zweierkomplement."
         },
         {
           "title": "Minimaler Spannbaum (MST)",

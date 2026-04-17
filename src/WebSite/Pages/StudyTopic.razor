@@ -76,12 +76,10 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
     }
 
     <section class="page-section exercise-toolbar">
-        @if (IsExerciseStudio)
-        {
-            <span class="exercise-toolbar-topic">@SelectedExerciseTitle</span>
-            <button class="btn btn-outline-primary" @onclick="GenerateFreshExerciseAsync">@FreshVariantLabel</button>
-            <button class="btn btn-outline-primary" @onclick="RestoreImportedExerciseAsync" disabled="@(!_useRuntimeExerciseDocument)">@ImportedVariantLabel</button>
-        }
+        <span class="exercise-toolbar-topic">@SelectedExerciseTitle</span>
+        <span class="tag">@CurrentExerciseSheetLabel</span>
+        <button class="btn btn-outline-primary" @onclick="GenerateFreshExerciseAsync">@FreshVariantLabel</button>
+        <button class="btn btn-outline-primary" @onclick="RestoreImportedExerciseAsync" disabled="@(!_useRuntimeExerciseDocument)">@ImportedVariantLabel</button>
         <button class="@(InteractiveExerciseMode ? "btn btn-primary" : "btn btn-outline-primary")" @onclick="() => SetExerciseMode(true)">@InteractiveModeLabel</button>
         <button class="@(!InteractiveExerciseMode ? "btn btn-primary" : "btn btn-outline-primary")" @onclick="() => SetExerciseMode(false)">@WorksheetModeLabel</button>
         <button class="btn btn-outline-primary" @onclick="ToggleExerciseSolution">
@@ -94,6 +92,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
 
     <section class="page-section resource-card exercise-document-card exercise-print-host">
         <div class="section-heading">
+            <p class="exercise-document-state">@CurrentExerciseSheetLabel</p>
             <h2>@CurrentExerciseDocument.Title</h2>
             <p>@CurrentExerciseDocument.Intro</p>
         </div>
@@ -142,15 +141,18 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                                         <pre class="binary-addition-pre">@FormatBinaryAdditionPrompt(variant)</pre>
                                                     </div>
                                                     <div>
-                                                        <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
-                                                        <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Sum)"
-                                                               value="@GetExerciseAnswer(answerKey)"
-                                                               @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
-                                                        <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Sum)</p>
                                                         @if (ShowExerciseSolution)
                                                         {
                                                             <p class="exercise-solution-caption">@addition.SolutionLabel</p>
                                                             <pre class="binary-addition-pre">@variant.Sum</pre>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
+                                                            <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Sum)"
+                                                                   value="@GetExerciseAnswer(answerKey)"
+                                                                   @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
+                                                            <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Sum)</p>
                                                         }
                                                     </div>
                                                 </div>
@@ -190,15 +192,18 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                                         <pre class="binary-addition-pre">@variant.Prompt</pre>
                                                     </div>
                                                     <div>
-                                                        <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
-                                                        <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Answer)"
-                                                               value="@GetExerciseAnswer(answerKey)"
-                                                               @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
-                                                        <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Answer)</p>
                                                         @if (ShowExerciseSolution)
                                                         {
                                                             <p class="exercise-solution-caption">@promptAnswer.SolutionLabel</p>
                                                             <pre class="binary-addition-pre">@variant.Answer</pre>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="exercise-solution-caption">@promptAnswer.AnswerLabel</p>
+                                                            <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Answer)"
+                                                                   value="@GetExerciseAnswer(answerKey)"
+                                                                   @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
+                                                            <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Answer)</p>
                                                         }
                                                     </div>
                                                 </div>
@@ -269,19 +274,20 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                         var answerKey = GetExerciseAnswerKey(worksheetResponse.Title, "worksheet");
                                         <div class="exercise-prompt-answer-grid">
                                             <div>
-                                                <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
-                                                <textarea class="exercise-answer-input exercise-answer-textarea"
-                                                          rows="@worksheetResponse.AnswerLineCount"
-                                                          value="@GetExerciseAnswer(answerKey)"
-                                                          @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)"></textarea>
-                                            </div>
-                                            @if (ShowExerciseSolution)
-                                            {
-                                                <div>
+                                                @if (ShowExerciseSolution)
+                                                {
                                                     <p class="exercise-solution-caption">@worksheetResponse.SolutionLabel</p>
                                                     <pre class="binary-addition-pre">@worksheetResponse.SolutionText</pre>
-                                                </div>
-                                            }
+                                                }
+                                                else
+                                                {
+                                                    <p class="exercise-solution-caption">@worksheetResponse.AnswerLabel</p>
+                                                    <textarea class="exercise-answer-input exercise-answer-textarea"
+                                                              rows="@worksheetResponse.AnswerLineCount"
+                                                              value="@GetExerciseAnswer(answerKey)"
+                                                              @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)"></textarea>
+                                                }
+                                            </div>
                                         </div>
                                     }
                                     else if (ShowExerciseSolution)
@@ -301,7 +307,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
             <header class="exercise-print-header">
                 <div>
                     <p class="exercise-print-kicker">@_topic.SectionLabel</p>
-                    <p class="exercise-print-sheet-type">@PrintWorksheetLabel</p>
+                    <p class="exercise-print-sheet-type">@CurrentExerciseSheetLabel</p>
                     <h2>@SelectedExerciseTitle</h2>
                     <p class="exercise-print-intro">@CurrentExerciseDocument.Intro</p>
                 </div>
@@ -880,6 +886,8 @@ else
 
     private string PrintWorksheetLabel => CurrentLanguage == SiteLanguage.En ? "Printable worksheet" : "Druckbares Aufgabenblatt";
 
+    private string PrintSolutionLabel => CurrentLanguage == SiteLanguage.En ? "Printable solution sheet" : "Druckbares Loesungsblatt";
+
     private string PrintTaskLabel => CurrentLanguage == SiteLanguage.En ? "Task" : "Aufgabe";
 
     private string ExerciseStudioTitle => CurrentLanguage == SiteLanguage.En ? "Choose exercise type" : "Aufgabentyp waehlen";
@@ -891,6 +899,8 @@ else
     private string FreshVariantLabel => CurrentLanguage == SiteLanguage.En ? "Fresh variant" : "Neue Variante";
 
     private string ImportedVariantLabel => CurrentLanguage == SiteLanguage.En ? "Imported default" : "Importierte Standardversion";
+
+    private string CurrentExerciseSheetLabel => ShowExerciseSolution ? PrintSolutionLabel : PrintWorksheetLabel;
 
     private string SelectedExerciseTitle => CurrentExerciseOptions.FirstOrDefault(option => option.Key == _selectedExerciseKey)?.Title
         ?? _topic?.Title

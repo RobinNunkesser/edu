@@ -223,6 +223,15 @@ a {
     gap: 1.5rem;
 }
 
+.exercise-document-state {
+    margin: 0 0 0.2rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #58799a;
+}
+
 .exercise-page-shell {
     display: grid;
 }

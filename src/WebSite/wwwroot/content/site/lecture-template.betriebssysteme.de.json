@@ -121,6 +121,17 @@
       ]
     },
     {
+      "title": "Interaktive Übungen / Demonstratoren",
+      "intro": "",
+      "links": [
+        {
+          "title": "Seitenersetzung mit LRU",
+          "url": "/study/seitenersetzung",
+          "description": "Eigenständige Aufgabenseite zur Seitenersetzung mit Interaktivmodus, Aufgabenblattansicht, Lösungsansicht und Druckfunktion."
+        }
+      ]
+    },
+    {
       "title": "Folien",
       "intro": "",
       "links": [
