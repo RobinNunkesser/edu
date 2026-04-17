@@ -336,7 +336,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                         </tbody>
                                     </table>
                                 }
-                                else if (IsDecimalToBinaryTemplate(promptAnswer))
+                                else if (promptAnswer.Presentation == ExercisePromptAnswerPresentation.WorkingBox)
                                 {
                                     <div class="exercise-print-decimal-binary-grid">
                                         @foreach (var variant in promptAnswer.Variants)
@@ -358,7 +358,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                         }
                                     </div>
                                 }
-                                else if (UsesLongAnswerLineTemplate(promptAnswer))
+                                else if (promptAnswer.Presentation == ExercisePromptAnswerPresentation.WideAnswerLine)
                                 {
                                     <table class="exercise-print-table exercise-print-table-wide-answer">
                                         <thead>
@@ -1022,27 +1022,6 @@ else
         => string.Equals(_selectedExerciseKey, exerciseKey, StringComparison.Ordinal)
             ? "exercise-studio-option exercise-studio-option-active"
             : "exercise-studio-option";
-
-    private static bool IsTwosComplementTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
-        => promptAnswer.Title.Contains("Zweier", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.Title.Contains("complement", StringComparison.OrdinalIgnoreCase);
-
-    private static bool IsDecimalToBinaryTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
-        => promptAnswer.Title.Contains("Dezimal nach Binaer", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.Title.Contains("Decimal to binary", StringComparison.OrdinalIgnoreCase);
-
-    private static bool UsesLongAnswerLineTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
-        => IsTwosComplementTemplate(promptAnswer)
-            || promptAnswer.Title.Contains("Binaer nach Dezimal", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.Title.Contains("Binary to decimal", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.AnswerLabel.Contains("Dezimal", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.AnswerLabel.Contains("complement", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.AnswerLabel.Contains("Zweier", StringComparison.OrdinalIgnoreCase);
-
-    private static bool UsesWorkingArea(ExercisePromptAnswerBlockViewModel promptAnswer)
-        => promptAnswer.Title.Contains("Zweier", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.Title.Contains("complement", StringComparison.OrdinalIgnoreCase)
-            || promptAnswer.PromptLabel.Contains("Dezimal", StringComparison.OrdinalIgnoreCase);
 
     private static bool AreAnswersEquivalent(string actualAnswer, string expectedAnswer)
     {

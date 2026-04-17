@@ -92,6 +92,7 @@ public static class ExerciseDocumentFactory
             promptLabelEn: "Binary value",
             answerLabelDe: "Dezimalzahl",
             answerLabelEn: "Decimal value",
+            presentation: ExercisePromptAnswerPresentation.WideAnswerLine,
             variants: variants);
     }
 
@@ -118,6 +119,7 @@ public static class ExerciseDocumentFactory
             promptLabelEn: "Decimal value",
             answerLabelDe: "Binaerzahl",
             answerLabelEn: "Binary value",
+            presentation: ExercisePromptAnswerPresentation.WorkingBox,
             variants: variants);
     }
 
@@ -143,6 +145,7 @@ public static class ExerciseDocumentFactory
             promptLabelEn: "Decimal value",
             answerLabelDe: "Zweierkomplement",
             answerLabelEn: "Two's complement",
+            presentation: ExercisePromptAnswerPresentation.WideAnswerLine,
             variants: variants);
     }
 
@@ -162,6 +165,7 @@ public static class ExerciseDocumentFactory
         string promptLabelEn,
         string answerLabelDe,
         string answerLabelEn,
+        ExercisePromptAnswerPresentation presentation,
         IReadOnlyList<PromptAnswerVariantViewModel> variants)
     {
         var isEnglish = language == SiteLanguage.En;
@@ -191,6 +195,7 @@ public static class ExerciseDocumentFactory
                             PromptLabel: isEnglish ? promptLabelEn : promptLabelDe,
                             AnswerLabel: isEnglish ? answerLabelEn : answerLabelDe,
                             SolutionLabel: isEnglish ? "Solution" : "Loesung",
+                            Presentation: presentation,
                             Variants: variants)
                     ])
             ]);
