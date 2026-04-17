@@ -98,124 +98,240 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
             </div>
         </div>
 
-        @foreach (var exerciseSection in CurrentExerciseDocument.Sections)
-        {
-            <section class="exercise-section-card">
-                <div class="section-heading">
-                    <h3>@exerciseSection.Title</h3>
-                    <p>@exerciseSection.Intro</p>
+        <div class="exercise-screen-content">
+            @foreach (var exerciseSection in CurrentExerciseDocument.Sections)
+            {
+                <section class="exercise-section-card">
+                    <div class="section-heading">
+                        <h3>@exerciseSection.Title</h3>
+                        <p>@exerciseSection.Intro</p>
+                    </div>
+
+                    @foreach (var block in exerciseSection.Blocks)
+                    {
+                        if (block is ExerciseParagraphBlockViewModel paragraph)
+                        {
+                            <p class="exercise-paragraph">@paragraph.Text</p>
+                        }
+                        else if (block is ExerciseBinaryAdditionBlockViewModel addition)
+                        {
+                            <section class="exercise-binary-block">
+                                <div class="section-heading">
+                                    <h3>@addition.Title</h3>
+                                    <p>@addition.Intro</p>
+                                </div>
+
+                                <div class="resource-grid exercise-variant-grid">
+                                    @foreach (var variant in addition.Variants)
+                                    {
+                                        <article class="resource-card exercise-variant-card">
+                                            <p class="feature-card-kicker">@variant.Label</p>
+                                            @if (InteractiveExerciseMode)
+                                            {
+                                                var answerKey = GetExerciseAnswerKey(addition.Title, variant.Label);
+                                                <div class="exercise-prompt-answer-grid">
+                                                    <div>
+                                                        <p class="exercise-solution-caption">@addition.Title</p>
+                                                        <pre class="binary-addition-pre">@FormatBinaryAdditionPrompt(variant)</pre>
+                                                    </div>
+                                                    <div>
+                                                        <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
+                                                        <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Sum)"
+                                                               value="@GetExerciseAnswer(answerKey)"
+                                                               @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
+                                                        <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Sum)</p>
+                                                        @if (ShowExerciseSolution)
+                                                        {
+                                                            <p class="exercise-solution-caption">@addition.SolutionLabel</p>
+                                                            <pre class="binary-addition-pre">@variant.Sum</pre>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <pre class="binary-addition-pre">@FormatBinaryAddition(variant)</pre>
+                                                @if (ShowExerciseSolution)
+                                                {
+                                                    <p class="exercise-solution-caption">@addition.SolutionLabel</p>
+                                                }
+                                            }
+                                        </article>
+                                    }
+                                </div>
+                            </section>
+                        }
+                        else if (block is ExercisePromptAnswerBlockViewModel promptAnswer)
+                        {
+                            <section class="exercise-binary-block">
+                                <div class="section-heading">
+                                    <h3>@promptAnswer.Title</h3>
+                                    <p>@promptAnswer.Intro</p>
+                                </div>
+
+                                <div class="resource-grid exercise-variant-grid">
+                                    @foreach (var variant in promptAnswer.Variants)
+                                    {
+                                        <article class="resource-card exercise-variant-card">
+                                            <p class="feature-card-kicker">@variant.Label</p>
+                                            @if (InteractiveExerciseMode)
+                                            {
+                                                var answerKey = GetExerciseAnswerKey(promptAnswer.Title, variant.Label);
+                                                <div class="exercise-prompt-answer-grid">
+                                                    <div>
+                                                        <p class="exercise-solution-caption">@promptAnswer.PromptLabel</p>
+                                                        <pre class="binary-addition-pre">@variant.Prompt</pre>
+                                                    </div>
+                                                    <div>
+                                                        <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
+                                                        <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Answer)"
+                                                               value="@GetExerciseAnswer(answerKey)"
+                                                               @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
+                                                        <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Answer)</p>
+                                                        @if (ShowExerciseSolution)
+                                                        {
+                                                            <p class="exercise-solution-caption">@promptAnswer.SolutionLabel</p>
+                                                            <pre class="binary-addition-pre">@variant.Answer</pre>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="exercise-prompt-answer-grid">
+                                                    <div>
+                                                        <p class="exercise-solution-caption">@promptAnswer.PromptLabel</p>
+                                                        <pre class="binary-addition-pre">@variant.Prompt</pre>
+                                                    </div>
+                                                    <div>
+                                                        <p class="exercise-solution-caption">@(ShowExerciseSolution ? promptAnswer.SolutionLabel : promptAnswer.AnswerLabel)</p>
+                                                        <pre class="binary-addition-pre">@FormatPromptAnswer(variant.Answer)</pre>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </article>
+                                    }
+                                </div>
+                            </section>
+                        }
+                    }
+                </section>
+            }
+        </div>
+
+        <section class="exercise-print-sheet" aria-hidden="true">
+            <header class="exercise-print-header">
+                <div>
+                    <p class="exercise-print-kicker">@_topic.SectionLabel</p>
+                    <h2>@SelectedExerciseTitle</h2>
+                    <p class="exercise-print-intro">@CurrentExerciseDocument.Intro</p>
                 </div>
 
-                @foreach (var block in exerciseSection.Blocks)
-                {
-                    if (block is ExerciseParagraphBlockViewModel paragraph)
-                    {
-                        <p class="exercise-paragraph">@paragraph.Text</p>
-                    }
-                    else if (block is ExerciseBinaryAdditionBlockViewModel addition)
-                    {
-                        <section class="exercise-binary-block">
-                            <div class="section-heading">
-                                <h3>@addition.Title</h3>
-                                <p>@addition.Intro</p>
-                            </div>
+                <div class="exercise-print-meta">
+                    <div class="exercise-print-field">
+                        <span>@PrintNameLabel</span>
+                        <div class="exercise-print-line"></div>
+                    </div>
+                    <div class="exercise-print-field">
+                        <span>@PrintCourseLabel</span>
+                        <div class="exercise-print-line"></div>
+                    </div>
+                    <div class="exercise-print-field-grid">
+                        <div class="exercise-print-field">
+                            <span>@PrintDateLabel</span>
+                            <div class="exercise-print-line"></div>
+                        </div>
+                        <div class="exercise-print-field">
+                            <span>@PrintGroupLabel</span>
+                            <div class="exercise-print-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-                            <div class="resource-grid exercise-variant-grid">
-                                @foreach (var variant in addition.Variants)
-                                {
-                                    <article class="resource-card exercise-variant-card">
-                                        <p class="feature-card-kicker">@variant.Label</p>
-                                        @if (InteractiveExerciseMode)
+            <div class="exercise-print-source">
+                <strong>@CurrentExerciseDocument.SourceLabel:</strong> @CurrentExerciseDocument.SourceValue
+            </div>
+
+            @foreach (var exerciseSection in CurrentExerciseDocument.Sections)
+            {
+                <section class="exercise-print-section">
+                    <div class="exercise-print-section-header">
+                        <h3>@exerciseSection.Title</h3>
+                        <p>@exerciseSection.Intro</p>
+                    </div>
+
+                    @foreach (var block in exerciseSection.Blocks)
+                    {
+                        if (block is ExerciseParagraphBlockViewModel paragraph)
+                        {
+                            <p class="exercise-print-paragraph">@paragraph.Text</p>
+                        }
+                        else if (block is ExerciseBinaryAdditionBlockViewModel addition)
+                        {
+                            <section class="exercise-print-block">
+                                <p class="exercise-print-block-title">@addition.Title</p>
+                                <p class="exercise-print-block-intro">@addition.Intro</p>
+
+                                <div class="exercise-print-addition-grid">
+                                    @foreach (var variant in addition.Variants)
+                                    {
+                                        <article class="exercise-print-addition-card">
+                                            <div class="exercise-print-variant-label">@variant.Label</div>
+                                            <div class="exercise-print-sum">
+                                                <div class="exercise-print-sum-line">@variant.LeftAddend</div>
+                                                <div class="exercise-print-sum-line">+ @variant.RightAddend</div>
+                                                <div class="exercise-print-sum-separator"></div>
+                                                <div class="exercise-print-sum-line">@(ShowExerciseSolution ? variant.Sum : new string('_', variant.Sum.Length))</div>
+                                            </div>
+                                        </article>
+                                    }
+                                </div>
+                            </section>
+                        }
+                        else if (block is ExercisePromptAnswerBlockViewModel promptAnswer)
+                        {
+                            <section class="exercise-print-block">
+                                <p class="exercise-print-block-title">@promptAnswer.Title</p>
+                                <p class="exercise-print-block-intro">@promptAnswer.Intro</p>
+
+                                <table class="exercise-print-table">
+                                    <thead>
+                                        <tr>
+                                            <th>@PrintNumberLabel</th>
+                                            <th>@promptAnswer.PromptLabel</th>
+                                            <th>@(ShowExerciseSolution ? promptAnswer.SolutionLabel : promptAnswer.AnswerLabel)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var variant in promptAnswer.Variants)
                                         {
-                                            var answerKey = GetExerciseAnswerKey(addition.Title, variant.Label);
-                                            <div class="exercise-prompt-answer-grid">
-                                                <div>
-                                                    <p class="exercise-solution-caption">@addition.Title</p>
-                                                    <pre class="binary-addition-pre">@FormatBinaryAdditionPrompt(variant)</pre>
-                                                </div>
-                                                <div>
-                                                    <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
-                                                    <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Sum)"
-                                                           value="@GetExerciseAnswer(answerKey)"
-                                                           @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
-                                                    <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Sum)</p>
+                                            <tr>
+                                                <td>@variant.Label</td>
+                                                <td><span class="exercise-print-mono">@variant.Prompt</span></td>
+                                                <td>
                                                     @if (ShowExerciseSolution)
                                                     {
-                                                        <p class="exercise-solution-caption">@addition.SolutionLabel</p>
-                                                        <pre class="binary-addition-pre">@variant.Sum</pre>
+                                                        <span class="exercise-print-mono">@variant.Answer</span>
                                                     }
-                                                </div>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <pre class="binary-addition-pre">@FormatBinaryAddition(variant)</pre>
-                                            @if (ShowExerciseSolution)
-                                            {
-                                                <p class="exercise-solution-caption">@addition.SolutionLabel</p>
-                                            }
-                                        }
-                                    </article>
-                                }
-                            </div>
-                        </section>
-                    }
-                    else if (block is ExercisePromptAnswerBlockViewModel promptAnswer)
-                    {
-                        <section class="exercise-binary-block">
-                            <div class="section-heading">
-                                <h3>@promptAnswer.Title</h3>
-                                <p>@promptAnswer.Intro</p>
-                            </div>
-
-                            <div class="resource-grid exercise-variant-grid">
-                                @foreach (var variant in promptAnswer.Variants)
-                                {
-                                    <article class="resource-card exercise-variant-card">
-                                        <p class="feature-card-kicker">@variant.Label</p>
-                                        @if (InteractiveExerciseMode)
-                                        {
-                                            var answerKey = GetExerciseAnswerKey(promptAnswer.Title, variant.Label);
-                                            <div class="exercise-prompt-answer-grid">
-                                                <div>
-                                                    <p class="exercise-solution-caption">@promptAnswer.PromptLabel</p>
-                                                    <pre class="binary-addition-pre">@variant.Prompt</pre>
-                                                </div>
-                                                <div>
-                                                    <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
-                                                    <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Answer)"
-                                                           value="@GetExerciseAnswer(answerKey)"
-                                                           @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
-                                                    <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Answer)</p>
-                                                    @if (ShowExerciseSolution)
+                                                    else
                                                     {
-                                                        <p class="exercise-solution-caption">@promptAnswer.SolutionLabel</p>
-                                                        <pre class="binary-addition-pre">@variant.Answer</pre>
+                                                        <div class="exercise-print-answer-lines">
+                                                            <div class="exercise-print-answer-line"></div>
+                                                            <div class="exercise-print-answer-line"></div>
+                                                        </div>
                                                     }
-                                                </div>
-                                            </div>
+                                                </td>
+                                            </tr>
                                         }
-                                        else
-                                        {
-                                            <div class="exercise-prompt-answer-grid">
-                                                <div>
-                                                    <p class="exercise-solution-caption">@promptAnswer.PromptLabel</p>
-                                                    <pre class="binary-addition-pre">@variant.Prompt</pre>
-                                                </div>
-                                                <div>
-                                                    <p class="exercise-solution-caption">@(ShowExerciseSolution ? promptAnswer.SolutionLabel : promptAnswer.AnswerLabel)</p>
-                                                    <pre class="binary-addition-pre">@FormatPromptAnswer(variant.Answer)</pre>
-                                                </div>
-                                            </div>
-                                        }
-                                    </article>
-                                }
-                            </div>
-                        </section>
+                                    </tbody>
+                                </table>
+                            </section>
+                        }
                     }
-                }
-            </section>
-        }
+                </section>
+            }
+        </section>
     </section>
 }
 else
@@ -535,6 +651,16 @@ else
 
     private string ExerciseAnswerLabel => CurrentLanguage == SiteLanguage.En ? "Your answer" : "Deine Antwort";
 
+    private string PrintNameLabel => CurrentLanguage == SiteLanguage.En ? "Name" : "Name";
+
+    private string PrintCourseLabel => CurrentLanguage == SiteLanguage.En ? "Matriculation no." : "Matrikelnummer";
+
+    private string PrintDateLabel => CurrentLanguage == SiteLanguage.En ? "Date" : "Datum";
+
+    private string PrintGroupLabel => CurrentLanguage == SiteLanguage.En ? "Group" : "Gruppe";
+
+    private string PrintNumberLabel => CurrentLanguage == SiteLanguage.En ? "No." : "Nr.";
+
     private string ExerciseStudioTitle => CurrentLanguage == SiteLanguage.En ? "Choose exercise type" : "Aufgabentyp waehlen";
 
     private string ExerciseStudioIntro => CurrentLanguage == SiteLanguage.En
@@ -686,7 +812,12 @@ else
         InitializeExerciseAnswers();
     }
 
-    private async Task PrintExercise() => await JsRuntime.InvokeVoidAsync("print");
+    private async Task PrintExercise()
+    {
+        InteractiveExerciseMode = false;
+        await InvokeAsync(StateHasChanged);
+        await JsRuntime.InvokeVoidAsync("print");
+    }
 
     private string FormatBinaryAddition(BinaryAdditionVariantViewModel variant)
     {

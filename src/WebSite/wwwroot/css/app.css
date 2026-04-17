@@ -223,6 +223,164 @@ a {
     gap: 1.5rem;
 }
 
+.exercise-print-sheet {
+    display: none;
+}
+
+.exercise-print-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 1.75rem;
+    align-items: start;
+}
+
+.exercise-print-kicker {
+    margin: 0 0 0.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #58799a;
+}
+
+.exercise-print-intro {
+    margin: 0.5rem 0 0;
+    line-height: 1.55;
+}
+
+.exercise-print-meta {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.exercise-print-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.exercise-print-field {
+    display: grid;
+    gap: 0.3rem;
+}
+
+.exercise-print-field span {
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #58799a;
+}
+
+.exercise-print-line {
+    min-height: 1.5rem;
+    border-bottom: 1px solid rgba(24, 49, 79, 0.58);
+}
+
+.exercise-print-source {
+    margin-top: 1.15rem;
+    font-size: 0.96rem;
+}
+
+.exercise-print-section {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.6rem;
+}
+
+.exercise-print-section-header h3,
+.exercise-print-section-header p,
+.exercise-print-block-title,
+.exercise-print-block-intro,
+.exercise-print-paragraph {
+    margin: 0;
+}
+
+.exercise-print-section-header p,
+.exercise-print-block-intro,
+.exercise-print-paragraph {
+    line-height: 1.55;
+}
+
+.exercise-print-block {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.exercise-print-block-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+}
+
+.exercise-print-addition-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.exercise-print-addition-card {
+    border: 1px solid rgba(24, 49, 79, 0.18);
+    padding: 0.85rem 1rem 1rem;
+}
+
+.exercise-print-variant-label {
+    margin-bottom: 0.55rem;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.exercise-print-sum {
+    width: 12ch;
+    margin-left: auto;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.04rem;
+    line-height: 1.55;
+}
+
+.exercise-print-sum-line {
+    text-align: right;
+    white-space: pre;
+}
+
+.exercise-print-sum-separator {
+    margin: 0.15rem 0 0.2rem;
+    border-top: 1px solid rgba(24, 49, 79, 0.85);
+}
+
+.exercise-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.98rem;
+}
+
+.exercise-print-table th,
+.exercise-print-table td {
+    padding: 0.55rem 0.45rem;
+    border-bottom: 1px solid rgba(24, 49, 79, 0.18);
+    vertical-align: top;
+    text-align: left;
+}
+
+.exercise-print-table th {
+    font-size: 0.83rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.exercise-print-mono {
+    font-family: "Courier New", Courier, monospace;
+    white-space: pre;
+}
+
+.exercise-print-answer-lines {
+    display: grid;
+    gap: 0.55rem;
+    min-height: 2.8rem;
+}
+
+.exercise-print-answer-line {
+    min-height: 1.15rem;
+    border-bottom: 1px solid rgba(24, 49, 79, 0.58);
+}
+
 .exercise-section-card {
     display: grid;
     gap: 1rem;
@@ -329,15 +487,34 @@ a {
 }
 
 @media print {
+    @page {
+        size: A4 portrait;
+        margin: 16mm 14mm 16mm 14mm;
+    }
+
     html,
     body {
         background: #ffffff;
+        color: #000000;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11pt;
     }
 
     .exercise-toolbar,
+    .exercise-studio-card,
     .nav-scrollable,
     .top-row {
         display: none !important;
+    }
+
+    .exercise-screen-content,
+    .resource-table,
+    .tag-row {
+        display: none !important;
+    }
+
+    .exercise-print-sheet {
+        display: block;
     }
 
     .page-intro,
@@ -346,11 +523,35 @@ a {
     .lecture-meta-card {
         background: #ffffff;
         box-shadow: none;
-        border-color: rgba(24, 49, 79, 0.15);
+        border: none;
+        border-color: transparent;
+        border-radius: 0;
+        padding: 0;
     }
 
     .content {
         padding-top: 0;
+    }
+
+    .page-section {
+        margin: 0;
+    }
+
+    .exercise-document-card {
+        gap: 0;
+    }
+
+    .exercise-print-header,
+    .exercise-print-field-grid,
+    .exercise-print-addition-grid {
+        break-inside: avoid;
+    }
+
+    .exercise-print-section,
+    .exercise-print-block,
+    .exercise-print-addition-card,
+    .exercise-print-table tr {
+        break-inside: avoid;
     }
 }
 
