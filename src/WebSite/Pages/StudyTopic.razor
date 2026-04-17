@@ -254,6 +254,71 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                 </article>
                             </section>
                         }
+                        else if (block is ExerciseFigureTableResponseBlockViewModel figureTableResponse)
+                        {
+                            <section class="exercise-binary-block">
+                                <div class="section-heading">
+                                    <h3>@figureTableResponse.Title</h3>
+                                    <p>@figureTableResponse.Intro</p>
+                                </div>
+
+                                <article class="resource-card exercise-figure-card">
+                                    <img class="exercise-figure-image" src="@figureTableResponse.FigureSource" alt="@figureTableResponse.FigureAltText" />
+
+                                    <div class="exercise-table-wrapper">
+                                        <table class="exercise-response-table" aria-label="@figureTableResponse.TableAriaLabel">
+                                            <thead>
+                                                <tr>
+                                                    <th>@figureTableResponse.RowHeaderLabel</th>
+                                                    @foreach (var column in figureTableResponse.Columns)
+                                                    {
+                                                        <th>@column.Header</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var row in figureTableResponse.Rows)
+                                                {
+                                                    <tr>
+                                                        <th scope="row">@row.Header</th>
+                                                        @foreach (var cell in row.Cells)
+                                                        {
+                                                            <td><span class="exercise-response-table-cell">@cell</span></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    @if (InteractiveExerciseMode)
+                                    {
+                                        var answerKey = GetExerciseAnswerKey(figureTableResponse.Title, "figure-table");
+                                        <div class="exercise-prompt-answer-grid">
+                                            <div>
+                                                <p class="exercise-solution-caption">@figureTableResponse.AnswerLabel</p>
+                                                <textarea class="exercise-answer-input exercise-answer-textarea"
+                                                          rows="@figureTableResponse.AnswerLineCount"
+                                                          value="@GetExerciseAnswer(answerKey)"
+                                                          @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)"></textarea>
+                                            </div>
+                                            @if (ShowExerciseSolution)
+                                            {
+                                                <div>
+                                                    <p class="exercise-solution-caption">@figureTableResponse.SolutionLabel</p>
+                                                    <pre class="binary-addition-pre">@figureTableResponse.SolutionText</pre>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    else if (ShowExerciseSolution)
+                                    {
+                                        <p class="exercise-solution-caption">@figureTableResponse.SolutionLabel</p>
+                                        <pre class="binary-addition-pre">@figureTableResponse.SolutionText</pre>
+                                    }
+                                </article>
+                            </section>
+                        }
                     }
                 </section>
             }
@@ -465,6 +530,55 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                             {
                                                 <div class="exercise-print-answer-line"></div>
                                             }
+                                        </div>
+                                    }
+                                </div>
+                            </section>
+
+                            printTaskNumber++;
+                        }
+                        else if (block is ExerciseFigureTableResponseBlockViewModel figureTableResponse)
+                        {
+                            <section class="exercise-print-block">
+                                <div class="exercise-print-task-header">
+                                    <span class="exercise-print-task-number">@PrintTaskLabel @printTaskNumber</span>
+                                    <p class="exercise-print-block-title">@figureTableResponse.Title</p>
+                                </div>
+                                <p class="exercise-print-block-intro">@figureTableResponse.Intro</p>
+
+                                <div class="exercise-print-figure-card">
+                                    <img class="exercise-print-figure-image" src="@figureTableResponse.FigureSource" alt="@figureTableResponse.FigureAltText" />
+
+                                    @if (ShowExerciseSolution)
+                                    {
+                                        <pre class="binary-addition-pre">@figureTableResponse.SolutionText</pre>
+                                    }
+                                    else
+                                    {
+                                        <div class="exercise-table-wrapper">
+                                            <table class="exercise-print-response-table" aria-label="@figureTableResponse.TableAriaLabel">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@figureTableResponse.RowHeaderLabel</th>
+                                                        @foreach (var column in figureTableResponse.Columns)
+                                                        {
+                                                            <th>@column.Header</th>
+                                                        }
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var row in figureTableResponse.Rows)
+                                                    {
+                                                        <tr>
+                                                            <th scope="row">@row.Header</th>
+                                                            @foreach (var cell in row.Cells)
+                                                            {
+                                                                <td><span class="exercise-response-table-cell">@cell</span></td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     }
                                 </div>
@@ -1019,6 +1133,9 @@ else
                         break;
                     case ExerciseFigureResponseBlockViewModel figureResponse:
                         _exerciseAnswers[GetExerciseAnswerKey(figureResponse.Title, "figure")] = string.Empty;
+                        break;
+                    case ExerciseFigureTableResponseBlockViewModel figureTableResponse:
+                        _exerciseAnswers[GetExerciseAnswerKey(figureTableResponse.Title, "figure-table")] = string.Empty;
                         break;
                 }
             }

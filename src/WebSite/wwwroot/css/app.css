@@ -621,6 +621,47 @@ a {
     gap: 1rem;
 }
 
+.exercise-table-wrapper {
+    overflow-x: auto;
+}
+
+.exercise-response-table,
+.exercise-print-response-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.92rem;
+}
+
+.exercise-response-table th,
+.exercise-response-table td,
+.exercise-print-response-table th,
+.exercise-print-response-table td {
+    border: 1px solid rgba(140, 173, 202, 0.35);
+    padding: 0.45rem 0.3rem;
+    text-align: center;
+}
+
+.exercise-response-table thead th,
+.exercise-print-response-table thead th {
+    background: #3d668e;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.exercise-response-table tbody th,
+.exercise-print-response-table tbody th {
+    background: rgba(239, 247, 255, 0.9);
+    color: #18314f;
+    font-weight: 700;
+}
+
+.exercise-response-table-cell {
+    display: block;
+    min-height: 1.2rem;
+}
+
 .exercise-figure-image {
     width: 100%;
     height: auto;
@@ -642,6 +683,13 @@ a {
 
 .exercise-print-answer-lines-tall {
     min-height: 10rem;
+}
+
+.exercise-print-response-table th,
+.exercise-print-response-table td {
+    border-color: rgba(24, 49, 79, 0.24);
+    font-size: 0.82rem;
+    padding: 0.28rem 0.18rem;
 }
 
 .resource-card-assessment {
