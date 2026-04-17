@@ -232,14 +232,30 @@ a {
     grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
     gap: 1.75rem;
     align-items: start;
+    padding-bottom: 0.9rem;
+    border-bottom: 1.5px solid rgba(24, 49, 79, 0.72);
 }
 
 .exercise-print-kicker {
-    margin: 0 0 0.4rem;
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
+    margin: 0 0 0.2rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #58799a;
+}
+
+.exercise-print-sheet-type {
+    margin: 0;
+    font-size: 0.94rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.exercise-print-header h2 {
+    margin: 0.2rem 0 0;
+    font-size: 1.55rem;
+    line-height: 1.15;
 }
 
 .exercise-print-intro {
@@ -276,8 +292,10 @@ a {
 }
 
 .exercise-print-source {
-    margin-top: 1.15rem;
-    font-size: 0.96rem;
+    margin-top: 0.8rem;
+    padding-bottom: 0.55rem;
+    font-size: 0.92rem;
+    border-bottom: 1px solid rgba(24, 49, 79, 0.2);
 }
 
 .exercise-print-section {
@@ -305,6 +323,20 @@ a {
     gap: 0.65rem;
 }
 
+.exercise-print-task-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.exercise-print-task-number {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
 .exercise-print-block-title {
     font-size: 1.02rem;
     font-weight: 700;
@@ -328,11 +360,11 @@ a {
 }
 
 .exercise-print-sum {
-    width: 12ch;
+    width: 17ch;
     margin-left: auto;
     font-family: "Courier New", Courier, monospace;
-    font-size: 1.04rem;
-    line-height: 1.55;
+    font-size: 1.08rem;
+    line-height: 1.7;
 }
 
 .exercise-print-sum-line {
@@ -343,6 +375,24 @@ a {
 .exercise-print-sum-separator {
     margin: 0.15rem 0 0.2rem;
     border-top: 1px solid rgba(24, 49, 79, 0.85);
+}
+
+.exercise-print-bit-box-row {
+    display: grid;
+    grid-template-columns: repeat(var(--bit-count, 8), minmax(0, 1.5rem));
+    gap: 0.2rem;
+    justify-content: end;
+}
+
+.exercise-print-bit-box-row-tight {
+    margin-top: 0.1rem;
+}
+
+.exercise-print-bit-box {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid rgba(24, 49, 79, 0.75);
 }
 
 .exercise-print-table {
@@ -379,6 +429,52 @@ a {
 .exercise-print-answer-line {
     min-height: 1.15rem;
     border-bottom: 1px solid rgba(24, 49, 79, 0.58);
+}
+
+.exercise-print-binary-table,
+.exercise-print-decimal-table {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.exercise-print-binary-row,
+.exercise-print-decimal-row {
+    display: grid;
+    gap: 0.38rem;
+    padding: 0.75rem 0 0.85rem;
+    border-bottom: 1px solid rgba(24, 49, 79, 0.18);
+}
+
+.exercise-print-row-meta {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+}
+
+.exercise-print-row-number,
+.exercise-print-row-prompt-label,
+.exercise-print-row-answer-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.exercise-print-binary-prompt,
+.exercise-print-decimal-prompt {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.06rem;
+}
+
+.exercise-print-working-area {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 0.15rem;
+}
+
+.exercise-print-working-line {
+    min-height: 1rem;
+    border-bottom: 1px solid rgba(24, 49, 79, 0.34);
 }
 
 .exercise-section-card {
@@ -497,7 +593,7 @@ a {
         background: #ffffff;
         color: #000000;
         font-family: "Times New Roman", Times, serif;
-        font-size: 11pt;
+        font-size: 10.5pt;
     }
 
     .exercise-toolbar,
@@ -550,8 +646,58 @@ a {
     .exercise-print-section,
     .exercise-print-block,
     .exercise-print-addition-card,
-    .exercise-print-table tr {
+    .exercise-print-table tr,
+    .exercise-print-binary-row,
+    .exercise-print-decimal-row {
         break-inside: avoid;
+    }
+
+    .exercise-print-header {
+        grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+        gap: 1.2rem;
+    }
+
+    .exercise-print-kicker,
+    .exercise-print-field span,
+    .exercise-print-task-number,
+    .exercise-print-row-number,
+    .exercise-print-row-prompt-label,
+    .exercise-print-row-answer-label,
+    .exercise-print-sheet-type,
+    .exercise-print-table th {
+        color: #000000;
+    }
+
+    .exercise-print-intro,
+    .exercise-print-section-header p,
+    .exercise-print-block-intro,
+    .exercise-print-paragraph,
+    .exercise-print-source {
+        color: #000000;
+    }
+
+    .exercise-print-section {
+        margin-top: 1.15rem;
+    }
+
+    .exercise-print-addition-grid {
+        gap: 0.7rem;
+    }
+
+    .exercise-print-addition-card {
+        padding: 0.55rem 0.75rem 0.7rem;
+        border-color: rgba(0, 0, 0, 0.42);
+    }
+
+    .exercise-print-bit-box {
+        border-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .exercise-print-line,
+    .exercise-print-answer-line,
+    .exercise-print-working-line,
+    .exercise-print-sum-separator {
+        border-color: rgba(0, 0, 0, 0.8);
     }
 }
 

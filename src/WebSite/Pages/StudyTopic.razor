@@ -223,6 +223,7 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
             <header class="exercise-print-header">
                 <div>
                     <p class="exercise-print-kicker">@_topic.SectionLabel</p>
+                    <p class="exercise-print-sheet-type">@PrintWorksheetLabel</p>
                     <h2>@SelectedExerciseTitle</h2>
                     <p class="exercise-print-intro">@CurrentExerciseDocument.Intro</p>
                 </div>
@@ -253,6 +254,8 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                 <strong>@CurrentExerciseDocument.SourceLabel:</strong> @CurrentExerciseDocument.SourceValue
             </div>
 
+            @{ var printTaskNumber = 1; }
+
             @foreach (var exerciseSection in CurrentExerciseDocument.Sections)
             {
                 <section class="exercise-print-section">
@@ -270,7 +273,10 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                         else if (block is ExerciseBinaryAdditionBlockViewModel addition)
                         {
                             <section class="exercise-print-block">
-                                <p class="exercise-print-block-title">@addition.Title</p>
+                                <div class="exercise-print-task-header">
+                                    <span class="exercise-print-task-number">@PrintTaskLabel @printTaskNumber</span>
+                                    <p class="exercise-print-block-title">@addition.Title</p>
+                                </div>
                                 <p class="exercise-print-block-intro">@addition.Intro</p>
 
                                 <div class="exercise-print-addition-grid">
@@ -278,55 +284,118 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
                                     {
                                         <article class="exercise-print-addition-card">
                                             <div class="exercise-print-variant-label">@variant.Label</div>
-                                            <div class="exercise-print-sum">
-                                                <div class="exercise-print-sum-line">@variant.LeftAddend</div>
-                                                <div class="exercise-print-sum-line">+ @variant.RightAddend</div>
+                                            <div class="exercise-print-sum exercise-print-sum-worksheet">
+                                                <div class="exercise-print-sum-line">@FormatBitDisplay(variant.LeftAddend)</div>
+                                                <div class="exercise-print-sum-line">+ @FormatBitDisplay(variant.RightAddend)</div>
                                                 <div class="exercise-print-sum-separator"></div>
-                                                <div class="exercise-print-sum-line">@(ShowExerciseSolution ? variant.Sum : new string('_', variant.Sum.Length))</div>
+                                                @if (ShowExerciseSolution)
+                                                {
+                                                    <div class="exercise-print-sum-line">@FormatBitDisplay(variant.Sum)</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="exercise-print-bit-box-row exercise-print-bit-box-row-tight" style="--bit-count:@Math.Max(variant.Sum.Length, 1)">
+                                                        @foreach (var bitPlaceholder in BuildBitPlaceholders(variant.Sum.Length))
+                                                        {
+                                                            <span class="exercise-print-bit-box"></span>
+                                                        }
+                                                    </div>
+                                                }
                                             </div>
                                         </article>
                                     }
                                 </div>
                             </section>
+
+                            printTaskNumber++;
                         }
                         else if (block is ExercisePromptAnswerBlockViewModel promptAnswer)
                         {
                             <section class="exercise-print-block">
-                                <p class="exercise-print-block-title">@promptAnswer.Title</p>
+                                <div class="exercise-print-task-header">
+                                    <span class="exercise-print-task-number">@PrintTaskLabel @printTaskNumber</span>
+                                    <p class="exercise-print-block-title">@promptAnswer.Title</p>
+                                </div>
                                 <p class="exercise-print-block-intro">@promptAnswer.Intro</p>
 
-                                <table class="exercise-print-table">
-                                    <thead>
-                                        <tr>
-                                            <th>@PrintNumberLabel</th>
-                                            <th>@promptAnswer.PromptLabel</th>
-                                            <th>@(ShowExerciseSolution ? promptAnswer.SolutionLabel : promptAnswer.AnswerLabel)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                @if (ShowExerciseSolution)
+                                {
+                                    <table class="exercise-print-table">
+                                        <thead>
+                                            <tr>
+                                                <th>@PrintNumberLabel</th>
+                                                <th>@promptAnswer.PromptLabel</th>
+                                                <th>@promptAnswer.SolutionLabel</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var variant in promptAnswer.Variants)
+                                            {
+                                                <tr>
+                                                    <td>@variant.Label</td>
+                                                    <td><span class="exercise-print-mono">@variant.Prompt</span></td>
+                                                    <td><span class="exercise-print-mono">@variant.Answer</span></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else if (UsesBinaryAnswerTemplate(promptAnswer))
+                                {
+                                    <div class="exercise-print-binary-table">
                                         @foreach (var variant in promptAnswer.Variants)
                                         {
-                                            <tr>
-                                                <td>@variant.Label</td>
-                                                <td><span class="exercise-print-mono">@variant.Prompt</span></td>
-                                                <td>
-                                                    @if (ShowExerciseSolution)
+                                            <article class="exercise-print-binary-row">
+                                                <div class="exercise-print-row-meta">
+                                                    <span class="exercise-print-row-number">@variant.Label</span>
+                                                    <span class="exercise-print-row-prompt-label">@promptAnswer.PromptLabel</span>
+                                                </div>
+                                                <div class="exercise-print-binary-prompt">@variant.Prompt</div>
+                                                <div class="exercise-print-row-answer-label">@promptAnswer.AnswerLabel</div>
+                                                <div class="exercise-print-bit-box-row" style="--bit-count:@Math.Max(variant.Answer.Length, 1)">
+                                                    @foreach (var bitPlaceholder in BuildBitPlaceholders(variant.Answer.Length))
                                                     {
-                                                        <span class="exercise-print-mono">@variant.Answer</span>
+                                                        <span class="exercise-print-bit-box"></span>
                                                     }
-                                                    else
-                                                    {
-                                                        <div class="exercise-print-answer-lines">
-                                                            <div class="exercise-print-answer-line"></div>
-                                                            <div class="exercise-print-answer-line"></div>
-                                                        </div>
-                                                    }
-                                                </td>
-                                            </tr>
+                                                </div>
+                                                @if (UsesWorkingArea(promptAnswer))
+                                                {
+                                                    <div class="exercise-print-working-area">
+                                                        <div class="exercise-print-working-line"></div>
+                                                        <div class="exercise-print-working-line"></div>
+                                                    </div>
+                                                }
+                                            </article>
                                         }
-                                    </tbody>
-                                </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="exercise-print-decimal-table">
+                                        @foreach (var variant in promptAnswer.Variants)
+                                        {
+                                            <article class="exercise-print-decimal-row">
+                                                <div class="exercise-print-row-meta">
+                                                    <span class="exercise-print-row-number">@variant.Label</span>
+                                                    <span class="exercise-print-row-prompt-label">@promptAnswer.PromptLabel</span>
+                                                </div>
+                                                <div class="exercise-print-decimal-prompt">@variant.Prompt</div>
+                                                <div class="exercise-print-row-answer-label">@promptAnswer.AnswerLabel</div>
+                                                <div class="exercise-print-answer-lines">
+                                                    <div class="exercise-print-answer-line"></div>
+                                                </div>
+                                                <div class="exercise-print-working-area">
+                                                    <div class="exercise-print-working-line"></div>
+                                                    <div class="exercise-print-working-line"></div>
+                                                    <div class="exercise-print-working-line"></div>
+                                                </div>
+                                            </article>
+                                        }
+                                    </div>
+                                }
                             </section>
+
+                            printTaskNumber++;
                         }
                     }
                 </section>
@@ -661,6 +730,10 @@ else
 
     private string PrintNumberLabel => CurrentLanguage == SiteLanguage.En ? "No." : "Nr.";
 
+    private string PrintWorksheetLabel => CurrentLanguage == SiteLanguage.En ? "Printable worksheet" : "Druckbares Aufgabenblatt";
+
+    private string PrintTaskLabel => CurrentLanguage == SiteLanguage.En ? "Task" : "Aufgabe";
+
     private string ExerciseStudioTitle => CurrentLanguage == SiteLanguage.En ? "Choose exercise type" : "Aufgabentyp waehlen";
 
     private string ExerciseStudioIntro => CurrentLanguage == SiteLanguage.En
@@ -833,8 +906,13 @@ else
         return $"  {variant.LeftAddend}\n+ {variant.RightAddend}\n  {separator}\n  {new string('_', variant.Sum.Length)}";
     }
 
+    private static string FormatBitDisplay(string value) => string.Join(" ", value.ToCharArray());
+
     private string FormatPromptAnswer(string answer)
         => ShowExerciseSolution ? answer : new string('_', Math.Max(6, answer.Length));
+
+    private static IEnumerable<int> BuildBitPlaceholders(int count)
+        => Enumerable.Range(0, Math.Max(count, 1));
 
     private void InitializeExerciseAnswers()
     {
@@ -937,6 +1015,14 @@ else
         => string.Equals(_selectedExerciseKey, exerciseKey, StringComparison.Ordinal)
             ? "exercise-studio-option exercise-studio-option-active"
             : "exercise-studio-option";
+
+    private static bool UsesBinaryAnswerTemplate(ExercisePromptAnswerBlockViewModel promptAnswer)
+        => promptAnswer.Variants.All(variant => IsBinary(NormalizeAnswer(variant.Answer)));
+
+    private static bool UsesWorkingArea(ExercisePromptAnswerBlockViewModel promptAnswer)
+        => promptAnswer.Title.Contains("Zweier", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.Title.Contains("complement", StringComparison.OrdinalIgnoreCase)
+            || promptAnswer.PromptLabel.Contains("Dezimal", StringComparison.OrdinalIgnoreCase);
 
     private static bool AreAnswersEquivalent(string actualAnswer, string expectedAnswer)
     {
