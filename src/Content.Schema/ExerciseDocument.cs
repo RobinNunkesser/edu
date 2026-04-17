@@ -31,8 +31,7 @@ public sealed record ExerciseSectionViewModel(
 [JsonDerivedType(typeof(ExerciseParagraphBlockViewModel), typeDiscriminator: "paragraph")]
 [JsonDerivedType(typeof(ExerciseBinaryAdditionBlockViewModel), typeDiscriminator: "binary-addition")]
 [JsonDerivedType(typeof(ExercisePromptAnswerBlockViewModel), typeDiscriminator: "prompt-answer")]
-[JsonDerivedType(typeof(ExerciseFigureResponseBlockViewModel), typeDiscriminator: "figure-response")]
-[JsonDerivedType(typeof(ExerciseFigureTableResponseBlockViewModel), typeDiscriminator: "figure-table-response")]
+[JsonDerivedType(typeof(ExerciseWorksheetResponseBlockViewModel), typeDiscriminator: "worksheet-response")]
 public abstract record ExerciseBlockViewModel;
 
 public sealed record ExerciseParagraphBlockViewModel(string Text) : ExerciseBlockViewModel;
@@ -52,29 +51,25 @@ public sealed record ExercisePromptAnswerBlockViewModel(
     ExercisePromptAnswerPresentation Presentation,
     IReadOnlyList<PromptAnswerVariantViewModel> Variants) : ExerciseBlockViewModel;
 
-public sealed record ExerciseFigureResponseBlockViewModel(
+public sealed record ExerciseWorksheetResponseBlockViewModel(
     string Title,
     string Intro,
-    string FigureSource,
-    string FigureAltText,
+    ExerciseFigureViewModel? Figure,
+    ExerciseResponseTableViewModel? Table,
     string AnswerLabel,
     string SolutionLabel,
     string SolutionText,
     int AnswerLineCount) : ExerciseBlockViewModel;
 
-public sealed record ExerciseFigureTableResponseBlockViewModel(
-    string Title,
-    string Intro,
-    string FigureSource,
-    string FigureAltText,
+public sealed record ExerciseFigureViewModel(
+    string Source,
+    string AltText);
+
+public sealed record ExerciseResponseTableViewModel(
     string RowHeaderLabel,
     string TableAriaLabel,
     IReadOnlyList<ExerciseTableColumnViewModel> Columns,
-    IReadOnlyList<ExerciseTableRowViewModel> Rows,
-    string AnswerLabel,
-    string SolutionLabel,
-    string SolutionText,
-    int AnswerLineCount) : ExerciseBlockViewModel;
+    IReadOnlyList<ExerciseTableRowViewModel> Rows);
 
 public sealed record ExerciseTableColumnViewModel(string Header);
 
