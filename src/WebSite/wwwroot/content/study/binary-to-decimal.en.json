@@ -1,0 +1,42 @@
+{
+  "Title": "Printable single-task sheet",
+  "Intro": "This document was generated from an actual Exam Generator task instance and mapped to the shared edu exercise schema.",
+  "SourceLabel": "Source",
+  "SourceValue": "Exam Generator",
+  "PrintHint": "Use browser print or convert the generated LaTeX in a downstream step.",
+  "PrintLabel": "Print / PDF",
+  "ShowSolutionLabel": "Show solution",
+  "HideSolutionLabel": "Hide solution",
+  "Sections": [
+    {
+      "Title": "Task",
+      "Intro": "Convert the following binary numbers to decimal values.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "The semantic payload is independent of HTML and LaTeX rendering."
+        },
+        {
+          "$type": "prompt-answer",
+          "Title": "Binary to decimal",
+          "Intro": "The values come directly from the Exam Generator task parameters and solutions.",
+          "PromptLabel": "Binary value",
+          "AnswerLabel": "Decimal value",
+          "SolutionLabel": "Solution",
+          "Variants": [
+            {
+              "Label": "A",
+              "Prompt": "00100101",
+              "Answer": "37"
+            },
+            {
+              "Label": "B",
+              "Prompt": "11100101",
+              "Answer": "229"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,20 +1,48 @@
 using System.Globalization;
+using System.Text.Json;
+using Content.Schema;
 using Italbytz.Graph;
 using Italbytz.Graph.Abstractions;
 using Italbytz.Graph.Visualization;
 using Shared.Domain;
+using System.Net.Http.Json;
 
 namespace Shared.Application;
 
 public sealed class StudyTopicService
 {
     private const string MinimalSpanningTreeSlug = "minimaler-spannbaum";
+    private const string BinaryAdditionSlug = "binaere-addition";
+    private const string BinaryAdditionSlugEn = "binary-addition";
+    private const string GdiExercisesSlug = "gdi-uebungen";
+    private const string GdiExercisesSlugEn = "gdi-exercises";
+    private const string BinaryToDecimalSlug = "binaer-zu-dezimal";
+    private const string BinaryToDecimalSlugEn = "binary-to-decimal";
+    private const string DecimalToBinarySlug = "dezimal-zu-binaer";
+    private const string DecimalToBinarySlugEn = "decimal-to-binary";
+    private const string TwosComplementSlug = "zweierkomplement";
+    private const string TwosComplementSlugEn = "twos-complement";
     private const string RomaniaSearchSlug = "rumaenien-suche";
     private const string RomaniaSearchSlugEn = "romania-search";
     private const string NQueensSlug = "n-damen";
     private const string NQueensSlugEn = "n-queens";
     private const string GraphVisualizationSlug = "graph-visualisierung";
     private const string GraphVisualizationSlugEn = "graph-visualization";
+
+    private static readonly JsonSerializerOptions ExerciseJsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    private readonly HttpClient _httpClient;
+    private readonly bool _disableContentCache;
+    private readonly Dictionary<string, ExerciseDocumentViewModel?> _exerciseDocumentCache = new();
+
+    public StudyTopicService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+        _disableContentCache = IsLocalDevelopment(httpClient.BaseAddress);
+    }
 
     public StudyTopicCardViewModel GetFeaturedTopic(SiteLanguage language)
     {
@@ -32,14 +60,16 @@ public sealed class StudyTopicService
                 : ["Graphen", "Prim", "SVG-POC"]);
     }
 
-    public StudyTopicDetailViewModel? GetTopicDetail(SiteLanguage language, string slug)
+    public async Task<StudyTopicDetailViewModel?> GetTopicDetailAsync(SiteLanguage language, string slug)
     {
         if (!IsSupportedSlug(slug))
         {
             return null;
         }
 
-        return string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
+        return IsExerciseSlug(slug)
+            ? await BuildExerciseTopicAsync(language, slug)
+            : string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlugEn, StringComparison.OrdinalIgnoreCase)
             ? BuildRomaniaSearchTopic(language, slug)
             : string.Equals(slug, NQueensSlug, StringComparison.OrdinalIgnoreCase)
@@ -50,12 +80,211 @@ public sealed class StudyTopicService
 
     private static bool IsSupportedSlug(string slug)
         => string.Equals(slug, MinimalSpanningTreeSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GdiExercisesSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GdiExercisesSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryAdditionSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryAdditionSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryToDecimalSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryToDecimalSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, DecimalToBinarySlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, DecimalToBinarySlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, TwosComplementSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, TwosComplementSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, NQueensSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, NQueensSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, GraphVisualizationSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsExerciseSlug(string slug)
+        => string.Equals(slug, GdiExercisesSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GdiExercisesSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryAdditionSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryAdditionSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryToDecimalSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, BinaryToDecimalSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, DecimalToBinarySlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, DecimalToBinarySlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, TwosComplementSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, TwosComplementSlugEn, StringComparison.OrdinalIgnoreCase);
+
+    public async Task<ExerciseDocumentViewModel> GetExerciseDocumentAsync(SiteLanguage language, string exerciseKey, bool forceRuntime = false)
+        => forceRuntime
+            ? ExerciseDocumentFactory.CreateByKey(language, exerciseKey)
+            : await LoadExerciseDocumentAsync(language, exerciseKey) ?? ExerciseDocumentFactory.CreateByKey(language, exerciseKey);
+
+    private async Task<StudyTopicDetailViewModel> BuildExerciseTopicAsync(SiteLanguage language, string slug)
+    {
+        var isEnglish = language == SiteLanguage.En;
+        var isStudio = string.Equals(slug, GdiExercisesSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, GdiExercisesSlugEn, StringComparison.OrdinalIgnoreCase);
+        var exerciseKey = ResolveExerciseKey(slug);
+        var document = await GetExerciseDocumentAsync(language, exerciseKey);
+        var exerciseOptions = GetExerciseOptions(language);
+
+        var title = isStudio
+            ? isEnglish ? "GDI exercise studio" : "GDI Uebungsstudio"
+            : exerciseKey switch
+        {
+            "binary-to-decimal" => isEnglish ? "Binary to decimal" : "Binaer zu Dezimal",
+            "decimal-to-binary" => isEnglish ? "Decimal to binary" : "Dezimal zu Binaer",
+            "twos-complement" => isEnglish ? "Two's complement" : "Zweierkomplement",
+            _ => isEnglish ? "Binary addition" : "Binaere Addition"
+        };
+
+        var intro = isStudio
+            ? isEnglish
+                ? "A single productive GDI practice page for imported worksheet content, interactive solving, fresh runtime variants and print output."
+                : "Eine einzige produktive GDI-Uebungsseite fuer importierte Aufgabeninhalte, interaktives Loesen, frische Laufzeitvarianten und Druckausgabe."
+            : exerciseKey switch
+        {
+            "binary-to-decimal" => isEnglish
+                ? "JSON import is now the primary source for this worksheet. If the file is missing, edu falls back to runtime generation."
+                : "JSON-Import ist jetzt die primaere Quelle fuer dieses Aufgabenblatt. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck.",
+            "decimal-to-binary" => isEnglish
+                ? "JSON import is now the primary source for this worksheet. If the file is missing, edu falls back to runtime generation."
+                : "JSON-Import ist jetzt die primaere Quelle fuer dieses Aufgabenblatt. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck.",
+            _ => isEnglish
+                ? "JSON import is now the primary source for this worksheet. If the file is missing, edu falls back to runtime generation."
+                : "JSON-Import ist jetzt die primaere Quelle fuer dieses Aufgabenblatt. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck."
+        };
+
+        var sourceValue = isEnglish ? "Imported JSON / runtime fallback" : "Importiertes JSON / Laufzeit-Fallback";
+
+        return new StudyTopicDetailViewModel(
+            Kind: StudyTopicKind.Exercise,
+            Slug: slug,
+            Title: title,
+            Intro: intro,
+            SectionLabel: isStudio
+                ? (isEnglish ? "Grundlagen der Informatik" : "Grundlagen der Informatik")
+                : (isEnglish ? "Exercise POC" : "Aufgaben-POC"),
+            MetaLabel: isEnglish ? "Rendering" : "Rendering",
+            MetaValue: isStudio
+                ? (isEnglish ? "Imported JSON + runtime variants on one page" : "Importiertes JSON + Laufzeitvarianten auf einer Seite")
+                : (isEnglish ? "Imported JSON -> HTML worksheet" : "Importiertes JSON -> HTML-Arbeitsblatt"),
+            BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
+            BackRoute: SiteRoutes.Teaching(language),
+            Facts: isEnglish
+                ? [
+                    new StudyFactViewModel("Document", "ExerciseDocument"),
+                    new StudyFactViewModel("Primary source", isStudio ? "content/study/*.json + runtime refresh" : "content/study/*.json"),
+                    new StudyFactViewModel("Renderer", isStudio ? "Interactive HTML / Print CSS" : "HTML / Print CSS"),
+                    new StudyFactViewModel("Topics", isStudio ? exerciseOptions.Count.ToString() : "1"),
+                    new StudyFactViewModel("Source", sourceValue)
+                ]
+                : [
+                    new StudyFactViewModel("Dokument", "ExerciseDocument"),
+                    new StudyFactViewModel("Primaerquelle", isStudio ? "content/study/*.json + Laufzeit-Aktualisierung" : "content/study/*.json"),
+                    new StudyFactViewModel("Renderer", isStudio ? "Interaktives HTML / Print CSS" : "HTML / Print CSS"),
+                    new StudyFactViewModel("Themen", isStudio ? exerciseOptions.Count.ToString() : "1"),
+                    new StudyFactViewModel("Quelle", sourceValue)
+                ],
+            GraphSectionTitle: null,
+            GraphSectionIntro: null,
+            StepSectionTitle: isStudio
+                ? (isEnglish ? "Practice workflow" : "Uebungsworkflow")
+                : (isEnglish ? "Task structure" : "Aufgabenstruktur"),
+            StepSectionIntro: isEnglish
+                ? isStudio
+                    ? "Switch between GDI task types, solve them directly in the browser, generate fresh variants and print the currently selected sheet."
+                    : "The topic page renders an imported exercise document and only falls back to runtime generation when no import exists."
+                : isStudio
+                    ? "Wechsle zwischen GDI-Aufgabentypen, loese sie direkt im Browser, erzeuge frische Varianten und drucke das aktuell gewaehlte Blatt."
+                    : "Die Themenseite rendert ein importiertes Aufgabendokument und faellt nur bei fehlendem Import auf Laufzeit-Erzeugung zurueck.",
+            ResultSectionTitle: isEnglish ? "Reuse target" : "Wiederverwendungsziel",
+            ResultSectionIntro: isEnglish
+                ? "The same semantic payload should later feed edu, Companion previews and LaTeX-based exam sheets."
+                : "Dieselbe semantische Nutzlast soll spaeter edu, Companion-Previews und LaTeX-basierte Klausur-/Uebungsblaetter bedienen.",
+            InitialStepDescription: string.Empty,
+            PreviousStepLabel: string.Empty,
+            NextStepLabel: string.Empty,
+            CompleteSolutionLabel: string.Empty,
+            ResetLabel: string.Empty,
+            ProgressLabel: string.Empty,
+            NQueens: null,
+            GraphVisualization: null,
+            GraphStates: null,
+            GraphEdges: null,
+            Steps: null)
+        {
+            ExerciseDocument = document,
+            ExerciseDocumentKey = exerciseKey,
+            ExerciseOptions = isStudio ? exerciseOptions : null
+        };
+    }
+
+    private async Task<ExerciseDocumentViewModel?> LoadExerciseDocumentAsync(SiteLanguage language, string exerciseKey)
+    {
+        var cacheKey = $"{language}:{exerciseKey}";
+        if (!_disableContentCache && _exerciseDocumentCache.TryGetValue(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        var fileName = $"{exerciseKey}.{(language == SiteLanguage.En ? "en" : "de")}.json";
+        var response = await _httpClient.GetAsync($"content/study/{fileName}");
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        var document = await response.Content.ReadFromJsonAsync<ExerciseDocumentViewModel>(ExerciseJsonOptions);
+        if (!_disableContentCache)
+        {
+            _exerciseDocumentCache[cacheKey] = document;
+        }
+
+        return document;
+    }
+
+    private static string ResolveExerciseKey(string slug)
+        => slug.ToLowerInvariant() switch
+        {
+            GdiExercisesSlug or GdiExercisesSlugEn => "binary-addition",
+            BinaryAdditionSlug or BinaryAdditionSlugEn => "binary-addition",
+            BinaryToDecimalSlug or BinaryToDecimalSlugEn => "binary-to-decimal",
+            DecimalToBinarySlug or DecimalToBinarySlugEn => "decimal-to-binary",
+            TwosComplementSlug or TwosComplementSlugEn => "twos-complement",
+            _ => "binary-addition"
+        };
+
+    private static IReadOnlyList<ExerciseTopicOptionViewModel> GetExerciseOptions(SiteLanguage language)
+    {
+        var isEnglish = language == SiteLanguage.En;
+
+        return
+        [
+            new ExerciseTopicOptionViewModel(
+                "binary-addition",
+                isEnglish ? "Binary addition" : "Binaere Addition",
+                isEnglish ? "Add binary numbers with carry handling." : "Addiere Binaerzahlen mit Uebertrag."),
+            new ExerciseTopicOptionViewModel(
+                "binary-to-decimal",
+                isEnglish ? "Binary to decimal" : "Binaer zu Dezimal",
+                isEnglish ? "Convert bit patterns into decimal values." : "Wandle Bitmuster in Dezimalwerte um."),
+            new ExerciseTopicOptionViewModel(
+                "decimal-to-binary",
+                isEnglish ? "Decimal to binary" : "Dezimal zu Binaer",
+                isEnglish ? "Convert decimal values into bit patterns." : "Wandle Dezimalwerte in Bitmuster um."),
+            new ExerciseTopicOptionViewModel(
+                "twos-complement",
+                isEnglish ? "Two's complement" : "Zweierkomplement",
+                isEnglish ? "Compute signed 8-bit two's complement representations." : "Berechne vorzeichenbehaftete 8-Bit-Zweierkomplementdarstellungen.")
+        ];
+    }
+
+    private static bool IsLocalDevelopment(Uri? baseAddress)
+    {
+        if (baseAddress is null)
+        {
+            return false;
+        }
+
+        return string.Equals(baseAddress.Host, "localhost", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(baseAddress.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase);
+    }
 
     private static StudyTopicDetailViewModel BuildNQueensTopic(SiteLanguage language, string slug)
     {
@@ -524,7 +753,8 @@ public sealed record StudyTopicCardViewModel(
 public enum StudyTopicKind
 {
     Graph,
-    NQueens
+    NQueens,
+    Exercise
 }
 
 public sealed record StudyTopicDetailViewModel(
@@ -554,7 +784,17 @@ public sealed record StudyTopicDetailViewModel(
     GraphViewModel? GraphVisualization,
     IReadOnlyList<GraphStateViewModel>? GraphStates,
     IReadOnlyList<StudyEdgeViewModel>? GraphEdges,
-    IReadOnlyList<StudyStepViewModel>? Steps);
+    IReadOnlyList<StudyStepViewModel>? Steps)
+{
+    public ExerciseDocumentViewModel? ExerciseDocument { get; init; }
+    public string? ExerciseDocumentKey { get; init; }
+    public IReadOnlyList<ExerciseTopicOptionViewModel>? ExerciseOptions { get; init; }
+}
+
+public sealed record ExerciseTopicOptionViewModel(
+    string Key,
+    string Title,
+    string Summary);
 
 public sealed record StudyFactViewModel(string Label, string Value);
 

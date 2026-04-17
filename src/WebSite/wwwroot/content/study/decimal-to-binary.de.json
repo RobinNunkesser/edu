@@ -1,0 +1,42 @@
+{
+  "Title": "Druckbares Einzelaufgabenblatt",
+  "Intro": "Dieses Dokument wurde aus einer echten Exam-Generator-Task-Instanz erzeugt und auf das gemeinsame edu-Exercise-Schema abgebildet.",
+  "SourceLabel": "Quelle",
+  "SourceValue": "Exam Generator",
+  "PrintHint": "Nutze den Browser-Druck oder konvertiere das erzeugte LaTeX in einem nachgelagerten Schritt.",
+  "PrintLabel": "Drucken / PDF",
+  "ShowSolutionLabel": "Loesung zeigen",
+  "HideSolutionLabel": "Loesung ausblenden",
+  "Sections": [
+    {
+      "Title": "Aufgabe",
+      "Intro": "Wandle die folgenden Dezimalzahlen in Binaerzahlen um.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "Die semantische Nutzlast ist unabhaengig von HTML- und LaTeX-Rendering."
+        },
+        {
+          "$type": "prompt-answer",
+          "Title": "Dezimal nach Binaer",
+          "Intro": "Die Werte stammen direkt aus den Parametern und Loesungen der Exam-Generator-Task.",
+          "PromptLabel": "Dezimalzahl",
+          "AnswerLabel": "Binaerzahl",
+          "SolutionLabel": "Loesung",
+          "Variants": [
+            {
+              "Label": "A",
+              "Prompt": "141",
+              "Answer": "10001101"
+            },
+            {
+              "Label": "B",
+              "Prompt": "48",
+              "Answer": "00110000"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -38,6 +38,11 @@
       "intro": "",
       "links": [
         {
+          "title": "GDI Übungsstudio",
+          "url": "/study/gdi-uebungen",
+          "description": "Interaktive Aufgaben zu Informationsdarstellung auf einer verdichteten Seite mit Themenwahl, Neugenerierung und Druckansicht."
+        },
+        {
           "title": "Minimaler Spannbaum (MST)",
           "url": "/study/minimaler-spannbaum",
           "description": ""

@@ -56,7 +56,12 @@ public sealed class StudyCatalogService
                         new StudyGroupDocument(
                             "Exam Generator",
                             [
-                                new StudyTopicDocument("exercise-catalog", "Exercise Catalog", "Platzhalter fuer generierte Aufgabenkataloge.", "Exam Generator", false, "ExerciseCatalogPage")
+                                new StudyTopicDocument("exercise-catalog", "Exercise Catalog", "Platzhalter fuer generierte Aufgabenkataloge.", "Exam Generator", false, "ExerciseCatalogPage"),
+                                new StudyTopicDocument("gdi-uebungen", "GDI Uebungsstudio", "Verdichtete produktive Uebungsseite fuer mehrere GDI-Aufgabentypen auf einer Route.", "Exam Generator / edu", true, "GdiExerciseStudioPage"),
+                                new StudyTopicDocument("binaere-addition", "Binaere Addition", "POC fuer ein druckbares Einzelaufgabenblatt mit neutralem Aufgabendokument.", "Exam Generator / edu", true, "BinaryAdditionExerciseDocument"),
+                                new StudyTopicDocument("binaer-zu-dezimal", "Binaer zu Dezimal", "Importierter Umwandlungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "BinaryToDecimalExerciseDocument"),
+                                new StudyTopicDocument("dezimal-zu-binaer", "Dezimal zu Binaer", "Importierter Umwandlungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "DecimalToBinaryExerciseDocument"),
+                                new StudyTopicDocument("zweierkomplement", "Zweierkomplement", "Importierter Darstellungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "TwosComplementExerciseDocument")
                             ])
                     ])
             ]);

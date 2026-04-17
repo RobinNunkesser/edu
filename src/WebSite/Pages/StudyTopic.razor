@@ -1,7 +1,15 @@
 @page "/study/{Slug}"
 @page "/study/graph-visualisierung"
+@page "/study/binaer-zu-dezimal"
+@page "/study/dezimal-zu-binaer"
+@page "/study/zweierkomplement"
 @page "/en/study/{Slug}"
 @page "/en/study/graph-visualization"
+@page "/en/study/binary-to-decimal"
+@page "/en/study/decimal-to-binary"
+@page "/en/study/twos-complement"
+@using Content.Schema
+@inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 @inject StudyTopicService TopicService
 
@@ -13,6 +21,201 @@
         <p class="section-label">@NotFoundLabel</p>
         <h1>@NotFoundTitle</h1>
         <p>@NotFoundText</p>
+    </section>
+}
+else if (IsExerciseTopic && CurrentExerciseDocument is not null)
+{
+    <section class="page-intro lecture-hero">
+        <div>
+            <p class="section-label">@_topic.SectionLabel</p>
+            <h1>@_topic.Title</h1>
+            <p>@_topic.Intro</p>
+        </div>
+
+        <div class="lecture-meta-card">
+            <p class="feature-card-kicker">@_topic.MetaLabel</p>
+            <h2>@_topic.MetaValue</h2>
+            <a class="inline-link" href="@_topic.BackRoute">@_topic.BackLabel</a>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="tag-row">
+            @foreach (var fact in _topic.Facts)
+            {
+                <span class="tag">@fact.Label: @fact.Value</span>
+            }
+        </div>
+    </section>
+
+    @if (IsExerciseStudio)
+    {
+        <section class="page-section exercise-studio-card resource-card">
+            <div class="section-heading">
+                <h2>@ExerciseStudioTitle</h2>
+                <p>@ExerciseStudioIntro</p>
+            </div>
+
+            <div class="exercise-studio-grid">
+                @foreach (var option in CurrentExerciseOptions)
+                {
+                    <button class="@GetExerciseOptionClass(option.Key)" @onclick="() => SelectExerciseDocumentAsync(option.Key)">
+                        <strong>@option.Title</strong>
+                        <span>@option.Summary</span>
+                    </button>
+                }
+            </div>
+        </section>
+    }
+
+    <section class="page-section exercise-toolbar">
+        @if (IsExerciseStudio)
+        {
+            <span class="exercise-toolbar-topic">@SelectedExerciseTitle</span>
+            <button class="btn btn-outline-primary" @onclick="GenerateFreshExerciseAsync">@FreshVariantLabel</button>
+            <button class="btn btn-outline-primary" @onclick="RestoreImportedExerciseAsync" disabled="@(!_useRuntimeExerciseDocument)">@ImportedVariantLabel</button>
+        }
+        <button class="@(InteractiveExerciseMode ? "btn btn-primary" : "btn btn-outline-primary")" @onclick="() => SetExerciseMode(true)">@InteractiveModeLabel</button>
+        <button class="@(!InteractiveExerciseMode ? "btn btn-primary" : "btn btn-outline-primary")" @onclick="() => SetExerciseMode(false)">@WorksheetModeLabel</button>
+        <button class="btn btn-outline-primary" @onclick="ToggleExerciseSolution">
+            @(ShowExerciseSolution ? CurrentExerciseDocument.HideSolutionLabel : CurrentExerciseDocument.ShowSolutionLabel)
+        </button>
+        <button class="btn btn-outline-primary" @onclick="ResetExerciseAnswers">@ResetExerciseLabel</button>
+        <button class="btn btn-primary" @onclick="PrintExercise">@CurrentExerciseDocument.PrintLabel</button>
+        <span class="exercise-toolbar-hint">@(InteractiveExerciseMode ? InteractiveModeHint : CurrentExerciseDocument.PrintHint)</span>
+    </section>
+
+    <section class="page-section resource-card exercise-document-card">
+        <div class="section-heading">
+            <h2>@CurrentExerciseDocument.Title</h2>
+            <p>@CurrentExerciseDocument.Intro</p>
+        </div>
+
+        <div class="resource-table">
+            <div class="resource-table-row">
+                <div class="resource-table-label">@CurrentExerciseDocument.SourceLabel</div>
+                <div class="resource-table-value">@CurrentExerciseDocument.SourceValue</div>
+            </div>
+        </div>
+
+        @foreach (var exerciseSection in CurrentExerciseDocument.Sections)
+        {
+            <section class="exercise-section-card">
+                <div class="section-heading">
+                    <h3>@exerciseSection.Title</h3>
+                    <p>@exerciseSection.Intro</p>
+                </div>
+
+                @foreach (var block in exerciseSection.Blocks)
+                {
+                    if (block is ExerciseParagraphBlockViewModel paragraph)
+                    {
+                        <p class="exercise-paragraph">@paragraph.Text</p>
+                    }
+                    else if (block is ExerciseBinaryAdditionBlockViewModel addition)
+                    {
+                        <section class="exercise-binary-block">
+                            <div class="section-heading">
+                                <h3>@addition.Title</h3>
+                                <p>@addition.Intro</p>
+                            </div>
+
+                            <div class="resource-grid exercise-variant-grid">
+                                @foreach (var variant in addition.Variants)
+                                {
+                                    <article class="resource-card exercise-variant-card">
+                                        <p class="feature-card-kicker">@variant.Label</p>
+                                        @if (InteractiveExerciseMode)
+                                        {
+                                            var answerKey = GetExerciseAnswerKey(addition.Title, variant.Label);
+                                            <div class="exercise-prompt-answer-grid">
+                                                <div>
+                                                    <p class="exercise-solution-caption">@addition.Title</p>
+                                                    <pre class="binary-addition-pre">@FormatBinaryAdditionPrompt(variant)</pre>
+                                                </div>
+                                                <div>
+                                                    <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
+                                                    <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Sum)"
+                                                           value="@GetExerciseAnswer(answerKey)"
+                                                           @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
+                                                    <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Sum)</p>
+                                                    @if (ShowExerciseSolution)
+                                                    {
+                                                        <p class="exercise-solution-caption">@addition.SolutionLabel</p>
+                                                        <pre class="binary-addition-pre">@variant.Sum</pre>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <pre class="binary-addition-pre">@FormatBinaryAddition(variant)</pre>
+                                            @if (ShowExerciseSolution)
+                                            {
+                                                <p class="exercise-solution-caption">@addition.SolutionLabel</p>
+                                            }
+                                        }
+                                    </article>
+                                }
+                            </div>
+                        </section>
+                    }
+                    else if (block is ExercisePromptAnswerBlockViewModel promptAnswer)
+                    {
+                        <section class="exercise-binary-block">
+                            <div class="section-heading">
+                                <h3>@promptAnswer.Title</h3>
+                                <p>@promptAnswer.Intro</p>
+                            </div>
+
+                            <div class="resource-grid exercise-variant-grid">
+                                @foreach (var variant in promptAnswer.Variants)
+                                {
+                                    <article class="resource-card exercise-variant-card">
+                                        <p class="feature-card-kicker">@variant.Label</p>
+                                        @if (InteractiveExerciseMode)
+                                        {
+                                            var answerKey = GetExerciseAnswerKey(promptAnswer.Title, variant.Label);
+                                            <div class="exercise-prompt-answer-grid">
+                                                <div>
+                                                    <p class="exercise-solution-caption">@promptAnswer.PromptLabel</p>
+                                                    <pre class="binary-addition-pre">@variant.Prompt</pre>
+                                                </div>
+                                                <div>
+                                                    <p class="exercise-solution-caption">@ExerciseAnswerLabel</p>
+                                                    <input class="exercise-answer-input @GetExerciseAnswerCssClass(answerKey, variant.Answer)"
+                                                           value="@GetExerciseAnswer(answerKey)"
+                                                           @oninput="eventArgs => SetExerciseAnswer(answerKey, eventArgs.Value?.ToString() ?? string.Empty)" />
+                                                    <p class="exercise-answer-feedback">@GetExerciseAnswerFeedback(answerKey, variant.Answer)</p>
+                                                    @if (ShowExerciseSolution)
+                                                    {
+                                                        <p class="exercise-solution-caption">@promptAnswer.SolutionLabel</p>
+                                                        <pre class="binary-addition-pre">@variant.Answer</pre>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="exercise-prompt-answer-grid">
+                                                <div>
+                                                    <p class="exercise-solution-caption">@promptAnswer.PromptLabel</p>
+                                                    <pre class="binary-addition-pre">@variant.Prompt</pre>
+                                                </div>
+                                                <div>
+                                                    <p class="exercise-solution-caption">@(ShowExerciseSolution ? promptAnswer.SolutionLabel : promptAnswer.AnswerLabel)</p>
+                                                    <pre class="binary-addition-pre">@FormatPromptAnswer(variant.Answer)</pre>
+                                                </div>
+                                            </div>
+                                        }
+                                    </article>
+                                }
+                            </div>
+                        </section>
+                    }
+                }
+            </section>
+        }
     </section>
 }
 else
@@ -228,6 +431,9 @@ else
     private StudyTopicDetailViewModel? _topic;
     private int CurrentStep;
     private string _selectedAlgorithmKey = string.Empty;
+    private string _selectedExerciseKey = string.Empty;
+    private ExerciseDocumentViewModel? _activeExerciseDocument;
+    private bool _useRuntimeExerciseDocument;
     private string NotFoundLabel = string.Empty;
     private string NotFoundTitle = string.Empty;
     private string NotFoundText = string.Empty;
@@ -237,6 +443,20 @@ else
         : $"{CurrentStep}/{CurrentStepCount}";
 
     private bool IsNQueensTopic => _topic?.Kind == StudyTopicKind.NQueens;
+
+    private bool IsExerciseTopic => _topic?.Kind == StudyTopicKind.Exercise;
+
+    private ExerciseDocumentViewModel? CurrentExerciseDocument => _activeExerciseDocument ?? _topic?.ExerciseDocument;
+
+    private IReadOnlyList<ExerciseTopicOptionViewModel> CurrentExerciseOptions => _topic?.ExerciseOptions ?? [];
+
+    private bool IsExerciseStudio => CurrentExerciseOptions.Count > 1;
+
+    private bool ShowExerciseSolution;
+
+    private bool InteractiveExerciseMode = true;
+
+    private readonly Dictionary<string, string> _exerciseAnswers = new();
 
     private NQueensTopicViewModel? CurrentNQueensTopic => _topic?.NQueens;
 
@@ -303,6 +523,32 @@ else
 
     private string GraphStateLabel => CurrentLanguage == SiteLanguage.En ? "State" : "Status";
 
+    private string InteractiveModeLabel => CurrentLanguage == SiteLanguage.En ? "Interactive exercise" : "Interaktive Uebung";
+
+    private string WorksheetModeLabel => CurrentLanguage == SiteLanguage.En ? "Worksheet view" : "Arbeitsblattansicht";
+
+    private string InteractiveModeHint => CurrentLanguage == SiteLanguage.En
+        ? "Enter your own answers directly in the page."
+        : "Trage deine eigenen Antworten direkt in der Seite ein.";
+
+    private string ResetExerciseLabel => CurrentLanguage == SiteLanguage.En ? "Reset answers" : "Antworten zuruecksetzen";
+
+    private string ExerciseAnswerLabel => CurrentLanguage == SiteLanguage.En ? "Your answer" : "Deine Antwort";
+
+    private string ExerciseStudioTitle => CurrentLanguage == SiteLanguage.En ? "Choose exercise type" : "Aufgabentyp waehlen";
+
+    private string ExerciseStudioIntro => CurrentLanguage == SiteLanguage.En
+        ? "The current GDI practice page keeps all major actions on one route: switch topic, solve interactively, create a fresh variant and print the current worksheet."
+        : "Die aktuelle GDI-Uebungsseite haelt alle wichtigen Aktionen auf einer Route zusammen: Thema wechseln, interaktiv loesen, frische Variante erzeugen und das aktuelle Aufgabenblatt drucken.";
+
+    private string FreshVariantLabel => CurrentLanguage == SiteLanguage.En ? "Fresh variant" : "Neue Variante";
+
+    private string ImportedVariantLabel => CurrentLanguage == SiteLanguage.En ? "Imported default" : "Importierte Standardversion";
+
+    private string SelectedExerciseTitle => CurrentExerciseOptions.FirstOrDefault(option => option.Key == _selectedExerciseKey)?.Title
+        ?? _topic?.Title
+        ?? string.Empty;
+
     private string CurrentStepDescription => _topic is null
         ? string.Empty
         : IsNQueensTopic
@@ -344,15 +590,21 @@ else
         ? []
         : (_topic.GraphEdges ?? []).Where(edge => CurrentGraphState.ActiveEdgeKeys.Contains(edge.EdgeKey)).ToArray();
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         CurrentLanguage = SiteRoutes.GetLanguage(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
         var resolvedSlug = string.IsNullOrWhiteSpace(Slug)
             ? (CurrentLanguage == SiteLanguage.En ? "graph-visualization" : "graph-visualisierung")
             : Slug;
-        _topic = TopicService.GetTopicDetail(CurrentLanguage, resolvedSlug);
+        _topic = await TopicService.GetTopicDetailAsync(CurrentLanguage, resolvedSlug);
         CurrentStep = 0;
         _selectedAlgorithmKey = _topic?.NQueens?.Algorithms.FirstOrDefault()?.Key ?? string.Empty;
+        _selectedExerciseKey = _topic?.ExerciseDocumentKey ?? string.Empty;
+        _activeExerciseDocument = _topic?.ExerciseDocument;
+        _useRuntimeExerciseDocument = false;
+        ShowExerciseSolution = false;
+        InteractiveExerciseMode = true;
+        InitializeExerciseAnswers();
 
         NotFoundLabel = CurrentLanguage == SiteLanguage.En ? "Study topic" : "Studienthema";
         NotFoundTitle = CurrentLanguage == SiteLanguage.En ? "Topic not found" : "Thema nicht gefunden";
@@ -391,6 +643,191 @@ else
     {
         _selectedAlgorithmKey = key;
         CurrentStep = 0;
+    }
+
+    private void ToggleExerciseSolution() => ShowExerciseSolution = !ShowExerciseSolution;
+
+    private void SetExerciseMode(bool interactiveMode) => InteractiveExerciseMode = interactiveMode;
+
+    private void ResetExerciseAnswers() => InitializeExerciseAnswers();
+
+    private async Task SelectExerciseDocumentAsync(string exerciseKey)
+    {
+        _selectedExerciseKey = exerciseKey;
+        _useRuntimeExerciseDocument = false;
+        _activeExerciseDocument = await TopicService.GetExerciseDocumentAsync(CurrentLanguage, exerciseKey);
+        ShowExerciseSolution = false;
+        InitializeExerciseAnswers();
+    }
+
+    private async Task GenerateFreshExerciseAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedExerciseKey))
+        {
+            return;
+        }
+
+        _useRuntimeExerciseDocument = true;
+        _activeExerciseDocument = await TopicService.GetExerciseDocumentAsync(CurrentLanguage, _selectedExerciseKey, forceRuntime: true);
+        ShowExerciseSolution = false;
+        InitializeExerciseAnswers();
+    }
+
+    private async Task RestoreImportedExerciseAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedExerciseKey))
+        {
+            return;
+        }
+
+        _useRuntimeExerciseDocument = false;
+        _activeExerciseDocument = await TopicService.GetExerciseDocumentAsync(CurrentLanguage, _selectedExerciseKey);
+        ShowExerciseSolution = false;
+        InitializeExerciseAnswers();
+    }
+
+    private async Task PrintExercise() => await JsRuntime.InvokeVoidAsync("print");
+
+    private string FormatBinaryAddition(BinaryAdditionVariantViewModel variant)
+    {
+        var resultLine = ShowExerciseSolution ? variant.Sum : new string('_', variant.Sum.Length);
+        var separator = new string('-', variant.Sum.Length);
+
+        return $"  {variant.LeftAddend}\n+ {variant.RightAddend}\n  {separator}\n  {resultLine}";
+    }
+
+    private static string FormatBinaryAdditionPrompt(BinaryAdditionVariantViewModel variant)
+    {
+        var separator = new string('-', variant.Sum.Length);
+        return $"  {variant.LeftAddend}\n+ {variant.RightAddend}\n  {separator}\n  {new string('_', variant.Sum.Length)}";
+    }
+
+    private string FormatPromptAnswer(string answer)
+        => ShowExerciseSolution ? answer : new string('_', Math.Max(6, answer.Length));
+
+    private void InitializeExerciseAnswers()
+    {
+        _exerciseAnswers.Clear();
+
+        if (CurrentExerciseDocument is null)
+        {
+            return;
+        }
+
+        foreach (var section in CurrentExerciseDocument.Sections)
+        {
+            foreach (var block in section.Blocks)
+            {
+                switch (block)
+                {
+                    case ExerciseBinaryAdditionBlockViewModel addition:
+                        foreach (var variant in addition.Variants)
+                        {
+                            _exerciseAnswers[GetExerciseAnswerKey(addition.Title, variant.Label)] = string.Empty;
+                        }
+                        break;
+                    case ExercisePromptAnswerBlockViewModel promptAnswer:
+                        foreach (var variant in promptAnswer.Variants)
+                        {
+                            _exerciseAnswers[GetExerciseAnswerKey(promptAnswer.Title, variant.Label)] = string.Empty;
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    private static string GetExerciseAnswerKey(string blockTitle, string variantLabel) => $"{blockTitle}:{variantLabel}";
+
+    private string GetExerciseAnswer(string key) => _exerciseAnswers.TryGetValue(key, out var value) ? value : string.Empty;
+
+    private void SetExerciseAnswer(string key, string value) => _exerciseAnswers[key] = value;
+
+    private string GetExerciseAnswerCssClass(string key, string expectedAnswer)
+    {
+        var answer = GetExerciseAnswer(key);
+        if (string.IsNullOrWhiteSpace(answer))
+        {
+            return string.Empty;
+        }
+
+        return AreAnswersEquivalent(answer, expectedAnswer)
+            ? "exercise-answer-input-correct"
+            : "exercise-answer-input-incorrect";
+    }
+
+    private string GetExerciseAnswerFeedback(string key, string expectedAnswer)
+    {
+        var answer = GetExerciseAnswer(key);
+        if (string.IsNullOrWhiteSpace(answer))
+        {
+            return string.Empty;
+        }
+
+        if (AreAnswersEquivalent(answer, expectedAnswer))
+        {
+            return CurrentLanguage == SiteLanguage.En ? "Correct" : "Korrekt";
+        }
+
+        var normalizedActual = NormalizeAnswer(answer);
+        var normalizedExpected = NormalizeAnswer(expectedAnswer);
+
+        if (IsBinary(normalizedExpected))
+        {
+            if (!IsBinary(normalizedActual))
+            {
+                return CurrentLanguage == SiteLanguage.En ? "Please use only 0 and 1." : "Bitte nur 0 und 1 verwenden.";
+            }
+
+            if (normalizedActual.Length != normalizedExpected.Length)
+            {
+                return CurrentLanguage == SiteLanguage.En
+                    ? $"Expected {normalizedExpected.Length} bits."
+                    : $"Erwartet werden {normalizedExpected.Length} Bit.";
+            }
+
+            return CurrentLanguage == SiteLanguage.En ? "The bit pattern is not correct yet." : "Das Bitmuster ist noch nicht korrekt.";
+        }
+
+        if (int.TryParse(normalizedExpected, out _))
+        {
+            if (!int.TryParse(normalizedActual, out _))
+            {
+                return CurrentLanguage == SiteLanguage.En ? "Please enter a decimal number." : "Bitte eine Dezimalzahl eingeben.";
+            }
+
+            return CurrentLanguage == SiteLanguage.En ? "The value is not correct yet." : "Der Wert ist noch nicht korrekt.";
+        }
+
+        return CurrentLanguage == SiteLanguage.En ? "Not correct yet" : "Noch nicht korrekt";
+    }
+
+    private string GetExerciseOptionClass(string exerciseKey)
+        => string.Equals(_selectedExerciseKey, exerciseKey, StringComparison.Ordinal)
+            ? "exercise-studio-option exercise-studio-option-active"
+            : "exercise-studio-option";
+
+    private static bool AreAnswersEquivalent(string actualAnswer, string expectedAnswer)
+    {
+        var normalizedActual = NormalizeAnswer(actualAnswer);
+        var normalizedExpected = NormalizeAnswer(expectedAnswer);
+
+        if (IsBinary(normalizedActual) && IsBinary(normalizedExpected))
+        {
+            return NormalizeBinary(normalizedActual) == NormalizeBinary(normalizedExpected);
+        }
+
+        return string.Equals(normalizedActual, normalizedExpected, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string NormalizeAnswer(string answer) => answer.Trim().Replace(" ", string.Empty).Replace("_", string.Empty);
+
+    private static bool IsBinary(string value) => value.Length > 0 && value.All(character => character is '0' or '1');
+
+    private static string NormalizeBinary(string value)
+    {
+        var trimmed = value.TrimStart('0');
+        return string.IsNullOrEmpty(trimmed) ? "0" : trimmed;
     }
 
     private bool IsSelectedAlgorithm(string key) => string.Equals(_selectedAlgorithmKey, key, StringComparison.Ordinal);

@@ -1,0 +1,42 @@
+{
+  "Title": "Printable single-task sheet",
+  "Intro": "This document was generated from an actual Exam Generator task instance and mapped to the shared edu exercise schema.",
+  "SourceLabel": "Source",
+  "SourceValue": "Exam Generator",
+  "PrintHint": "Use browser print or convert the generated LaTeX in a downstream step.",
+  "PrintLabel": "Print / PDF",
+  "ShowSolutionLabel": "Show solution",
+  "HideSolutionLabel": "Hide solution",
+  "Sections": [
+    {
+      "Title": "Task",
+      "Intro": "Compute the 8-bit two\u0027s complement representation of the following negative numbers.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "The semantic payload is independent of HTML and LaTeX rendering."
+        },
+        {
+          "$type": "prompt-answer",
+          "Title": "Two\u0027s complement",
+          "Intro": "The values come directly from the Exam Generator task parameters and solutions.",
+          "PromptLabel": "Decimal value",
+          "AnswerLabel": "Two\u0027s complement",
+          "SolutionLabel": "Solution",
+          "Variants": [
+            {
+              "Label": "A",
+              "Prompt": "-92",
+              "Answer": "10100100"
+            },
+            {
+              "Label": "B",
+              "Prompt": "-75",
+              "Answer": "10110101"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

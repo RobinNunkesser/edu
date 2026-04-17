@@ -1,0 +1,42 @@
+{
+  "Title": "Druckbares Einzelaufgabenblatt",
+  "Intro": "Dieses Dokument wurde aus einer echten Exam-Generator-Task-Instanz erzeugt und auf das gemeinsame edu-Exercise-Schema abgebildet.",
+  "SourceLabel": "Quelle",
+  "SourceValue": "Exam Generator",
+  "PrintHint": "Nutze den Browser-Druck oder konvertiere das erzeugte LaTeX in einem nachgelagerten Schritt.",
+  "PrintLabel": "Drucken / PDF",
+  "ShowSolutionLabel": "Loesung zeigen",
+  "HideSolutionLabel": "Loesung ausblenden",
+  "Sections": [
+    {
+      "Title": "Aufgabe",
+      "Intro": "Addiere die folgenden Binaerzahlen.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "Die semantische Nutzlast ist unabhaengig von HTML- und LaTeX-Rendering."
+        },
+        {
+          "$type": "binary-addition",
+          "Title": "Binaere Addition",
+          "Intro": "Die Werte stammen direkt aus den Parametern und Loesungen der Exam-Generator-Task.",
+          "SolutionLabel": "Loesung",
+          "Variants": [
+            {
+              "Label": "A",
+              "LeftAddend": "011111011",
+              "RightAddend": "000111100",
+              "Sum": "100110111"
+            },
+            {
+              "Label": "B",
+              "LeftAddend": "010101100",
+              "RightAddend": "000100011",
+              "Sum": "011001111"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared.Domain\Shared.Domain.csproj" />
     <ProjectReference Include="..\Content.Schema\Content.Schema.csproj" />
+    <PackageReference Include="Italbytz.ComputingSystems" Version="1.0.0-preview.3" />
     <PackageReference Include="Italbytz.Graph" Version="1.0.0-preview.4" />
   </ItemGroup>
 
