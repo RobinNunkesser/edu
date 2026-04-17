@@ -6,12 +6,18 @@ namespace Shared.Application;
 
 public static class ExerciseDocumentFactory
 {
+    private static readonly string[] ShortestPathNodeHeaders = ["A", "B", "C", "D", "E", "F", "G", "H"];
+    private static readonly string[] ShortestPathMetricHeaders = ["D", "V", "D", "V", "D", "V", "D", "V", "D", "V", "D", "V", "D", "V"];
+    private static readonly string[] SpanningTreeSolutionEdges = ["A - B (2)", "B - D (3)", "B - E (4)", "D - G (2)", "E - H (1)", "A - C (5)", "C - F (5)"];
+
     public static ExerciseDocumentViewModel CreateByKey(SiteLanguage language, string exerciseKey)
         => exerciseKey switch
         {
             "binary-addition" => CreateBinaryAddition(language),
             "binary-to-decimal" => CreateBinaryToDecimal(language),
             "decimal-to-binary" => CreateDecimalToBinary(language),
+            "shortest-path" => CreateShortestPath(language),
+            "spanning-tree" => CreateSpanningTree(language),
             "twos-complement" => CreateTwosComplement(language),
             _ => CreateBinaryAddition(language)
         };
@@ -22,6 +28,8 @@ public static class ExerciseDocumentFactory
             "binaere-addition" or "binary-addition" => "binary-addition",
             "binaer-zu-dezimal" or "binary-to-decimal" => "binary-to-decimal",
             "dezimal-zu-binaer" or "decimal-to-binary" => "decimal-to-binary",
+            "kuerzeste-wege" or "shortest-path" => "shortest-path",
+            "spannbaum" or "spanning-tree" => "spanning-tree",
             "zweierkomplement" or "twos-complement" => "twos-complement",
             _ => "binary-addition"
         });
@@ -149,6 +157,102 @@ public static class ExerciseDocumentFactory
             variants: variants);
     }
 
+    public static ExerciseDocumentViewModel CreateShortestPath(SiteLanguage language)
+    {
+        var isEnglish = language == SiteLanguage.En;
+
+        return new ExerciseDocumentViewModel(
+            Title: isEnglish ? "Printable single-task sheet" : "Druckbares Einzelaufgabenblatt",
+            Intro: isEnglish
+                ? "This worksheet exposes the generalized graph-and-table response block with the same semantic structure that now also feeds the LaTeX renderer in the Exam Generator."
+                : "Dieses Arbeitsblatt macht den generalisierten Graph-und-Tabellen-Block sichtbar, der jetzt in gleicher semantischer Struktur auch den LaTeX-Renderer im Exam Generator speist.",
+            SourceLabel: isEnglish ? "Source" : "Quelle",
+            SourceValue: "Exam Generator / edu POC",
+            PrintHint: isEnglish ? "Use the browser print dialog for a PDF export." : "Nutze den Browser-Druckdialog fuer einen PDF-Export.",
+            PrintLabel: isEnglish ? "Print / PDF" : "Drucken / PDF",
+            ShowSolutionLabel: isEnglish ? "Show solution" : "Loesung zeigen",
+            HideSolutionLabel: isEnglish ? "Hide solution" : "Loesung ausblenden",
+            Sections:
+            [
+                new ExerciseSectionViewModel(
+                    Title: isEnglish ? "Task" : "Aufgabe",
+                    Intro: isEnglish
+                        ? "Determine the shortest paths in the weighted graph. Use A as the start node and document your work in the worksheet table."
+                        : "Bestimme die kuerzesten Wege im gewichteten Graphen. Verwende A als Startknoten und dokumentiere deinen Rechenweg in der Arbeitstabelle.",
+                    Blocks:
+                    [
+                        new ExerciseParagraphBlockViewModel(isEnglish
+                            ? "This example makes the worksheet-response block visible in edu: one figure, one reusable work table and one shared solution area."
+                            : "Dieses Beispiel macht den Worksheet-Response-Block in edu sichtbar: eine Abbildung, eine wiederverwendbare Arbeitstabelle und ein gemeinsamer Loesungsbereich."),
+                        new ExerciseWorksheetResponseBlockViewModel(
+                            Title: isEnglish ? "Shortest paths" : "Kuerzeste Wege",
+                            Intro: isEnglish
+                                ? "Carry out the computation on the shown graph. Record distance estimates D and predecessors V after each step."
+                                : "Fuehre die Berechnung im gezeigten Graphen durch. Trage nach jedem Schritt Distanzschaetzungen D und Vorgaenger V ein.",
+                            Figure: new ExerciseFigureViewModel(
+                                Source: "content/study/shortest-path-graph.svg",
+                                AltText: isEnglish ? "Weighted graph for a shortest-path worksheet" : "Gewichteter Graph fuer ein Kuerzeste-Wege-Arbeitsblatt"),
+                            Table: new ExerciseResponseTableViewModel(
+                                RowHeaderLabel: "K",
+                                TableAriaLabel: isEnglish ? "Worksheet table for shortest paths" : "Arbeitstabelle fuer kuerzeste Wege",
+                                Columns: ShortestPathMetricHeaders.Select(header => new ExerciseTableColumnViewModel(header)).ToArray(),
+                                Rows: ShortestPathNodeHeaders
+                                    .Select(node => new ExerciseTableRowViewModel(
+                                        Header: node,
+                                        Cells: Enumerable.Repeat(string.Empty, ShortestPathMetricHeaders.Length).ToArray()))
+                                    .ToArray()),
+                            AnswerLabel: isEnglish ? "Worksheet" : "Arbeitsblatt",
+                            SolutionLabel: isEnglish ? "Solution" : "Loesung",
+                            SolutionText: CreateShortestPathSolutionText(isEnglish),
+                            AnswerLineCount: 8)
+                    ])
+            ]);
+    }
+
+    public static ExerciseDocumentViewModel CreateSpanningTree(SiteLanguage language)
+    {
+        var isEnglish = language == SiteLanguage.En;
+
+        return new ExerciseDocumentViewModel(
+            Title: isEnglish ? "Printable single-task sheet" : "Druckbares Einzelaufgabenblatt",
+            Intro: isEnglish
+                ? "This worksheet uses the same generalized worksheet-response block for a graph task without a work table."
+                : "Dieses Arbeitsblatt nutzt denselben generalisierten Worksheet-Response-Block fuer eine Graphaufgabe ohne Arbeitstabelle.",
+            SourceLabel: isEnglish ? "Source" : "Quelle",
+            SourceValue: "Exam Generator / edu POC",
+            PrintHint: isEnglish ? "Use the browser print dialog for a PDF export." : "Nutze den Browser-Druckdialog fuer einen PDF-Export.",
+            PrintLabel: isEnglish ? "Print / PDF" : "Drucken / PDF",
+            ShowSolutionLabel: isEnglish ? "Show solution" : "Loesung zeigen",
+            HideSolutionLabel: isEnglish ? "Hide solution" : "Loesung ausblenden",
+            Sections:
+            [
+                new ExerciseSectionViewModel(
+                    Title: isEnglish ? "Task" : "Aufgabe",
+                    Intro: isEnglish
+                        ? "Determine a minimum spanning tree for the weighted graph and list the selected edges in the answer area."
+                        : "Bestimme einen minimalen Spannbaum fuer den gewichteten Graphen und notiere die gewaehlen Kanten im Antwortbereich.",
+                    Blocks:
+                    [
+                        new ExerciseParagraphBlockViewModel(isEnglish
+                            ? "This second complex example reuses the same block type as the shortest-path worksheet, but without a response table."
+                            : "Dieses zweite komplexe Beispiel verwendet denselben Blocktyp wie das Shortest-Path-Arbeitsblatt, aber ohne Antworttabelle."),
+                        new ExerciseWorksheetResponseBlockViewModel(
+                            Title: isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum",
+                            Intro: isEnglish
+                                ? "Use the graph as the basis for Prim or Kruskal and record the chosen edges in the answer area."
+                                : "Nutze den Graphen als Grundlage fuer Prim oder Kruskal und notiere die gewaehlen Kanten im Antwortbereich.",
+                            Figure: new ExerciseFigureViewModel(
+                                Source: "content/study/spanning-tree-graph.svg",
+                                AltText: isEnglish ? "Weighted graph for a minimum-spanning-tree worksheet" : "Gewichteter Graph fuer ein Spannbaum-Arbeitsblatt"),
+                            Table: null,
+                            AnswerLabel: isEnglish ? "Answer" : "Antwort",
+                            SolutionLabel: isEnglish ? "Solution" : "Loesung",
+                            SolutionText: string.Join("\n", SpanningTreeSolutionEdges),
+                            AnswerLineCount: 8)
+                    ])
+            ]);
+    }
+
     private static ExerciseDocumentViewModel CreatePromptAnswerDocument(
         SiteLanguage language,
         string titleDe,
@@ -248,5 +352,20 @@ public static class ExerciseDocumentFactory
             Label: label,
             Prompt: $"-{parameters.PositiveBinary}",
             Answer: Convert.ToString(solution.ComplementBinary, 2)[8..]);
+    }
+
+    private static string CreateShortestPathSolutionText(bool isEnglish)
+    {
+        return string.Join("\n\n",
+        [
+            isEnglish ? "A: 0" : "A: 0",
+            isEnglish ? "B: A -> B (2)" : "B: A -> B (2)",
+            isEnglish ? "C: A -> C (5)" : "C: A -> C (5)",
+            isEnglish ? "D: A -> B -> D (5)" : "D: A -> B -> D (5)",
+            isEnglish ? "E: A -> B -> E (6)" : "E: A -> B -> E (6)",
+            isEnglish ? "F: A -> C -> F (10)" : "F: A -> C -> F (10)",
+            isEnglish ? "G: A -> B -> D -> G (7)" : "G: A -> B -> D -> G (7)",
+            isEnglish ? "H: A -> B -> E -> H (7)" : "H: A -> B -> E -> H (7)"
+        ]);
     }
 }

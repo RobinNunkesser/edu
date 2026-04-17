@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="300" viewBox="0 0 620 300" role="img" aria-labelledby="title desc">
+  <title id="title">Weighted shortest-path graph</title>
+  <desc id="desc">A weighted graph with nodes A to H for a shortest-path worksheet.</desc>
+  <rect width="620" height="300" fill="#ffffff"/>
+  <g stroke="#4b5563" stroke-width="3" fill="none" font-family="Helvetica, Arial, sans-serif">
+    <line x1="80" y1="140" x2="180" y2="80"/>
+    <line x1="80" y1="140" x2="180" y2="200"/>
+    <line x1="180" y1="80" x2="320" y2="70"/>
+    <line x1="180" y1="80" x2="320" y2="150"/>
+    <line x1="180" y1="200" x2="320" y2="150"/>
+    <line x1="180" y1="200" x2="320" y2="230"/>
+    <line x1="320" y1="70" x2="500" y2="100"/>
+    <line x1="320" y1="150" x2="500" y2="100"/>
+    <line x1="320" y1="150" x2="500" y2="190"/>
+    <line x1="320" y1="230" x2="500" y2="190"/>
+    <line x1="500" y1="100" x2="500" y2="190"/>
+  </g>
+  <g fill="#111827" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+    <text x="130" y="100">2</text>
+    <text x="130" y="178">5</text>
+    <text x="250" y="60">3</text>
+    <text x="250" y="104">4</text>
+    <text x="250" y="186">2</text>
+    <text x="250" y="228">5</text>
+    <text x="410" y="72">2</text>
+    <text x="410" y="114">2</text>
+    <text x="410" y="160">1</text>
+    <text x="410" y="220">3</text>
+    <text x="526" y="148">2</text>
+  </g>
+  <g fill="#f8fafc" stroke="#0f172a" stroke-width="3">
+    <circle cx="80" cy="140" r="24"/>
+    <circle cx="180" cy="80" r="24"/>
+    <circle cx="180" cy="200" r="24"/>
+    <circle cx="320" cy="70" r="24"/>
+    <circle cx="320" cy="150" r="24"/>
+    <circle cx="320" cy="230" r="24"/>
+    <circle cx="500" cy="100" r="24"/>
+    <circle cx="500" cy="190" r="24"/>
+  </g>
+  <g fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="central">
+    <text x="80" y="140">A</text>
+    <text x="180" y="80">B</text>
+    <text x="180" y="200">C</text>
+    <text x="320" y="70">D</text>
+    <text x="320" y="150">E</text>
+    <text x="320" y="230">F</text>
+    <text x="500" y="100">G</text>
+    <text x="500" y="190">H</text>
+  </g>
+</svg>

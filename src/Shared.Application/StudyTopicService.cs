@@ -12,6 +12,8 @@ namespace Shared.Application;
 public sealed class StudyTopicService
 {
     private const string MinimalSpanningTreeSlug = "minimaler-spannbaum";
+    private const string SpanningTreeExerciseSlug = "spannbaum";
+    private const string SpanningTreeExerciseSlugEn = "spanning-tree";
     private const string BinaryAdditionSlug = "binaere-addition";
     private const string BinaryAdditionSlugEn = "binary-addition";
     private const string GdiExercisesSlug = "gdi-uebungen";
@@ -20,6 +22,8 @@ public sealed class StudyTopicService
     private const string BinaryToDecimalSlugEn = "binary-to-decimal";
     private const string DecimalToBinarySlug = "dezimal-zu-binaer";
     private const string DecimalToBinarySlugEn = "decimal-to-binary";
+    private const string ShortestPathExerciseSlug = "kuerzeste-wege";
+    private const string ShortestPathExerciseSlugEn = "shortest-path";
     private const string TwosComplementSlug = "zweierkomplement";
     private const string TwosComplementSlugEn = "twos-complement";
     private const string RomaniaSearchSlug = "rumaenien-suche";
@@ -88,6 +92,10 @@ public sealed class StudyTopicService
             || string.Equals(slug, BinaryToDecimalSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, ShortestPathExerciseSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, ShortestPathExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, SpanningTreeExerciseSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, SpanningTreeExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, TwosComplementSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, TwosComplementSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
@@ -106,6 +114,10 @@ public sealed class StudyTopicService
             || string.Equals(slug, BinaryToDecimalSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, DecimalToBinarySlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, ShortestPathExerciseSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, ShortestPathExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, SpanningTreeExerciseSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, SpanningTreeExerciseSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, TwosComplementSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, TwosComplementSlugEn, StringComparison.OrdinalIgnoreCase);
 
@@ -129,6 +141,8 @@ public sealed class StudyTopicService
         {
             "binary-to-decimal" => isEnglish ? "Binary to decimal" : "Binaer zu Dezimal",
             "decimal-to-binary" => isEnglish ? "Decimal to binary" : "Dezimal zu Binaer",
+            "shortest-path" => isEnglish ? "Shortest paths" : "Kuerzeste Wege",
+            "spanning-tree" => isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum",
             "twos-complement" => isEnglish ? "Two's complement" : "Zweierkomplement",
             _ => isEnglish ? "Binary addition" : "Binaere Addition"
         };
@@ -145,6 +159,12 @@ public sealed class StudyTopicService
             "decimal-to-binary" => isEnglish
                 ? "JSON import is now the primary source for this worksheet. If the file is missing, edu falls back to runtime generation."
                 : "JSON-Import ist jetzt die primaere Quelle fuer dieses Aufgabenblatt. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck.",
+            "shortest-path" => isEnglish
+                ? "This imported worksheet demonstrates the shared graph-and-table block on a shortest-path task. If the file is missing, edu falls back to runtime generation."
+                : "Dieses importierte Arbeitsblatt demonstriert den gemeinsamen Graph-und-Tabellen-Block an einer Kuerzeste-Wege-Aufgabe. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck.",
+            "spanning-tree" => isEnglish
+                ? "This imported worksheet demonstrates the same shared worksheet block on a graph task without a response table."
+                : "Dieses importierte Arbeitsblatt demonstriert denselben gemeinsamen Worksheet-Block an einer Graphaufgabe ohne Antworttabelle.",
             _ => isEnglish
                 ? "JSON import is now the primary source for this worksheet. If the file is missing, edu falls back to runtime generation."
                 : "JSON-Import ist jetzt die primaere Quelle fuer dieses Aufgabenblatt. Falls die Datei fehlt, faellt edu auf Laufzeit-Erzeugung zurueck."
@@ -246,6 +266,8 @@ public sealed class StudyTopicService
             BinaryAdditionSlug or BinaryAdditionSlugEn => "binary-addition",
             BinaryToDecimalSlug or BinaryToDecimalSlugEn => "binary-to-decimal",
             DecimalToBinarySlug or DecimalToBinarySlugEn => "decimal-to-binary",
+            ShortestPathExerciseSlug or ShortestPathExerciseSlugEn => "shortest-path",
+            SpanningTreeExerciseSlug or SpanningTreeExerciseSlugEn => "spanning-tree",
             TwosComplementSlug or TwosComplementSlugEn => "twos-complement",
             _ => "binary-addition"
         };
@@ -268,6 +290,14 @@ public sealed class StudyTopicService
                 "decimal-to-binary",
                 isEnglish ? "Decimal to binary" : "Dezimal zu Binaer",
                 isEnglish ? "Convert decimal values into bit patterns." : "Wandle Dezimalwerte in Bitmuster um."),
+            new ExerciseTopicOptionViewModel(
+                "shortest-path",
+                isEnglish ? "Shortest paths" : "Kuerzeste Wege",
+                isEnglish ? "Work through a graph worksheet with figure and response table." : "Bearbeite ein Graph-Arbeitsblatt mit Abbildung und Antworttabelle."),
+            new ExerciseTopicOptionViewModel(
+                "spanning-tree",
+                isEnglish ? "Minimum spanning tree" : "Minimaler Spannbaum",
+                isEnglish ? "Solve a graph worksheet with figure and free-form answer area." : "Loese ein Graph-Arbeitsblatt mit Abbildung und freiem Antwortbereich."),
             new ExerciseTopicOptionViewModel(
                 "twos-complement",
                 isEnglish ? "Two's complement" : "Zweierkomplement",

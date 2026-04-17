@@ -1,0 +1,36 @@
+{
+  "Title": "Druckbares Einzelaufgabenblatt",
+  "Intro": "Dieses Arbeitsblatt nutzt denselben generalisierten Worksheet-Response-Block fuer eine Graphaufgabe ohne Arbeitstabelle.",
+  "SourceLabel": "Quelle",
+  "SourceValue": "Exam Generator / edu POC",
+  "PrintHint": "Nutze den Browser-Druckdialog fuer einen PDF-Export.",
+  "PrintLabel": "Drucken / PDF",
+  "ShowSolutionLabel": "Loesung zeigen",
+  "HideSolutionLabel": "Loesung ausblenden",
+  "Sections": [
+    {
+      "Title": "Aufgabe",
+      "Intro": "Bestimme einen minimalen Spannbaum fuer den gewichteten Graphen und notiere die gewaehlen Kanten im Antwortbereich.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "Dieses zweite komplexe Beispiel verwendet denselben Blocktyp wie das Shortest-Path-Arbeitsblatt, aber ohne Antworttabelle."
+        },
+        {
+          "$type": "worksheet-response",
+          "Title": "Minimaler Spannbaum",
+          "Intro": "Nutze den Graphen als Grundlage fuer Prim oder Kruskal und notiere die gewaehlen Kanten im Antwortbereich.",
+          "Figure": {
+            "Source": "content/study/spanning-tree-graph.svg",
+            "AltText": "Gewichteter Graph fuer ein Spannbaum-Arbeitsblatt"
+          },
+          "Table": null,
+          "AnswerLabel": "Antwort",
+          "SolutionLabel": "Loesung",
+          "SolutionText": "A - B (2)\nB - D (3)\nB - E (4)\nD - G (2)\nE - H (1)\nA - C (5)\nC - F (5)",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "Title": "Printable single-task sheet",
+  "Intro": "This worksheet uses the same generalized worksheet-response block for a graph task without a work table.",
+  "SourceLabel": "Source",
+  "SourceValue": "Exam Generator / edu POC",
+  "PrintHint": "Use the browser print dialog for a PDF export.",
+  "PrintLabel": "Print / PDF",
+  "ShowSolutionLabel": "Show solution",
+  "HideSolutionLabel": "Hide solution",
+  "Sections": [
+    {
+      "Title": "Task",
+      "Intro": "Determine a minimum spanning tree for the weighted graph and list the selected edges in the answer area.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "This second complex example reuses the same block type as the shortest-path worksheet, but without a response table."
+        },
+        {
+          "$type": "worksheet-response",
+          "Title": "Minimum spanning tree",
+          "Intro": "Use the graph as the basis for Prim or Kruskal and record the chosen edges in the answer area.",
+          "Figure": {
+            "Source": "content/study/spanning-tree-graph.svg",
+            "AltText": "Weighted graph for a minimum-spanning-tree worksheet"
+          },
+          "Table": null,
+          "AnswerLabel": "Answer",
+          "SolutionLabel": "Solution",
+          "SolutionText": "A - B (2)\nB - D (3)\nB - E (4)\nD - G (2)\nE - H (1)\nA - C (5)\nC - F (5)",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}

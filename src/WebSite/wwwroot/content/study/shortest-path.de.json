@@ -1,0 +1,65 @@
+{
+  "Title": "Druckbares Einzelaufgabenblatt",
+  "Intro": "Dieses Arbeitsblatt macht den generalisierten Graph-und-Tabellen-Block sichtbar, der jetzt in gleicher semantischer Struktur auch den LaTeX-Renderer im Exam Generator speist.",
+  "SourceLabel": "Quelle",
+  "SourceValue": "Exam Generator / edu POC",
+  "PrintHint": "Nutze den Browser-Druckdialog fuer einen PDF-Export.",
+  "PrintLabel": "Drucken / PDF",
+  "ShowSolutionLabel": "Loesung zeigen",
+  "HideSolutionLabel": "Loesung ausblenden",
+  "Sections": [
+    {
+      "Title": "Aufgabe",
+      "Intro": "Bestimme die kuerzesten Wege im gewichteten Graphen. Verwende A als Startknoten und dokumentiere deinen Rechenweg in der Arbeitstabelle.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "Dieses Beispiel macht den Worksheet-Response-Block in edu sichtbar: eine Abbildung, eine wiederverwendbare Arbeitstabelle und ein gemeinsamer Loesungsbereich."
+        },
+        {
+          "$type": "worksheet-response",
+          "Title": "Kuerzeste Wege",
+          "Intro": "Fuehre die Berechnung im gezeigten Graphen durch. Trage nach jedem Schritt Distanzschaetzungen D und Vorgaenger V ein.",
+          "Figure": {
+            "Source": "content/study/shortest-path-graph.svg",
+            "AltText": "Gewichteter Graph fuer ein Kuerzeste-Wege-Arbeitsblatt"
+          },
+          "Table": {
+            "RowHeaderLabel": "K",
+            "TableAriaLabel": "Arbeitstabelle fuer kuerzeste Wege",
+            "Columns": [
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" }
+            ],
+            "Rows": [
+              { "Header": "A", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "B", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "C", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "D", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "E", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "F", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "G", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "H", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] }
+            ]
+          },
+          "AnswerLabel": "Arbeitsblatt",
+          "SolutionLabel": "Loesung",
+          "SolutionText": "A: 0\n\nB: A -> B (2)\n\nC: A -> C (5)\n\nD: A -> B -> D (5)\n\nE: A -> B -> E (6)\n\nF: A -> C -> F (10)\n\nG: A -> B -> D -> G (7)\n\nH: A -> B -> E -> H (7)",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}

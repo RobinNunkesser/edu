@@ -1,0 +1,65 @@
+{
+  "Title": "Printable single-task sheet",
+  "Intro": "This worksheet exposes the generalized graph-and-table response block with the same semantic structure that now also feeds the LaTeX renderer in the Exam Generator.",
+  "SourceLabel": "Source",
+  "SourceValue": "Exam Generator / edu POC",
+  "PrintHint": "Use the browser print dialog for a PDF export.",
+  "PrintLabel": "Print / PDF",
+  "ShowSolutionLabel": "Show solution",
+  "HideSolutionLabel": "Hide solution",
+  "Sections": [
+    {
+      "Title": "Task",
+      "Intro": "Determine the shortest paths in the weighted graph. Use A as the start node and document your work in the worksheet table.",
+      "Blocks": [
+        {
+          "$type": "paragraph",
+          "Text": "This example makes the worksheet-response block visible in edu: one figure, one reusable work table and one shared solution area."
+        },
+        {
+          "$type": "worksheet-response",
+          "Title": "Shortest paths",
+          "Intro": "Carry out the computation on the shown graph. Record distance estimates D and predecessors V after each step.",
+          "Figure": {
+            "Source": "content/study/shortest-path-graph.svg",
+            "AltText": "Weighted graph for a shortest-path worksheet"
+          },
+          "Table": {
+            "RowHeaderLabel": "K",
+            "TableAriaLabel": "Worksheet table for shortest paths",
+            "Columns": [
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" },
+              { "Header": "D" },
+              { "Header": "V" }
+            ],
+            "Rows": [
+              { "Header": "A", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "B", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "C", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "D", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "E", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "F", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "G", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] },
+              { "Header": "H", "Cells": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""] }
+            ]
+          },
+          "AnswerLabel": "Worksheet",
+          "SolutionLabel": "Solution",
+          "SolutionText": "A: 0\n\nB: A -> B (2)\n\nC: A -> C (5)\n\nD: A -> B -> D (5)\n\nE: A -> B -> E (6)\n\nF: A -> C -> F (10)\n\nG: A -> B -> D -> G (7)\n\nH: A -> B -> E -> H (7)",
+          "AnswerLineCount": 8
+        }
+      ]
+    }
+  ]
+}
