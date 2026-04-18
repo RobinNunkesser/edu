@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using Content.Schema;
-using Italbytz.Exam.Trivia.Abstractions;
+using Italbytz.Trivia.Abstractions;
 using Italbytz.Graph;
 using Italbytz.Graph.Abstractions;
 using Italbytz.Graph.Visualization;
