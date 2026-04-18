@@ -774,6 +774,63 @@ else if (IsExerciseTopic && CurrentExerciseDocument is not null)
     </section>
     </div>
 }
+else if (IsQuizTopic && _topic?.QuizTopic is { } quiz)
+{
+    <section class="page-intro lecture-hero">
+        <div>
+            <p class="section-label">@_topic.SectionLabel</p>
+            <h1>@_topic.Title</h1>
+            <p>@_topic.Intro</p>
+        </div>
+        <div class="lecture-meta-card">
+            <p class="feature-card-kicker">@_topic.MetaLabel</p>
+            <h2>@_topic.MetaValue</h2>
+            <a class="inline-link" href="@_topic.BackRoute">@_topic.BackLabel</a>
+        </div>
+    </section>
+
+    <section class="study-quiz-section">
+        @if (_quizFinished)
+        {
+            <div class="quiz-result-card">
+                <h2>@quiz.CompletedLabel</h2>
+                <p>✓ @_quizCorrect &nbsp; ✗ @_quizWrong</p>
+                <button class="btn-primary" @onclick="ResetQuiz">@quiz.RestartLabel</button>
+            </div>
+        }
+        else
+        {
+            var currentQuestion = quiz.Questions[_quizIndex];
+            <div class="quiz-card">
+                <p class="quiz-category">@currentQuestion.Category</p>
+                <p class="quiz-question">@currentQuestion.Text</p>
+
+                <div class="quiz-buttons">
+                    <button class="btn-quiz @(_quizAnswered && currentQuestion.Answer ? "btn-correct" : "") @(_quizAnswered && !currentQuestion.Answer ? "btn-wrong" : "")"
+                            disabled="@_quizAnswered"
+                            @onclick="() => AnswerQuiz(true)">
+                        @quiz.TrueLabel
+                    </button>
+                    <button class="btn-quiz @(_quizAnswered && !currentQuestion.Answer ? "btn-correct" : "") @(_quizAnswered && currentQuestion.Answer ? "btn-wrong" : "")"
+                            disabled="@_quizAnswered"
+                            @onclick="() => AnswerQuiz(false)">
+                        @quiz.FalseLabel
+                    </button>
+                </div>
+
+                @if (_quizAnswered)
+                {
+                    <p class="quiz-feedback">@_quizFeedback</p>
+                    <button class="btn-secondary" @onclick="NextQuizQuestion">
+                        @(_quizIndex + 1 < quiz.Questions.Count ? "Weiter" : quiz.CompletedLabel)
+                    </button>
+                }
+
+                <p class="quiz-progress">@quiz.ProgressLabel: @(_quizIndex + 1) / @quiz.Questions.Count &nbsp; ✓ @_quizCorrect &nbsp; ✗ @_quizWrong</p>
+            </div>
+        }
+    </section>
+}
 else
 {
     <section class="page-intro lecture-hero mst-hero">
@@ -999,6 +1056,14 @@ else
     private string NotFoundTitle = string.Empty;
     private string NotFoundText = string.Empty;
 
+    // Quiz state
+    private int _quizIndex;
+    private int _quizCorrect;
+    private int _quizWrong;
+    private string _quizFeedback = string.Empty;
+    private bool _quizAnswered;
+    private bool _quizFinished;
+
     private string ProgressText => _topic is null
         ? string.Empty
         : $"{CurrentStep}/{CurrentStepCount}";
@@ -1006,6 +1071,8 @@ else
     private bool IsNQueensTopic => _topic?.Kind == StudyTopicKind.NQueens;
 
     private bool IsExerciseTopic => _topic?.Kind == StudyTopicKind.Exercise;
+
+    private bool IsQuizTopic => _topic?.Kind == StudyTopicKind.Quiz;
 
     private ExerciseDocumentViewModel? CurrentExerciseDocument => _activeExerciseDocument ?? _topic?.ExerciseDocument;
 
@@ -1852,4 +1919,34 @@ else
     }
 
     private sealed record StudyStepListItem(int Number, string Title, string Badge, string Description);
+
+    private void AnswerQuiz(bool userAnswer)
+    {
+        if (_topic?.QuizTopic is not { } quiz || _quizAnswered) return;
+        var correct = userAnswer == quiz.Questions[_quizIndex].Answer;
+        if (correct) _quizCorrect++; else _quizWrong++;
+        _quizFeedback = correct ? quiz.CorrectLabel : quiz.WrongLabel;
+        _quizAnswered = true;
+    }
+
+    private void NextQuizQuestion()
+    {
+        if (_topic?.QuizTopic is not { } quiz) return;
+        _quizAnswered = false;
+        _quizFeedback = string.Empty;
+        if (_quizIndex + 1 < quiz.Questions.Count)
+            _quizIndex++;
+        else
+            _quizFinished = true;
+    }
+
+    private void ResetQuiz()
+    {
+        _quizIndex = 0;
+        _quizCorrect = 0;
+        _quizWrong = 0;
+        _quizFeedback = string.Empty;
+        _quizAnswered = false;
+        _quizFinished = false;
+    }
 }

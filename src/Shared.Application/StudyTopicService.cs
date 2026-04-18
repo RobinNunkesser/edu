@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using Content.Schema;
+using Italbytz.Exam.Trivia.Abstractions;
 using Italbytz.Graph;
 using Italbytz.Graph.Abstractions;
 using Italbytz.Graph.Visualization;
@@ -34,6 +35,8 @@ public sealed class StudyTopicService
     private const string GraphVisualizationSlugEn = "graph-visualization";
     private const string PageReplacementExerciseSlug = "seitenersetzung";
     private const string PageReplacementExerciseSlugEn = "page-replacement";
+    private const string QuizOperatingSystemsSlug = "quiz-betriebssysteme";
+    private const string QuizNetworkingSlug = "quiz-netzwerke";
 
     private static readonly JsonSerializerOptions ExerciseJsonOptions = new()
     {
@@ -75,6 +78,8 @@ public sealed class StudyTopicService
 
         return IsExerciseSlug(slug)
             ? await BuildExerciseTopicAsync(language, slug)
+            : IsQuizSlug(slug)
+            ? BuildQuizTopic(language, slug)
             : string.Equals(slug, RomaniaSearchSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, RomaniaSearchSlugEn, StringComparison.OrdinalIgnoreCase)
             ? BuildRomaniaSearchTopic(language, slug)
@@ -107,7 +112,13 @@ public sealed class StudyTopicService
             || string.Equals(slug, NQueensSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, NQueensSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, GraphVisualizationSlug, StringComparison.OrdinalIgnoreCase)
-            || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase);
+            || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, QuizOperatingSystemsSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, QuizNetworkingSlug, StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsQuizSlug(string slug)
+        => string.Equals(slug, QuizOperatingSystemsSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, QuizNetworkingSlug, StringComparison.OrdinalIgnoreCase);
 
     private static bool IsExerciseSlug(string slug)
         => string.Equals(slug, GdiExercisesSlug, StringComparison.OrdinalIgnoreCase)
@@ -365,6 +376,87 @@ public sealed class StudyTopicService
 
         return string.Equals(baseAddress.Host, "localhost", StringComparison.OrdinalIgnoreCase)
             || string.Equals(baseAddress.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static StudyTopicDetailViewModel BuildQuizTopic(SiteLanguage language, string slug)
+    {
+        var isEnglish = language == SiteLanguage.En;
+        var isNetworking = string.Equals(slug, QuizNetworkingSlug, StringComparison.OrdinalIgnoreCase);
+        var catalogId = isNetworking ? "networking" : "operating-systems";
+
+        var rawQuestions = isNetworking
+            ? Italbytz.Exam.Networking.YesNoQuestions.Questions.Cast<IYesNoQuestion>().ToArray()
+            : Italbytz.Exam.OperatingSystems.YesNoQuestions.Questions.Cast<IYesNoQuestion>().ToArray();
+
+        var shuffled = rawQuestions.OrderBy(_ => Guid.NewGuid()).ToArray();
+        var questions = shuffled
+            .Select(q => new QuizQuestionViewModel(q.Text, q.Answer, q.Category))
+            .ToArray();
+
+        var title = isNetworking
+            ? (isEnglish ? "Networking Quiz" : "Netzwerke Quiz")
+            : (isEnglish ? "Operating Systems Quiz" : "Betriebssysteme Quiz");
+
+        var intro = isNetworking
+            ? (isEnglish
+                ? "True/false questions on computer networks drawn from the lecture content."
+                : "Wahr/Falsch-Fragen zu Computernetzwerken aus dem Vorlesungsinhalt.")
+            : (isEnglish
+                ? "True/false questions on operating systems drawn from the lecture content."
+                : "Wahr/Falsch-Fragen zu Betriebssystemen aus dem Vorlesungsinhalt.");
+
+        return new StudyTopicDetailViewModel(
+            Kind: StudyTopicKind.Quiz,
+            Slug: slug,
+            Title: title,
+            Intro: intro,
+            SectionLabel: isNetworking
+                ? (isEnglish ? "Networking" : "Netzwerke")
+                : (isEnglish ? "Operating Systems" : "Betriebssysteme"),
+            MetaLabel: isEnglish ? "Questions" : "Fragen",
+            MetaValue: questions.Length.ToString(),
+            BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
+            BackRoute: SiteRoutes.Teaching(language),
+            Facts: isEnglish
+                ? [
+                    new StudyFactViewModel("Type", "True / False"),
+                    new StudyFactViewModel("Questions", questions.Length.ToString()),
+                    new StudyFactViewModel("Source", isNetworking ? "Italbytz.Exam.Networking" : "Italbytz.Exam.OperatingSystems")
+                ]
+                : [
+                    new StudyFactViewModel("Typ", "Wahr / Falsch"),
+                    new StudyFactViewModel("Fragen", questions.Length.ToString()),
+                    new StudyFactViewModel("Quelle", isNetworking ? "Italbytz.Exam.Networking" : "Italbytz.Exam.OperatingSystems")
+                ],
+            GraphSectionTitle: null,
+            GraphSectionIntro: null,
+            StepSectionTitle: string.Empty,
+            StepSectionIntro: string.Empty,
+            ResultSectionTitle: string.Empty,
+            ResultSectionIntro: string.Empty,
+            InitialStepDescription: string.Empty,
+            PreviousStepLabel: string.Empty,
+            NextStepLabel: string.Empty,
+            CompleteSolutionLabel: string.Empty,
+            ResetLabel: isEnglish ? "Restart" : "Neu starten",
+            ProgressLabel: isEnglish ? "Progress" : "Fortschritt",
+            NQueens: null,
+            GraphVisualization: null,
+            GraphStates: null,
+            GraphEdges: null,
+            Steps: null)
+        {
+            QuizTopic = new QuizTopicViewModel(
+                CatalogId: catalogId,
+                CorrectLabel: isEnglish ? "Correct!" : "Richtig!",
+                WrongLabel: isEnglish ? "Wrong!" : "Falsch!",
+                TrueLabel: isEnglish ? "True" : "Wahr",
+                FalseLabel: isEnglish ? "False" : "Falsch",
+                ProgressLabel: isEnglish ? "Progress" : "Fortschritt",
+                RestartLabel: isEnglish ? "Restart" : "Neu starten",
+                CompletedLabel: isEnglish ? "Quiz completed!" : "Quiz abgeschlossen!",
+                Questions: questions)
+        };
     }
 
     private static StudyTopicDetailViewModel BuildNQueensTopic(SiteLanguage language, string slug)
@@ -835,7 +927,8 @@ public enum StudyTopicKind
 {
     Graph,
     NQueens,
-    Exercise
+    Exercise,
+    Quiz
 }
 
 public sealed record StudyTopicDetailViewModel(
@@ -870,6 +963,7 @@ public sealed record StudyTopicDetailViewModel(
     public ExerciseDocumentViewModel? ExerciseDocument { get; init; }
     public string? ExerciseDocumentKey { get; init; }
     public IReadOnlyList<ExerciseTopicOptionViewModel>? ExerciseOptions { get; init; }
+    public QuizTopicViewModel? QuizTopic { get; init; }
 }
 
 public sealed record ExerciseTopicOptionViewModel(
@@ -925,3 +1019,19 @@ public sealed record NQueensStepViewModel(
     int ConflictCount,
     bool Solved,
     bool Stopped);
+
+public sealed record QuizTopicViewModel(
+    string CatalogId,
+    string CorrectLabel,
+    string WrongLabel,
+    string TrueLabel,
+    string FalseLabel,
+    string ProgressLabel,
+    string RestartLabel,
+    string CompletedLabel,
+    IReadOnlyList<QuizQuestionViewModel> Questions);
+
+public sealed record QuizQuestionViewModel(
+    string Text,
+    bool Answer,
+    string Category);

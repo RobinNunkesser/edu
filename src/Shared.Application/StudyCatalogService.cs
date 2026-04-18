@@ -66,6 +66,28 @@ public sealed class StudyCatalogService
                                 new StudyTopicDocument("spannbaum", "Minimaler Spannbaum", "Importierte Graphaufgabe mit freiem Antwortbereich ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "SpanningTreeExerciseDocument"),
                                 new StudyTopicDocument("zweierkomplement", "Zweierkomplement", "Importierter Darstellungstyp ueber dieselbe Dokumentstruktur.", "Exam Generator / edu", true, "TwosComplementExerciseDocument")
                             ])
+                    ]),
+                new StudySectionDocument(
+                    "betriebssysteme-quiz",
+                    "Betriebssysteme",
+                    "Interaktives Wahr/Falsch-Quiz zu Betriebssystemen aus dem ISD-Vorlesungsinhalt.",
+                    [
+                        new StudyGroupDocument(
+                            "Quiz",
+                            [
+                                new StudyTopicDocument("quiz-betriebssysteme", "Betriebssysteme Quiz", "Wahr/Falsch-Fragen zu Betriebssystemen aus Italbytz.Exam.OperatingSystems.", "Italbytz.Exam.OperatingSystems", true, "QuizOperatingSystems")
+                            ])
+                    ]),
+                new StudySectionDocument(
+                    "netzwerke-quiz",
+                    "Netzwerke",
+                    "Interaktives Wahr/Falsch-Quiz zu Computernetzwerken aus dem ISD-Vorlesungsinhalt.",
+                    [
+                        new StudyGroupDocument(
+                            "Quiz",
+                            [
+                                new StudyTopicDocument("quiz-netzwerke", "Netzwerke Quiz", "Wahr/Falsch-Fragen zu Netzwerken aus Italbytz.Exam.Networking.", "Italbytz.Exam.Networking", true, "QuizNetworking")
+                            ])
                     ])
             ]);
     }

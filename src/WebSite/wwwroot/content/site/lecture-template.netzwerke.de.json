@@ -121,6 +121,17 @@
       ]
     },
     {
+      "title": "Interaktive Übungen / Demonstratoren",
+      "intro": "",
+      "links": [
+        {
+          "title": "Quiz Netzwerke",
+          "url": "/study/quiz-netzwerke",
+          "description": "Wissenstest zur Lehrveranstaltung Netzwerke mit vorselektierten Wahr/Falsch-Fragen."
+        }
+      ]
+    },
+    {
       "title": "Folien",
       "intro": "",
       "links": [
