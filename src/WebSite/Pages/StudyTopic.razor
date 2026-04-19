@@ -882,6 +882,25 @@ else
                 </div>
             }
 
+            @if (IsVacuumWorldTopic)
+            {
+                <div class="nq-algorithm-switcher" role="tablist" aria-label="@CurrentVacuumWorldTopic!.AgentSelectorLabel">
+                    @foreach (var agent in CurrentVacuumWorldTopic.Agents)
+                    {
+                        <button class="@(IsSelectedAlgorithm(agent.Key) ? "btn btn-primary" : "btn btn-outline-primary")"
+                                @onclick="() => SelectAlgorithm(agent.Key)">
+                            @agent.Name
+                        </button>
+                    }
+                </div>
+
+                <div class="mst-progress-card">
+                    <p class="feature-card-kicker">@CurrentVacuumWorldTopic.AgentSelectorLabel</p>
+                    <h3>@CurrentVacuumWorldAgent!.Name</h3>
+                    <p>@CurrentVacuumWorldAgent.Summary</p>
+                </div>
+            }
+
             <div class="mst-controls">
                 <button class="btn btn-outline-primary" @onclick="PreviousStep" disabled="@(CurrentStep == 0)">@_topic.PreviousStepLabel</button>
                 <button class="btn btn-primary" @onclick="NextStep" disabled="@(CurrentStep >= CurrentStepCount)">@_topic.NextStepLabel</button>
@@ -945,6 +964,39 @@ else
                             <p>@CurrentActionMetric</p>
                         </article>
                     </div>
+                </div>
+            }
+            else if (IsVacuumWorldTopic)
+            {
+                <div class="vw-grid">
+                    <div class="vw-room @(CurrentVacuumAgentLocation == "A" ? "vw-room-active" : string.Empty)">
+                        <p class="feature-card-kicker">@CurrentVacuumWorldTopic!.LocationALabel</p>
+                        <div class="vw-room-state">@CurrentVacuumLocationAState</div>
+                        @if (CurrentVacuumAgentLocation == "A")
+                        {
+                            <div class="vw-agent">🤖</div>
+                        }
+                    </div>
+                    <div class="vw-room @(CurrentVacuumAgentLocation == "B" ? "vw-room-active" : string.Empty)">
+                        <p class="feature-card-kicker">@CurrentVacuumWorldTopic!.LocationBLabel</p>
+                        <div class="vw-room-state">@CurrentVacuumLocationBState</div>
+                        @if (CurrentVacuumAgentLocation == "B")
+                        {
+                            <div class="vw-agent">🤖</div>
+                        }
+                    </div>
+                </div>
+                <div class="nq-inspector-grid">
+                    <article class="mst-edge-card">
+                        <p class="feature-card-kicker">@CurrentVacuumWorldTopic!.ActionLabel</p>
+                        <h3>@(CurrentVacuumWorldStep?.ActionLabel ?? "–")</h3>
+                        <p>@CurrentVacuumWorldTopic.AgentLabel: @CurrentVacuumAgentLocation</p>
+                    </article>
+                    <article class="mst-edge-card @(CurrentVacuumWorldStep?.ActionLabel == (CurrentLanguage == SiteLanguage.En ? "No-Op" : "Nichts tun") ? "mst-edge-card-active" : string.Empty)">
+                        <p class="feature-card-kicker">@CurrentVacuumWorldTopic!.PerformanceLabel</p>
+                        <h3>@(CurrentVacuumWorldStep?.PerformanceMeasure.ToString() ?? "0")</h3>
+                        <p>@CurrentVacuumWorldTopic.DoneLabel: @(CurrentVacuumWorldStep?.ActionLabel == (CurrentLanguage == SiteLanguage.En ? "No-Op" : "Nichts tun") ? "✓" : "–")</p>
+                    </article>
                 </div>
             }
             else
@@ -1021,6 +1073,24 @@ else
                     <p>@CurrentActionMetric</p>
                 </article>
             }
+            else if (IsVacuumWorldTopic)
+            {
+                <article class="resource-card mst-result-card">
+                    <p class="feature-card-kicker">@CurrentVacuumWorldTopic!.AgentSelectorLabel</p>
+                    <h3>@CurrentVacuumWorldAgent!.Name</h3>
+                    <p>@CurrentVacuumWorldAgent.Summary</p>
+                </article>
+                <article class="resource-card mst-result-card">
+                    <p class="feature-card-kicker">@CurrentVacuumWorldTopic.ActionLabel</p>
+                    <h3>@(CurrentVacuumWorldStep?.ActionLabel ?? "–")</h3>
+                    <p>@CurrentVacuumWorldTopic.AgentLabel: @CurrentVacuumAgentLocation</p>
+                </article>
+                <article class="resource-card mst-result-card">
+                    <p class="feature-card-kicker">@CurrentVacuumWorldTopic.PerformanceLabel</p>
+                    <h3>@(CurrentVacuumWorldStep?.PerformanceMeasure.ToString() ?? "0")</h3>
+                    <p>A: @CurrentVacuumLocationAState / B: @CurrentVacuumLocationBState</p>
+                </article>
+            }
             else
             {
                 @foreach (var edge in IncludedEdges)
@@ -1069,6 +1139,8 @@ else
         : $"{CurrentStep}/{CurrentStepCount}";
 
     private bool IsNQueensTopic => _topic?.Kind == StudyTopicKind.NQueens;
+
+    private bool IsVacuumWorldTopic => _topic?.Kind == StudyTopicKind.VacuumWorld;
 
     private bool IsExerciseTopic => _topic?.Kind == StudyTopicKind.Exercise;
 
@@ -1133,19 +1205,27 @@ else
 
     private int CurrentStepCount => IsNQueensTopic
         ? CurrentNQueensAlgorithm?.Steps.Count ?? 0
-        : _topic?.Steps?.Count ?? 0;
+        : IsVacuumWorldTopic
+            ? CurrentVacuumWorldAgent?.Steps.Count ?? 0
+            : _topic?.Steps?.Count ?? 0;
 
     private IReadOnlyList<StudyStepListItem> CurrentStepItems => IsNQueensTopic
         ? (CurrentNQueensAlgorithm?.Steps.Select(step => new StudyStepListItem(step.Number, step.Summary, step.Metric, step.Description)).ToArray() ?? [])
-        : (_topic?.Steps?.Select(step => new StudyStepListItem(step.Number, step.EdgeLabel, step.Weight, step.Description)).ToArray() ?? []);
+        : IsVacuumWorldTopic
+            ? (CurrentVacuumWorldAgent?.Steps.Select(step => new StudyStepListItem(step.Number, step.Summary, step.ActionLabel, step.Description)).ToArray() ?? [])
+            : (_topic?.Steps?.Select(step => new StudyStepListItem(step.Number, step.EdgeLabel, step.Weight, step.Description)).ToArray() ?? []);
 
     private string VisualSectionTitle => IsNQueensTopic
         ? CurrentNQueensTopic?.BoardSectionTitle ?? string.Empty
-        : _topic?.GraphSectionTitle ?? string.Empty;
+        : IsVacuumWorldTopic
+            ? CurrentVacuumWorldTopic?.GridSectionTitle ?? string.Empty
+            : _topic?.GraphSectionTitle ?? string.Empty;
 
     private string VisualSectionIntro => IsNQueensTopic
         ? CurrentNQueensTopic?.BoardSectionIntro ?? string.Empty
-        : _topic?.GraphSectionIntro ?? string.Empty;
+        : IsVacuumWorldTopic
+            ? CurrentVacuumWorldTopic?.GridSectionIntro ?? string.Empty
+            : _topic?.GraphSectionIntro ?? string.Empty;
 
     private string GraphZoomInLabel => CurrentLanguage == SiteLanguage.En ? "Zoom in" : "Vergroessern";
 
@@ -1317,6 +1397,10 @@ else
             ? CurrentStep == 0
                 ? CurrentNQueensAlgorithm?.Summary ?? _topic.InitialStepDescription
                 : CurrentNQueensStep?.Description ?? string.Empty
+            : IsVacuumWorldTopic
+                ? CurrentStep == 0
+                    ? CurrentVacuumWorldAgent?.Summary ?? _topic.InitialStepDescription
+                    : CurrentVacuumWorldStep?.Description ?? string.Empty
             : CurrentStep == 0
                 ? _topic.InitialStepDescription
                 : _topic.Steps![CurrentStep - 1].Description;
@@ -1324,6 +1408,27 @@ else
     private NQueensStepViewModel? CurrentNQueensStep => IsNQueensTopic && CurrentStep > 0 && CurrentNQueensAlgorithm is not null
         ? CurrentNQueensAlgorithm.Steps[Math.Min(CurrentStep - 1, CurrentNQueensAlgorithm.Steps.Count - 1)]
         : null;
+
+    private VacuumWorldTopicViewModel? CurrentVacuumWorldTopic => _topic?.VacuumWorld;
+
+    private VacuumWorldAgentViewModel? CurrentVacuumWorldAgent => CurrentVacuumWorldTopic?.Agents.FirstOrDefault(a => a.Key == _selectedAlgorithmKey)
+        ?? CurrentVacuumWorldTopic?.Agents.FirstOrDefault();
+
+    private VacuumWorldStepViewModel? CurrentVacuumWorldStep => IsVacuumWorldTopic && CurrentStep > 0 && CurrentVacuumWorldAgent is not null
+        ? CurrentVacuumWorldAgent.Steps[Math.Min(CurrentStep - 1, CurrentVacuumWorldAgent.Steps.Count - 1)]
+        : null;
+
+    private string CurrentVacuumAgentLocation => CurrentVacuumWorldStep?.AgentLocation
+        ?? CurrentVacuumWorldAgent?.InitialLocation
+        ?? "A";
+
+    private string CurrentVacuumLocationAState => CurrentVacuumWorldStep?.LocationAState
+        ?? CurrentVacuumWorldAgent?.InitialLocationAState
+        ?? string.Empty;
+
+    private string CurrentVacuumLocationBState => CurrentVacuumWorldStep?.LocationBState
+        ?? CurrentVacuumWorldAgent?.InitialLocationBState
+        ?? string.Empty;
 
     private int CurrentBoardSize => CurrentNQueensAlgorithm?.BoardSize ?? 0;
 

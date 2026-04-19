@@ -37,6 +37,8 @@ public sealed class StudyTopicService
     private const string PageReplacementExerciseSlugEn = "page-replacement";
     private const string QuizOperatingSystemsSlug = "quiz-betriebssysteme";
     private const string QuizNetworkingSlug = "quiz-netzwerke";
+    private const string VacuumWorldSlug = "staubsaugerwelt";
+    private const string VacuumWorldSlugEn = "vacuum-world";
 
     private static readonly JsonSerializerOptions ExerciseJsonOptions = new()
     {
@@ -86,6 +88,9 @@ public sealed class StudyTopicService
             : string.Equals(slug, NQueensSlug, StringComparison.OrdinalIgnoreCase)
                 || string.Equals(slug, NQueensSlugEn, StringComparison.OrdinalIgnoreCase)
                 ? BuildNQueensTopic(language, slug)
+            : string.Equals(slug, VacuumWorldSlug, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(slug, VacuumWorldSlugEn, StringComparison.OrdinalIgnoreCase)
+                ? BuildVacuumWorldTopic(language, slug)
             : BuildMinimalSpanningTreeTopic(language, slug);
     }
 
@@ -114,7 +119,9 @@ public sealed class StudyTopicService
             || string.Equals(slug, GraphVisualizationSlug, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, GraphVisualizationSlugEn, StringComparison.OrdinalIgnoreCase)
             || string.Equals(slug, QuizOperatingSystemsSlug, StringComparison.OrdinalIgnoreCase)
-            || string.Equals(slug, QuizNetworkingSlug, StringComparison.OrdinalIgnoreCase);
+            || string.Equals(slug, QuizNetworkingSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, VacuumWorldSlug, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(slug, VacuumWorldSlugEn, StringComparison.OrdinalIgnoreCase);
 
     private static bool IsQuizSlug(string slug)
         => string.Equals(slug, QuizOperatingSystemsSlug, StringComparison.OrdinalIgnoreCase)
@@ -456,6 +463,133 @@ public sealed class StudyTopicService
                 RestartLabel: isEnglish ? "Restart" : "Neu starten",
                 CompletedLabel: isEnglish ? "Quiz completed!" : "Quiz abgeschlossen!",
                 Questions: questions)
+        };
+    }
+
+    private static StudyTopicDetailViewModel BuildVacuumWorldTopic(SiteLanguage language, string slug)
+    {
+        var isEnglish = language == SiteLanguage.En;
+        var simulations = VacuumWorldSimulation.BuildAll();
+
+        var agents = simulations.Select(sim =>
+        {
+            var name = sim.Agent switch
+            {
+                VacuumAgentKind.ReflexAgent => isEnglish ? "Reflex Vacuum Agent" : "Reflex-Staubsauger-Agent",
+                _ => isEnglish ? "Model-Based Reflex Agent" : "Modellbasierter Reflex-Agent"
+            };
+            var summary = sim.Agent switch
+            {
+                VacuumAgentKind.ReflexAgent => isEnglish
+                    ? "Simple condition-action rules: if dirty → suck; if at A → right; if at B → left."
+                    : "Einfache Bedingungs-Aktions-Regeln: schmutzig → saugen; bei A → rechts; bei B → links.",
+                _ => isEnglish
+                    ? "Maintains an internal state model and stops as soon as both rooms are known to be clean."
+                    : "Haelt ein internes Zustandsmodell und stoppt, sobald beide Raeume als sauber bekannt sind."
+            };
+            var steps = sim.Steps.Select(step =>
+            {
+                var actionLabel = step.Action switch
+                {
+                    VacuumAction.Suck => isEnglish ? "Suck" : "Saugen",
+                    VacuumAction.Right => isEnglish ? "Move Right" : "Nach rechts",
+                    VacuumAction.Left => isEnglish ? "Move Left" : "Nach links",
+                    _ => isEnglish ? "No-Op" : "Nichts tun"
+                };
+                return new VacuumWorldStepViewModel(
+                    Number: step.StepNumber,
+                    AgentLocation: step.AgentLocation,
+                    LocationAState: step.LocationAState == VacuumLocationState.Clean
+                        ? (isEnglish ? "Clean" : "Sauber")
+                        : (isEnglish ? "Dirty" : "Schmutzig"),
+                    LocationBState: step.LocationBState == VacuumLocationState.Clean
+                        ? (isEnglish ? "Clean" : "Sauber")
+                        : (isEnglish ? "Dirty" : "Schmutzig"),
+                    ActionLabel: actionLabel,
+                    PerformanceMeasure: step.PerformanceMeasure,
+                    Summary: $"{actionLabel} @ {step.AgentLocation}",
+                    Description: step.Description);
+            }).ToArray();
+            return new VacuumWorldAgentViewModel(
+                Key: sim.Agent.ToString(),
+                Name: name,
+                Summary: summary,
+                InitialLocation: sim.InitialLocation,
+                InitialLocationAState: sim.InitialA == VacuumLocationState.Clean
+                    ? (isEnglish ? "Clean" : "Sauber")
+                    : (isEnglish ? "Dirty" : "Schmutzig"),
+                InitialLocationBState: sim.InitialB == VacuumLocationState.Clean
+                    ? (isEnglish ? "Clean" : "Sauber")
+                    : (isEnglish ? "Dirty" : "Schmutzig"),
+                Steps: steps);
+        }).ToArray();
+
+        return new StudyTopicDetailViewModel(
+            Kind: StudyTopicKind.VacuumWorld,
+            Slug: slug,
+            Title: isEnglish ? "Vacuum World" : "Staubsaugerwelt",
+            Intro: isEnglish
+                ? "The Vacuum World from AIMA Chapter 2 shows the simplest rational agent in a two-room environment. Two agent types are compared: the simple reflex agent and the model-based reflex agent."
+                : "Die Staubsaugerwelt aus AIMA Kapitel 2 zeigt den einfachsten rationalen Agenten in einer Zwei-Raum-Umgebung. Zwei Agenttypen werden verglichen: der einfache Reflex-Agent und der modellbasierte Reflex-Agent.",
+            SectionLabel: isEnglish ? "AI demonstrator" : "KI-Demonstrator",
+            MetaLabel: isEnglish ? "Agents" : "Agenten",
+            MetaValue: isEnglish ? "Reflex / Model-Based" : "Reflex / Modellbasiert",
+            BackLabel: isEnglish ? "Back to teaching" : "Zurueck zur Lehre",
+            BackRoute: SiteRoutes.Teaching(language),
+            Facts: isEnglish
+                ? [
+                    new StudyFactViewModel("Rooms", "2 (A, B)"),
+                    new StudyFactViewModel("States", "Clean / Dirty"),
+                    new StudyFactViewModel("Actions", "Left, Right, Suck"),
+                    new StudyFactViewModel("Performance", "+10 clean, -1 move"),
+                    new StudyFactViewModel("Source", "AIMA Figure 2.8")
+                ]
+                : [
+                    new StudyFactViewModel("Raeume", "2 (A, B)"),
+                    new StudyFactViewModel("Zustaende", "Sauber / Schmutzig"),
+                    new StudyFactViewModel("Aktionen", "Links, Rechts, Saugen"),
+                    new StudyFactViewModel("Performance", "+10 sauber, -1 Bewegung"),
+                    new StudyFactViewModel("Quelle", "AIMA Abbildung 2.8")
+                ],
+            GraphSectionTitle: null,
+            GraphSectionIntro: null,
+            StepSectionTitle: isEnglish ? "Agent trace" : "Agentablauf",
+            StepSectionIntro: isEnglish
+                ? "Select an agent type and step through its decisions. Each step shows location, room states, chosen action and cumulative performance."
+                : "Waehle einen Agenttyp und gehe dessen Entscheidungen Schritt fuer Schritt durch. Jeder Schritt zeigt Position, Raumzustaende, gewaaehlte Aktion und kumulierte Performance.",
+            ResultSectionTitle: isEnglish ? "Current state" : "Aktueller Zustand",
+            ResultSectionIntro: isEnglish
+                ? "The cards summarize the current step of the selected agent."
+                : "Die Karten fassen den aktuellen Schritt des gewaehlten Agenten zusammen.",
+            InitialStepDescription: isEnglish
+                ? "Choose an agent type and advance one step at a time."
+                : "Waehle einen Agenttyp und gehe dann Schritt fuer Schritt vor.",
+            PreviousStepLabel: isEnglish ? "Previous" : "Zurueck",
+            NextStepLabel: isEnglish ? "Next" : "Naechster Schritt",
+            CompleteSolutionLabel: isEnglish ? "Complete run" : "Kompletter Lauf",
+            ResetLabel: isEnglish ? "Reset" : "Neu starten",
+            ProgressLabel: isEnglish ? "Current progress" : "Aktueller Fortschritt",
+            NQueens: null,
+            GraphVisualization: null,
+            GraphStates: null,
+            GraphEdges: null,
+            Steps: null)
+        {
+            VacuumWorld = new VacuumWorldTopicViewModel(
+                AgentSelectorLabel: isEnglish ? "Agent" : "Agent",
+                GridSectionTitle: isEnglish ? "Environment" : "Umgebung",
+                GridSectionIntro: isEnglish
+                    ? "The two rooms A and B show their current state. The agent position is highlighted."
+                    : "Die beiden Raeume A und B zeigen ihren aktuellen Zustand. Die Agentenposition ist hervorgehoben.",
+                LocationALabel: "A",
+                LocationBLabel: "B",
+                CleanLabel: isEnglish ? "Clean" : "Sauber",
+                DirtyLabel: isEnglish ? "Dirty" : "Schmutzig",
+                AgentLabel: isEnglish ? "Agent" : "Agent",
+                ActionLabel: isEnglish ? "Action" : "Aktion",
+                PerformanceLabel: isEnglish ? "Performance" : "Performance",
+                DoneLabel: isEnglish ? "Done" : "Fertig",
+                Agents: agents)
         };
     }
 
@@ -928,7 +1062,8 @@ public enum StudyTopicKind
     Graph,
     NQueens,
     Exercise,
-    Quiz
+    Quiz,
+    VacuumWorld
 }
 
 public sealed record StudyTopicDetailViewModel(
@@ -964,6 +1099,7 @@ public sealed record StudyTopicDetailViewModel(
     public string? ExerciseDocumentKey { get; init; }
     public IReadOnlyList<ExerciseTopicOptionViewModel>? ExerciseOptions { get; init; }
     public QuizTopicViewModel? QuizTopic { get; init; }
+    public VacuumWorldTopicViewModel? VacuumWorld { get; init; }
 }
 
 public sealed record ExerciseTopicOptionViewModel(
@@ -1035,3 +1171,36 @@ public sealed record QuizQuestionViewModel(
     string Text,
     bool Answer,
     string Category);
+
+public sealed record VacuumWorldTopicViewModel(
+    string AgentSelectorLabel,
+    string GridSectionTitle,
+    string GridSectionIntro,
+    string LocationALabel,
+    string LocationBLabel,
+    string CleanLabel,
+    string DirtyLabel,
+    string AgentLabel,
+    string ActionLabel,
+    string PerformanceLabel,
+    string DoneLabel,
+    IReadOnlyList<VacuumWorldAgentViewModel> Agents);
+
+public sealed record VacuumWorldAgentViewModel(
+    string Key,
+    string Name,
+    string Summary,
+    string InitialLocation,
+    string InitialLocationAState,
+    string InitialLocationBState,
+    IReadOnlyList<VacuumWorldStepViewModel> Steps);
+
+public sealed record VacuumWorldStepViewModel(
+    int Number,
+    string AgentLocation,
+    string LocationAState,
+    string LocationBState,
+    string ActionLabel,
+    int PerformanceMeasure,
+    string Summary,
+    string Description);

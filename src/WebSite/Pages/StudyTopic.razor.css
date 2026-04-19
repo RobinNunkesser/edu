@@ -234,3 +234,34 @@
         grid-template-columns: 1fr;
     }
 }
+
+.vw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.vw-room {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    border: 1.5px solid rgba(148, 163, 184, 0.28);
+    background: rgba(248, 250, 252, 0.96);
+    text-align: center;
+}
+
+.vw-room-active {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.96), rgba(220, 252, 231, 0.92));
+}
+
+.vw-room-state {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.vw-agent {
+    font-size: 2rem;
+}
