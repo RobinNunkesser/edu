@@ -118,6 +118,11 @@
           "title": "Kuerzeste Wege mit Arbeitsblatt und Schritttrace",
           "url": "/study/kuerzeste-wege?exerciseDocument=content/study/generated/engine-comparison/latest/shortest-path/exercise.de.json",
           "description": "Arbeitsblatt fuer Dijkstra auf gewichteten Graphen mit Loesungsansicht, Druckmodus und schrittweiser Visualisierung generierter Demo-Traces"
+        },
+        {
+          "title": "AIMA-Demonstratoren in nuget-ai",
+          "url": "https://italbytz.github.io/nuget-ai/docs/interactive-demos.html",
+          "description": "Oeffentliche paketnahe Demonstratoren auf GitHub Pages. Der erste Showcase ist die Rumänien-Suche mit Breadth-First Search, Uniform-Cost Search und A*."
         }
       ]
     }
